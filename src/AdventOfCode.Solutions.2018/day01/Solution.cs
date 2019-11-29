@@ -1,11 +1,13 @@
 ﻿using System.Threading.Tasks;
-using adventOfCode.utilities;
+using AdventOfCode.Executor;
 
-namespace adventOfCode.solutions._2018.day01
+namespace AdventOfCode.Solutions._2018.day01
 {
-    class Solution1 : BaseSolution
+    public class Solution : ISolution
     {
-        public override async Task<string> SolveCoreAsync(Input input)
+        public int Day { get; } = 1;
+
+        public async Task<string> SolveFirstPartAsync(Input input)
         {
             string[] lines = await input.GetLinesAsync();
 
@@ -24,6 +26,11 @@ namespace adventOfCode.solutions._2018.day01
             }
 
             return result.ToString();
+        }
+
+        public async Task<string> SolveSecondPartAsync(Input input)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
