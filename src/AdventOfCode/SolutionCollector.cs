@@ -11,7 +11,9 @@ namespace AdventOfCode.Executor
 
         public SolutionCollector()
         {
-            _solutions = LoadSolutions();
+            var callingAssembly = Assembly.GetCallingAssembly();
+
+            _solutions = LoadSolutions(callingAssembly);
         }
 
         public ISolutionExecutor GetSolutionExecutor(int day)
@@ -22,12 +24,13 @@ namespace AdventOfCode.Executor
             return executor;
         }
         
-        IEnumerable<ISolution> LoadSolutions() 
+        IEnumerable<ISolution> LoadSolutions(Assembly callingAssembly)
         {
-            var solutions = Assembly
-                .GetExecutingAssembly()
+            var baseType = typeof(ISolution);
+
+            var solutions = callingAssembly
                 .GetTypes()
-                .Where(type => type.BaseType == typeof(ISolution));
+                .Where(type => baseType.IsAssignableFrom(type));
 
             foreach(var solution in solutions) 
             {

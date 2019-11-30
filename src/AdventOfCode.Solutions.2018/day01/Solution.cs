@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using AdventOfCode.Executor;
 
 namespace AdventOfCode.Solutions._2018.day01
@@ -7,9 +7,9 @@ namespace AdventOfCode.Solutions._2018.day01
     {
         public int Day { get; } = 1;
 
-        public async Task<string> SolveFirstPartAsync(Input input)
+        public string SolveFirstPart(Input input)
         {
-            string[] lines = await input.GetLinesAsync();
+            string[] lines = input.GetLines();
 
             var result = 0;
 
@@ -28,9 +28,42 @@ namespace AdventOfCode.Solutions._2018.day01
             return result.ToString();
         }
 
-        public async Task<string> SolveSecondPartAsync(Input input)
+        public string SolveSecondPart(Input input)
         {
-            throw new System.NotImplementedException();
+            string[] lines = input.GetLines();
+
+            var result = 0;
+            var operations = new List<int>();
+            var frequencies = new Dictionary<int, int>();
+
+            foreach (string line in lines)
+            {
+                operations.Add(int.Parse(line));
+            }
+
+            int loops = 0;
+            while(true)
+            {
+                loops++;
+                foreach(var operation in operations)
+                {
+                    result += operation;
+
+                    if (!frequencies.ContainsKey(result))
+                    {
+                        frequencies[result] = 1;
+                    }
+                    else
+                    {
+                        frequencies[result]++;
+                    }
+
+                    if (frequencies[result] == 2)
+                    {
+                        return $"{result}, {loops}";
+                    }
+                }
+            }
         }
     }
 }
