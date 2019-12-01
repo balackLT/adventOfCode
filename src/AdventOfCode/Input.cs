@@ -1,4 +1,6 @@
-﻿namespace AdventOfCode.Executor
+﻿using System.Linq;
+
+namespace AdventOfCode.Executor
 {
     public class Input
     {
@@ -12,6 +14,11 @@
         public string[] GetLines()
         {
             return _lines;
+        }
+
+        public int[] GetLinesAsInt()
+        {
+            return _lines.Select(int.Parse).ToArray();
         }
     }
 }

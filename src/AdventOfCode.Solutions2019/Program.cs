@@ -1,11 +1,11 @@
 ﻿using System;
 using AdventOfCode.Executor;
 
-namespace AdventOfCode.Solutions._2018
+namespace AdventOfCode.Solutions2019
 {
     class Program
     {
-        private const string Year = "2018";
+        private const string Year = "2019";
         private const string InputFolder = "input";
         private const string Cookie = "53616c7465645f5f7523b578561c5a8265ec6de392f37d758a299aa5472c45ad65091a14972262a22956c118e5d8eb2c"; 
         // TODO: from config
@@ -26,8 +26,6 @@ namespace AdventOfCode.Solutions._2018
 
             executor.ExecuteFirstPart(input);
             executor.ExecuteSecondPart(input);
-
-            Console.ReadLine();
         }
     }
 }
