@@ -32,7 +32,7 @@ namespace AdventOfCode.Executor
 
         private void Execute(Func<Input, string> solver, Input input, int part)
         {
-            Console.WriteLine($"Starting solution for: Day {_day}, Part {part}");
+            Console.WriteLine($"Starting solution for: Day {_day}, Part {part}:");
 
             Stopwatch stopWatch = new Stopwatch();
 

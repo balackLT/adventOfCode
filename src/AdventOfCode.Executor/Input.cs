@@ -20,5 +20,10 @@ namespace AdventOfCode.Executor
         {
             return _lines.Select(int.Parse).ToArray();
         }
+        
+        public int[] GetLineAsIntArray()
+        {
+            return _lines.First().Split(',').Select(int.Parse).ToArray();
+        }
     }
 }

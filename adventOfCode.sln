@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdventOfCode.Executor", "src\AdventOfCode\AdventOfCode.Executor.csproj", "{91AAB752-C1D0-4DCD-9600-A38E3D72C149}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdventOfCode.Solutions2019", "src\AdventOfCode.Solutions2019\AdventOfCode.Solutions2019.csproj", "{0E3E84FA-74D9-4EA9-9D92-643C380F31B2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdventOfCode.Solutions.2018", "src\AdventOfCode.Solutions.2018\AdventOfCode.Solutions.2018.csproj", "{BFC05F02-D91D-4510-91ED-AA684747FEC6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode.Solutions2019", "src\AdventOfCode.Solutions2019\AdventOfCode.Solutions2019.csproj", "{0E3E84FA-74D9-4EA9-9D92-643C380F31B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdventOfCode.Executor", "src\AdventOfCode.Executor\AdventOfCode.Executor.csproj", "{A1B46A2B-81F4-466E-9A50-246B038B0319}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,18 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{91AAB752-C1D0-4DCD-9600-A38E3D72C149}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{91AAB752-C1D0-4DCD-9600-A38E3D72C149}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{91AAB752-C1D0-4DCD-9600-A38E3D72C149}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{91AAB752-C1D0-4DCD-9600-A38E3D72C149}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BFC05F02-D91D-4510-91ED-AA684747FEC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BFC05F02-D91D-4510-91ED-AA684747FEC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BFC05F02-D91D-4510-91ED-AA684747FEC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BFC05F02-D91D-4510-91ED-AA684747FEC6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0E3E84FA-74D9-4EA9-9D92-643C380F31B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0E3E84FA-74D9-4EA9-9D92-643C380F31B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E3E84FA-74D9-4EA9-9D92-643C380F31B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E3E84FA-74D9-4EA9-9D92-643C380F31B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B46A2B-81F4-466E-9A50-246B038B0319}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B46A2B-81F4-466E-9A50-246B038B0319}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B46A2B-81F4-466E-9A50-246B038B0319}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B46A2B-81F4-466E-9A50-246B038B0319}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using AdventOfCode.Executor;
+﻿using AdventOfCode.Executor;
 
-namespace AdventOfCode.Solutions2019.day01
+namespace AdventOfCode.Solutions2019.Day01
 {
     public class Solution : ISolution
     {
