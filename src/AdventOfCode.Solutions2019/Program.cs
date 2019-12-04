@@ -18,10 +18,12 @@ namespace AdventOfCode.Solutions2019
             var collector = new SolutionCollector();
             var inputGenerator = new InputFactory(config["year"], config["inputFolder"], config["cookie"]);
 
-            var executor = collector.GetSolutionExecutor(2);
-
-            //var input = inputGenerator.GetInputFromFile(1, "test");
-            var input = inputGenerator.GetDefaultInput(2);
+            var day = 4;
+            
+            var executor = collector.GetSolutionExecutor(day);
+            
+            // var input = inputGenerator.GetInputFromFile(day, "test1");
+            var input = inputGenerator.GetDefaultInput(day);
 
             executor.ExecuteFirstPart(input);
             executor.ExecuteSecondPart(input);

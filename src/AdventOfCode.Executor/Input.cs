@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace AdventOfCode.Executor
 {
@@ -16,6 +17,11 @@ namespace AdventOfCode.Executor
             return _lines;
         }
 
+        public string GetAsString()
+        {
+            return _lines.First();
+        }
+
         public int[] GetLinesAsInt()
         {
             return _lines.Select(int.Parse).ToArray();
@@ -24,6 +30,19 @@ namespace AdventOfCode.Executor
         public int[] GetLineAsIntArray()
         {
             return _lines.First().Split(',').Select(int.Parse).ToArray();
+        }
+
+        public List<List<string>> GetLinesAsLists()
+        {
+            var result = new List<List<string>>();
+            
+            foreach (var line in _lines)
+            {
+                var list = line.Split(',').ToList();
+                result.Add(list);
+            }
+
+            return result;
         }
     }
 }
