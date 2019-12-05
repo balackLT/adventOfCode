@@ -13,7 +13,7 @@ namespace AdventOfCode.Solutions2019.Day02
             var instructions = input.GetLineAsIntArray();
             var computer = new Computer();
             
-            var result = computer.Compute(instructions, 12, 2);
+            var result = computer.ComputeSimple(instructions, 12, 2);
             
             return result.ToString();
         }
@@ -28,7 +28,7 @@ namespace AdventOfCode.Solutions2019.Day02
             {
                 for (int verb = 0; verb < 100; verb++)
                 {
-                    if (computer.Compute(instructions, noun, verb) == expectedResult)
+                    if (computer.ComputeSimple(instructions, noun, verb) == expectedResult)
                         return (100 * noun + verb).ToString();
                 }
             }
