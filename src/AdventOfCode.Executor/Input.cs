@@ -16,6 +16,11 @@ namespace AdventOfCode.Executor
         {
             return _lines;
         }
+        
+        public List<string> GetLinesAsList()
+        {
+            return _lines.ToList();
+        }
 
         public string GetAsString()
         {
