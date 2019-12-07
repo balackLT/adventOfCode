@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AdventOfCode.Solutions2019.Shared.Computer
 {
@@ -21,11 +22,23 @@ namespace AdventOfCode.Solutions2019.Shared.Computer
         POSITION = 0,
         IMMEDIATE = 1
     }
+    
+    public enum State
+    {
+        NOTSTARTED = 0,
+        WAITING = 1,
+        FINISHED = 99
+    }
 
     public class Computer
     {
-        private readonly int[] _program;
-        private readonly List<int> _output;
+        private int[] _program;
+        private readonly int[] _original;
+        private List<int> _output;
+        private List<int> _input = new List<int>();
+        public State State = State.NOTSTARTED;
+        private int _pointer = 0;
+        private int _inputPointer = 0;
 
         public Computer()
         {
@@ -35,16 +48,30 @@ namespace AdventOfCode.Solutions2019.Shared.Computer
         public Computer(int[] instructionsParameter)
         {
             _program = instructionsParameter;
+            
+            _original = new int[instructionsParameter.Length];
+            instructionsParameter.CopyTo(_original, 0);
+
             _output = new List<int>();
         }
 
         public List<int> Run(int input)
         {
-            var pointer = 0;
+            _input.Add(input);
+            return Run();
+        }
 
-            while (_program[pointer] != (int)Instructions.HCF)
+        public List<int> Run(int[] input)
+        {
+            _input.AddRange(input);
+            return Run();
+        }
+        
+        public List<int> Run()
+        {
+            while (_program[_pointer] != (int)Instructions.HCF)
             {
-                var instruction = new Instruction(_program, pointer);
+                var instruction = new Instruction(_program, _pointer);
                 
                 switch (instruction.Type)
                 {
@@ -60,7 +87,17 @@ namespace AdventOfCode.Solutions2019.Shared.Computer
                     }
                     case Instructions.SAVE:
                     {
-                        _program[instruction.Inputs[0]] = input;
+                        if (_input.Count > _inputPointer)
+                        {
+                            _program[instruction.Inputs[0]] = _input[_inputPointer];
+                            _inputPointer++;
+                        }
+                        else
+                        {
+                            State = State.WAITING;
+                            return _output;
+                        }
+
                         break;
                     }
                     case Instructions.OUTPUT:
@@ -72,7 +109,7 @@ namespace AdventOfCode.Solutions2019.Shared.Computer
                     {
                         if (GetValue(instruction.Inputs[0], instruction.Modes[0]) != 0)
                         {
-                            pointer = GetValue(instruction.Inputs[1], instruction.Modes[1]);
+                            _pointer = GetValue(instruction.Inputs[1], instruction.Modes[1]);
                             continue;
                         }
                         break;
@@ -81,7 +118,7 @@ namespace AdventOfCode.Solutions2019.Shared.Computer
                     {
                         if (GetValue(instruction.Inputs[0], instruction.Modes[0]) == 0)
                         {
-                            pointer = GetValue(instruction.Inputs[1], instruction.Modes[1]);
+                            _pointer = GetValue(instruction.Inputs[1], instruction.Modes[1]);
                             continue;
                         }
                         break;
@@ -102,17 +139,25 @@ namespace AdventOfCode.Solutions2019.Shared.Computer
                     }
                     default:
                     {
-                        throw new Exception($"Unexpected opcode encountered: {_program[pointer]}");
+                        throw new Exception($"Unexpected opcode encountered: {_program[_pointer]}");
                     }
                 }
 
-                pointer += instruction.Length;
+                _pointer += instruction.Length;
             }
 
+            State = State.FINISHED;
             return _output;
         }
-        
-        public int GetValue(int pointer, Mode opType)
+
+        public int GetOutput()
+        {
+            var result = _output.First();
+            _output.RemoveAt(0);
+            return result;
+        }
+
+        private int GetValue(int pointer, Mode opType)
         {
             return opType switch
             {
