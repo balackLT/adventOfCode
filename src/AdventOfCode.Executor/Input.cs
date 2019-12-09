@@ -36,6 +36,11 @@ namespace AdventOfCode.Executor
         {
             return _lines.First().Split(',').Select(int.Parse).ToArray();
         }
+        
+        public long[] GetLineAsLongArray()
+        {
+            return _lines.First().Split(',').Select(long.Parse).ToArray();
+        }
 
         public List<List<string>> GetLinesAsLists()
         {

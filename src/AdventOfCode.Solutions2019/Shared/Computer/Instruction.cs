@@ -1,13 +1,15 @@
+using System.Collections.Generic;
+
 namespace AdventOfCode.Solutions2019.Shared.Computer
 {
     public class Instruction
     {
         public readonly Instructions Type;
         public readonly int Length;
-        public readonly int[] Inputs = new int[4];
+        public readonly long[] Inputs = new long[4];
         public readonly Mode[] Modes = new Mode[4];
         
-        public Instruction(int[] instructions, int pointer)
+        public Instruction(List<long> instructions, int pointer)
         {
             var current = instructions[pointer];
             var instruction = current % 100;
@@ -49,6 +51,10 @@ namespace AdventOfCode.Solutions2019.Shared.Computer
                 case (int) Instructions.EQ:
                     Type = Instructions.EQ;
                     Length = 4;
+                    break;
+                case (int) Instructions.RELB:
+                    Type = Instructions.RELB;
+                    Length = 2;
                     break;
             }
 

@@ -14,13 +14,15 @@ namespace AdventOfCode.Solutions2019.Shared.Computer
         JIF = 6,
         LT = 7,
         EQ = 8,
+        RELB = 9,
         HCF = 99
     }
     
     public enum Mode
     {
         POSITION = 0,
-        IMMEDIATE = 1
+        IMMEDIATE = 1,
+        RELATIVE = 2
     }
     
     public enum State
@@ -32,42 +34,43 @@ namespace AdventOfCode.Solutions2019.Shared.Computer
 
     public class Computer
     {
-        private int[] _program;
-        private readonly int[] _original;
-        private List<int> _output;
-        private List<int> _input = new List<int>();
+        private List<long> _program;
+        private readonly long[] _original;
+        public List<long> _output;
+        private List<long> _input = new List<long>();
         public State State = State.NOTSTARTED;
         private int _pointer = 0;
         private int _inputPointer = 0;
+        private int _relativeBase = 0;
 
         public Computer()
         {
             
         }
         
-        public Computer(int[] instructionsParameter)
+        public Computer(long[] instructionsParameter)
         {
-            _program = instructionsParameter;
+            _program = instructionsParameter.ToList();
             
-            _original = new int[instructionsParameter.Length];
+            _original = new long[instructionsParameter.Length];
             instructionsParameter.CopyTo(_original, 0);
 
-            _output = new List<int>();
+            _output = new List<long>();
         }
 
-        public List<int> Run(int input)
+        public List<long> Run(long input)
         {
             _input.Add(input);
             return Run();
         }
 
-        public List<int> Run(int[] input)
+        public List<long> Run(long[] input)
         {
             _input.AddRange(input);
             return Run();
         }
         
-        public List<int> Run()
+        public List<long> Run()
         {
             while (_program[_pointer] != (int)Instructions.HCF)
             {
@@ -77,19 +80,21 @@ namespace AdventOfCode.Solutions2019.Shared.Computer
                 {
                     case Instructions.ADD:
                     {
-                        _program[instruction.Inputs[2]] = GetValue(instruction.Inputs[0], instruction.Modes[0]) + GetValue(instruction.Inputs[1], instruction.Modes[1]);
+                        var value = GetValue(instruction.Inputs[0], instruction.Modes[0]) + GetValue(instruction.Inputs[1], instruction.Modes[1]);
+                        SetValue(instruction.Inputs[2], value, instruction.Modes[2]);
                         break;
                     }
                     case Instructions.MULTIPLY:
                     {
-                        _program[instruction.Inputs[2]] = GetValue(instruction.Inputs[0], instruction.Modes[0]) * GetValue(instruction.Inputs[1], instruction.Modes[1]);
+                        var value = GetValue(instruction.Inputs[0], instruction.Modes[0]) * GetValue(instruction.Inputs[1], instruction.Modes[1]);
+                        SetValue(instruction.Inputs[2], value, instruction.Modes[2]);
                         break;
                     }
                     case Instructions.SAVE:
                     {
                         if (_input.Count > _inputPointer)
                         {
-                            _program[instruction.Inputs[0]] = _input[_inputPointer];
+                            SetValue(instruction.Inputs[0], _input[_inputPointer], instruction.Modes[0]);
                             _inputPointer++;
                         }
                         else
@@ -102,14 +107,15 @@ namespace AdventOfCode.Solutions2019.Shared.Computer
                     }
                     case Instructions.OUTPUT:
                     {
-                        _output.Add(GetValue(instruction.Inputs[0], instruction.Modes[0]));
+                        var value = GetValue(instruction.Inputs[0], instruction.Modes[0]);
+                        _output.Add(value);
                         break;
                     }
                     case Instructions.JIT:
                     {
                         if (GetValue(instruction.Inputs[0], instruction.Modes[0]) != 0)
                         {
-                            _pointer = GetValue(instruction.Inputs[1], instruction.Modes[1]);
+                            _pointer = (int) GetValue(instruction.Inputs[1], instruction.Modes[1]);
                             continue;
                         }
                         break;
@@ -118,7 +124,7 @@ namespace AdventOfCode.Solutions2019.Shared.Computer
                     {
                         if (GetValue(instruction.Inputs[0], instruction.Modes[0]) == 0)
                         {
-                            _pointer = GetValue(instruction.Inputs[1], instruction.Modes[1]);
+                            _pointer = (int) GetValue(instruction.Inputs[1], instruction.Modes[1]);
                             continue;
                         }
                         break;
@@ -126,15 +132,20 @@ namespace AdventOfCode.Solutions2019.Shared.Computer
                     case Instructions.LT:
                     {
                         if (GetValue(instruction.Inputs[0], instruction.Modes[0]) < GetValue(instruction.Inputs[1], instruction.Modes[1]))
-                            _program[instruction.Inputs[2]] = 1;
-                        else _program[instruction.Inputs[2]] = 0;
+                            SetValue(instruction.Inputs[2], 1, instruction.Modes[2]);
+                        else SetValue(instruction.Inputs[2], 0, instruction.Modes[2]);
                         break;
                     }
                     case Instructions.EQ:
                     {
                         if (GetValue(instruction.Inputs[0], instruction.Modes[0]) == GetValue(instruction.Inputs[1], instruction.Modes[1]))
-                            _program[instruction.Inputs[2]] = 1;
-                        else _program[instruction.Inputs[2]] = 0;
+                            SetValue(instruction.Inputs[2], 1, instruction.Modes[2]);
+                        else SetValue(instruction.Inputs[2], 0, instruction.Modes[2]);
+                        break;
+                    }
+                    case Instructions.RELB:
+                    {
+                        _relativeBase += (int) GetValue(instruction.Inputs[0], instruction.Modes[0]);
                         break;
                     }
                     default:
@@ -150,21 +161,54 @@ namespace AdventOfCode.Solutions2019.Shared.Computer
             return _output;
         }
 
-        public int GetOutput()
+        public long GetOutput()
         {
             var result = _output.First();
             _output.RemoveAt(0);
             return result;
         }
 
-        private int GetValue(int pointer, Mode opType)
+        private long GetValue(long pointer, Mode opType)
         {
-            return opType switch
+            switch (opType)
             {
-                Mode.POSITION => _program[pointer],
-                Mode.IMMEDIATE => pointer,
-                _ => throw new Exception("invalid optype"),
-            };
+                case Mode.POSITION:
+                    return GetValueAtPosition((int) pointer);
+                case Mode.IMMEDIATE:
+                    return pointer;
+                case Mode.RELATIVE:
+                    return GetValueAtPosition((int) pointer + _relativeBase);
+                default:
+                    throw new Exception("invalid optype");
+            }
+        }
+
+        private long GetValueAtPosition(int position)
+        {
+            if (_program.Count < position + _relativeBase)
+                _program.AddRange(Enumerable.Repeat((long)0, position + _relativeBase));
+
+            return _program[position];
+        }
+
+        private void SetValue(long pointer, long value, Mode opType)
+        {
+            if (_program.Count < pointer + _relativeBase)
+                _program.AddRange(Enumerable.Repeat((long)0, (int) pointer + _relativeBase));
+            
+            switch (opType)
+            {
+                case Mode.POSITION:
+                    _program[(int) pointer] = value;
+                    break;
+                case Mode.IMMEDIATE:
+                    throw new Exception("THIS SHOULD NEVER HAPPEN TM");
+                case Mode.RELATIVE:
+                    _program[(int) pointer + _relativeBase] = value;
+                    break;
+                default:
+                    throw new Exception("invalid optype");
+            }
         }
         
         public int ComputeSimple(int[] instructionsParameter, int noun, int verb)
