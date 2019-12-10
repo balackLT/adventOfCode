@@ -23,7 +23,7 @@ namespace AdventOfCode.Solutions2019.Day09
             computer.Run(1);
             
             Debug.Assert(computer.State == State.FINISHED);
-            Debug.Assert(computer._output.Count == 1);
+            Debug.Assert(computer.Output.Count == 1);
             
             return computer.GetOutput().ToString();
         }
@@ -37,7 +37,7 @@ namespace AdventOfCode.Solutions2019.Day09
             computer.Run(2);
             
             Debug.Assert(computer.State == State.FINISHED);
-            Debug.Assert(computer._output.Count == 1);
+            Debug.Assert(computer.Output.Count == 1);
             
             return computer.GetOutput().ToString();
         }
@@ -58,7 +58,7 @@ namespace AdventOfCode.Solutions2019.Day09
             computer.Run();
             
             Debug.Assert(computer.State == State.FINISHED);
-            Debug.Assert(computer._output.SequenceEqual(expected));
+            Debug.Assert(computer.Output.SequenceEqual(expected));
         }
     }
 }

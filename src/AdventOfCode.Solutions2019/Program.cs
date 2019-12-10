@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using AdventOfCode.Executor;
+﻿using AdventOfCode.Executor;
 using Microsoft.Extensions.Configuration;
 
 namespace AdventOfCode.Solutions2019
@@ -19,7 +18,7 @@ namespace AdventOfCode.Solutions2019
             var collector = new SolutionCollector();
             var inputGenerator = new InputFactory(config["year"], config["inputFolder"], config["cookie"]);
 
-            var day = 9;
+            var day = 10;
             
             var executor = collector.GetSolutionExecutor(day);
             

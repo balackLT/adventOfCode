@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using System.Numerics;
 using System.Text;
 
 namespace AdventOfCode.Solutions2019.Shared.Map
@@ -24,6 +25,18 @@ namespace AdventOfCode.Solutions2019.Shared.Map
         public int ManhattanDistance(Coordinate other)
         {
             return Math.Abs(X - other.X) + Math.Abs(Y - other.Y);
+        }
+        
+        public Vector2 ToVector()
+        {
+            return new Vector2(X, Y);
+        }
+        
+        public static double AngleBetween(Coordinate source, Coordinate target)
+        {
+            var radians = Math.Atan2(target.Y - source.Y, target.X - source.X);
+
+            return (180 / Math.PI) * radians;
         }
 
         public Coordinate Normalize()

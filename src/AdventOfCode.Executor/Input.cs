@@ -44,15 +44,7 @@ namespace AdventOfCode.Executor
 
         public List<List<string>> GetLinesAsLists()
         {
-            var result = new List<List<string>>();
-            
-            foreach (var line in _lines)
-            {
-                var list = line.Split(',').ToList();
-                result.Add(list);
-            }
-
-            return result;
+            return _lines.Select(line => line.Split(',').ToList()).ToList();
         }
     }
 }
