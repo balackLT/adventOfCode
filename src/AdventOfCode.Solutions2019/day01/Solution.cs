@@ -1,4 +1,5 @@
-﻿using AdventOfCode.Executor;
+﻿using System.Linq;
+using AdventOfCode.Executor;
 
 namespace AdventOfCode.Solutions2019.Day01
 {
@@ -10,12 +11,7 @@ namespace AdventOfCode.Solutions2019.Day01
         {
             var lines = input.GetLinesAsInt();
 
-            var result = 0;
-
-            foreach (var line in lines)
-            {
-                result += CalculateFuel(line);
-            }
+            var result = lines.Sum(CalculateFuel);
 
             return result.ToString();
         }

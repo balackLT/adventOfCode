@@ -20,9 +20,12 @@ namespace AdventOfCode.Solutions2019.Day10
         
         public string SolveFirstPart(Input input)
         {
-            var inputMap = input.GetLines();
+            var inputMap = input.GetAsMap();
 
-            var map = GetMap(inputMap);
+            var map = inputMap
+                .Select(i => new KeyValuePair<Coordinate, char>(new Coordinate(i.Key.X, i.Key.Y), i.Value))
+                .ToDictionary(i => i.Key, i => i.Value);
+            
             _map = map;
 
             Debug.Assert(GetPointsBetween(new Coordinate(1,0), new Coordinate(4,0)).Count == 2);
@@ -92,33 +95,13 @@ namespace AdventOfCode.Solutions2019.Day10
             return result;
         }
 
-        private Dictionary<Coordinate, char> GetMap(IEnumerable<string> inputMap)
-        {
-            var map = new Dictionary<Coordinate, char>();
-
-            var x = 0;
-            var y = 0;
-            foreach (var lines in inputMap)
-            {
-                x = 0;
-                foreach (var pixel in lines)
-                {
-                    var coordinate = new Coordinate(x, y);
-                    map[coordinate] = pixel;
-                    
-                    x++;
-                }
-                y++;
-            }
-
-            return map;
-        }
-        
         public string SolveSecondPart(Input input)
         {
-            var inputMap = input.GetLines();
+            var inputMap = input.GetAsMap();
 
-            var map = GetMap(inputMap);
+            var map = inputMap
+                .Select(i => new KeyValuePair<Coordinate, char>(new Coordinate(i.Key.X, i.Key.Y), i.Value))
+                .ToDictionary(i => i.Key, i => i.Value);
             
             var asteroidCoordinates = map.Where(c => c.Value == ASTEROID).Select(c => c.Key);
             

@@ -5,8 +5,19 @@ using System.Text;
 
 namespace AdventOfCode.Solutions2019.Shared.Map
 {
+    public enum TurnDirection
+    {
+        LEFT,
+        RIGHT
+    }
+    
     public struct Coordinate : IEquatable<Coordinate>, IFormattable
     {
+        public static readonly Coordinate North = new Coordinate(0, 1);
+        public static readonly Coordinate South = new Coordinate(0, -1);
+        public static readonly Coordinate East = new Coordinate(1, 0);
+        public static readonly Coordinate West = new Coordinate(-1, 0);
+
         public int X;
         public int Y;
         
@@ -14,6 +25,25 @@ namespace AdventOfCode.Solutions2019.Shared.Map
         {
             X = x;
             Y = y;
+        }
+
+        public static Coordinate Turn(Coordinate facing, TurnDirection turn)
+        {
+            if (turn == TurnDirection.LEFT)
+            {
+                if (facing == North) return West;
+                if (facing == West) return South;
+                if (facing == South) return East;
+                if (facing == East) return North;
+            }
+            if (turn == TurnDirection.RIGHT)
+            {
+                if (facing == North) return East;
+                if (facing == West) return North;
+                if (facing == South) return West;
+                if (facing == East) return South;
+            }
+            throw new Exception("Invalid direction encountered");
         }
 
         public int ManhattanDistance()

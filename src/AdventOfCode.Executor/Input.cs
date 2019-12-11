@@ -46,5 +46,28 @@ namespace AdventOfCode.Executor
         {
             return _lines.Select(line => line.Split(',').ToList()).ToList();
         }
+        
+        public Dictionary<(int X, int Y), char> GetAsMap()
+        {
+            var inputMap = GetLines();
+            
+            var map = new Dictionary<(int X, int Y), char>();
+            
+            var y = 0;
+            foreach (var lines in inputMap)
+            {
+                var x = 0;
+                foreach (var pixel in lines)
+                {
+                    var coordinate = (x, y);
+                    map[coordinate] = pixel;
+                    
+                    x++;
+                }
+                y++;
+            }
+
+            return map;
+        }
     }
 }
