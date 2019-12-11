@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdventOfCode.Executor;
-using AdventOfCode.Solutions2019.Shared.Map;
+using AdventOfCode.Utilities.Map;
 
 namespace AdventOfCode.Solutions2019.Day03
 {

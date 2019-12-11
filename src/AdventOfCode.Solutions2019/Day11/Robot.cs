@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 using AdventOfCode.Solutions2019.Shared.Computer;
-using AdventOfCode.Solutions2019.Shared.Map;
+using AdventOfCode.Utilities.Map;
 
 namespace AdventOfCode.Solutions2019.Day11
 {

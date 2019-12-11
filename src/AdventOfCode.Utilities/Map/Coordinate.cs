@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Numerics;
 using System.Text;
 
-namespace AdventOfCode.Solutions2019.Shared.Map
+namespace AdventOfCode.Utilities.Map
 {
     public enum TurnDirection
     {

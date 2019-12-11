@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
-using System.Numerics;
 using AdventOfCode.Executor;
-using AdventOfCode.Solutions2019.Shared.Map;
+using AdventOfCode.Utilities.Map;
 
 namespace AdventOfCode.Solutions2019.Day10
 {

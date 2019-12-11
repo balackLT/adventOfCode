@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using AdventOfCode.Executor;
 using AdventOfCode.Solutions2019.Shared.Computer;
-using AdventOfCode.Solutions2019.Shared.Map;
+using AdventOfCode.Utilities.Map;
 
 namespace AdventOfCode.Solutions2019.Day11
 {
@@ -10,7 +10,7 @@ namespace AdventOfCode.Solutions2019.Day11
     {
         public int Day { get; } = 11;
 
-        private const char WHITE = '#';
+        private const char WHITE = '█';
         private const char BLACK = '.';
         private const char EMPTY = ' ';
         
@@ -18,7 +18,7 @@ namespace AdventOfCode.Solutions2019.Day11
         {
             var program = input.GetLineAsLongArray();
 
-            var map = new Map(EMPTY);
+            var map = new Map<char>(EMPTY);
             var brain = new Computer(program);
             var robot = new Robot(brain, new Coordinate(0, 0));
             
@@ -52,7 +52,7 @@ namespace AdventOfCode.Solutions2019.Day11
         {
             var program = input.GetLineAsLongArray();
 
-            var map = new Map(EMPTY);
+            var map = new Map<char>(EMPTY);
             var brain = new Computer(program);
             var robot = new Robot(brain, new Coordinate(0, 0));
 
@@ -79,11 +79,9 @@ namespace AdventOfCode.Solutions2019.Day11
                     break;
             }
 
-            map.PrintMap();
+            map.PrintMapFlipY();
             
-            var result = map.InternalMap.Count(m => m.Value != EMPTY);
-            
-            return result.ToString();
+            return 0.ToString();
         }
     }
 }
