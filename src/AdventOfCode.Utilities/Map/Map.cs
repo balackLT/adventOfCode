@@ -45,6 +45,23 @@ namespace AdventOfCode.Utilities.Map
             }
         }
         
+        public void PrintMap(Dictionary<T, char> decoder)
+        {
+            var minX = InternalMap.Min(m => m.Key.X);
+            var maxX = InternalMap.Max(m => m.Key.X);
+            var minY = InternalMap.Min(m => m.Key.Y);
+            var maxY = InternalMap.Max(m => m.Key.Y);
+
+            for (var y = minY; y <= maxY; y++)
+            {
+                for (var x = minX; x <= maxX; x++)
+                {
+                    Console.Write(decoder[this[new Coordinate(x, y)]]);
+                }
+                Console.WriteLine();
+            }
+        }
+        
         public void PrintMapFlipY()
         {
             var minX = InternalMap.Min(m => m.Key.X);

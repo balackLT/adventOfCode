@@ -126,6 +126,11 @@ namespace AdventOfCode.Solutions2019.Shared.Computer
             return State;
         }
 
+        public void SetMemoryAddress(int address, long value)
+        {
+            _program[address] = value;
+        }
+        
         public long GetOutput()
         {
             var result = Output.First();

@@ -18,7 +18,7 @@ namespace AdventOfCode.Solutions2019
             var collector = new SolutionCollector();
             var inputGenerator = new InputFactory(config["year"], config["inputFolder"], config["cookie"]);
 
-            var day = 11;
+            var day = 14;
             
             var executor = collector.GetSolutionExecutor(day);
             

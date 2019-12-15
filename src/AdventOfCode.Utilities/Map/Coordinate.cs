@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Numerics;
 using System.Text;
@@ -17,9 +18,18 @@ namespace AdventOfCode.Utilities.Map
         public static readonly Coordinate South = new Coordinate(0, -1);
         public static readonly Coordinate East = new Coordinate(1, 0);
         public static readonly Coordinate West = new Coordinate(-1, 0);
+        public static readonly List<Coordinate> Directions = new List<Coordinate>{North, South, West, East};
 
         public int X;
         public int Y;
+        
+        public Coordinate(string input, char separator = ',')
+        {
+            var split = input.Split(separator);
+            
+            X = int.Parse(split[0]);
+            Y = int.Parse(split[1]);
+        }
         
         public Coordinate(int x, int y)
         {
@@ -109,6 +119,19 @@ namespace AdventOfCode.Utilities.Map
             stringBuilder.Append('>');
             return stringBuilder.ToString();
         }
+        
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append('<');
+            stringBuilder.Append(this.X.ToString());
+            stringBuilder.Append(',');
+            stringBuilder.Append(' ');
+            stringBuilder.Append(this.Y.ToString());
+            stringBuilder.Append('>');
+            return stringBuilder.ToString();
+        }
+        
 
         public static Coordinate operator +(Coordinate left, Coordinate right)
         {
