@@ -14,6 +14,7 @@ namespace AdventOfCode.Utilities.Map
     
     public struct Coordinate : IEquatable<Coordinate>, IFormattable
     {
+        public static readonly Coordinate Zero = new Coordinate(0, 0);
         public static readonly Coordinate North = new Coordinate(0, 1);
         public static readonly Coordinate South = new Coordinate(0, -1);
         public static readonly Coordinate East = new Coordinate(1, 0);
@@ -58,7 +59,7 @@ namespace AdventOfCode.Utilities.Map
 
         public int ManhattanDistance()
         {
-            var other = new Coordinate(0, 0);
+            var other = Coordinate.Zero;
             return Math.Abs(X - other.X) + Math.Abs(Y - other.Y);
         }
         

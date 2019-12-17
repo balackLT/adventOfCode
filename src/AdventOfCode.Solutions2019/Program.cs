@@ -5,7 +5,6 @@ namespace AdventOfCode.Solutions2019
 {
     static class Program
     {
-        // TODO: asserter (maybe list of input/output in ISolution)
         // TODO: command line
         // TODO: separate downloader
 
@@ -18,7 +17,7 @@ namespace AdventOfCode.Solutions2019
             var collector = new SolutionCollector();
             var inputGenerator = new InputFactory(config["year"], config["inputFolder"], config["cookie"]);
 
-            var day = 14;
+            var day = 17;
             
             var executor = collector.GetSolutionExecutor(day);
             

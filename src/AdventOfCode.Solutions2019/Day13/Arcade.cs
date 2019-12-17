@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using AdventOfCode.Solutions2019.Shared.Computer;
 using AdventOfCode.Utilities.Map;
 

@@ -5,7 +5,6 @@ using System.Numerics;
 using System.Text;
 using System.Text.RegularExpressions;
 using AdventOfCode.Executor;
-using AdventOfCode.Solutions2019.Day03;
 
 namespace AdventOfCode.Solutions2019.Day12
 {
