@@ -1,7 +1,7 @@
 ﻿using AdventOfCode.Executor;
 using Microsoft.Extensions.Configuration;
 
-namespace AdventOfCode.Solutions2019
+namespace AdventOfCode.Solutions2020
 {
     static class Program
     {

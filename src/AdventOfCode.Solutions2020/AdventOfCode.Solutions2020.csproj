@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
@@ -9,9 +9,10 @@
         <ProjectReference Include="..\AdventOfCode.Executor\AdventOfCode.Executor.csproj" />
         <ProjectReference Include="..\AdventOfCode.Utilities\AdventOfCode.Utilities.csproj" />
     </ItemGroup>
-    
+
     <ItemGroup>
-      <Folder Include="input" />
+        <Folder Include="input" />
+        <Folder Include="input\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -27,6 +28,7 @@
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.0.1" />
         <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.0.1" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.0.1" />
+        <PackageReference Include="NUnit" Version="3.12.0" />
     </ItemGroup>
 
 </Project>
