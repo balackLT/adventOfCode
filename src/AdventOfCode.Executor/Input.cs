@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Executor
 {
@@ -15,6 +16,17 @@ namespace AdventOfCode.Executor
         public string[] GetLines()
         {
             return _lines;
+        }
+        
+        public List<List<string>> GetLinesByRegex(string regexString)
+        {
+            var regex = new Regex(regexString);
+
+            return _lines
+                .Select(l => regex.Match(l).Groups.Values
+                    .Select(v => v.Value)
+                    .ToList())
+                .ToList();
         }
         
         public List<string> GetLinesAsList()

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using AdventOfCode.Executor;
+﻿using AdventOfCode.Executor;
 
 namespace AdventOfCode.Solutions2020.Day01
 {
