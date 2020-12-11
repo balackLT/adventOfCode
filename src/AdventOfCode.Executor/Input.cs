@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using AdventOfCode.Utilities.Map;
 
 namespace AdventOfCode.Executor
 {
@@ -72,6 +73,29 @@ namespace AdventOfCode.Executor
                 foreach (var pixel in lines)
                 {
                     var coordinate = (x, y);
+                    map[coordinate] = pixel;
+                    
+                    x++;
+                }
+                y++;
+            }
+
+            return map;
+        }
+        
+        public Dictionary<Coordinate, char> GetAsCoordinateMap()
+        {
+            var inputMap = GetLines();
+            
+            var map = new Dictionary<Coordinate, char>();
+            
+            var y = 0;
+            foreach (var lines in inputMap)
+            {
+                var x = 0;
+                foreach (var pixel in lines)
+                {
+                    var coordinate = new Coordinate(x, y);
                     map[coordinate] = pixel;
                     
                     x++;

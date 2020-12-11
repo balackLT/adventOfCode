@@ -19,7 +19,14 @@ namespace AdventOfCode.Utilities.Map
         public static readonly Coordinate South = new Coordinate(0, -1);
         public static readonly Coordinate East = new Coordinate(1, 0);
         public static readonly Coordinate West = new Coordinate(-1, 0);
+        
+        public static readonly Coordinate NorthWest = new Coordinate(-1, 1);
+        public static readonly Coordinate NorthEast = new Coordinate(1, 1);
+        public static readonly Coordinate SouthWest = new Coordinate(-1, -1);
+        public static readonly Coordinate SouthEast = new Coordinate(1, -1);
+        
         public static readonly List<Coordinate> Directions = new List<Coordinate>{North, South, West, East};
+        public static readonly List<Coordinate> ExtendedDirections = new List<Coordinate>{North, South, West, East, NorthEast, NorthWest, SouthEast, SouthWest};
 
         public int X;
         public int Y;
@@ -55,6 +62,23 @@ namespace AdventOfCode.Utilities.Map
                 if (facing == East) return South;
             }
             throw new Exception("Invalid direction encountered");
+        }
+
+        public List<Coordinate> GetAdjacent()
+        {
+            var adjacent = new List<Coordinate>
+            {
+                this + North, 
+                this + South, 
+                this + West, 
+                this + East,
+                this + North + West, 
+                this + North + East, 
+                this + South + West, 
+                this + South + East
+            };
+            
+            return adjacent;
         }
 
         public int ManhattanDistance()

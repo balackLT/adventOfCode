@@ -6,12 +6,18 @@ namespace AdventOfCode.Utilities.Map
 {
     public class Map<T>
     {
-        public readonly Dictionary<Coordinate, T> InternalMap = new Dictionary<Coordinate, T>();
-        private readonly T _defaultLocation;
+        public Dictionary<Coordinate, T> InternalMap { get; protected set; } = new();
+        private T DefaultLocation { get; }
 
         public Map(T defaultLocation)
         {
-            _defaultLocation = defaultLocation;
+            DefaultLocation = defaultLocation;
+        }
+        
+        public Map(Dictionary<Coordinate, T> map, T defaultLocation)
+        {
+            InternalMap = map;
+            DefaultLocation = defaultLocation;
         }
 
         public T this[Coordinate index]   
@@ -21,9 +27,9 @@ namespace AdventOfCode.Utilities.Map
                 if (InternalMap.TryGetValue(index, out var value))
                     return value;
 
-                InternalMap[index] = _defaultLocation;
+                InternalMap[index] = DefaultLocation;
                 
-                return _defaultLocation;
+                return DefaultLocation;
             }
             set => InternalMap[index] = value;
         }

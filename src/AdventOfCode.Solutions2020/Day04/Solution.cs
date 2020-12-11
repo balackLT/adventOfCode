@@ -2,8 +2,6 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using AdventOfCode.Executor;
-using AdventOfCode.Utilities.Map;
-using NUnit.Framework;
 
 namespace AdventOfCode.Solutions2020.Day04
 {
