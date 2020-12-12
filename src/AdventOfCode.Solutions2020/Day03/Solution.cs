@@ -79,7 +79,7 @@ namespace AdventOfCode.Solutions2020.Day03
                 {
                     while (index.X > Width)
                     {
-                        index.X -= Width + 1;
+                        index = new Coordinate(index.X - (Width + 1), index.Y);
                     }
 
                     return _map[index];

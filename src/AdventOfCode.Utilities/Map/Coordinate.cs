@@ -12,24 +12,24 @@ namespace AdventOfCode.Utilities.Map
         RIGHT
     }
     
-    public struct Coordinate : IEquatable<Coordinate>, IFormattable
+    public readonly struct Coordinate : IEquatable<Coordinate>, IFormattable
     {
-        public static readonly Coordinate Zero = new Coordinate(0, 0);
-        public static readonly Coordinate North = new Coordinate(0, 1);
-        public static readonly Coordinate South = new Coordinate(0, -1);
-        public static readonly Coordinate East = new Coordinate(1, 0);
-        public static readonly Coordinate West = new Coordinate(-1, 0);
+        public static readonly Coordinate Zero = new (0, 0);
+        public static readonly Coordinate North = new (0, 1);
+        public static readonly Coordinate South = new (0, -1);
+        public static readonly Coordinate East = new (1, 0);
+        public static readonly Coordinate West = new (-1, 0);
         
-        public static readonly Coordinate NorthWest = new Coordinate(-1, 1);
-        public static readonly Coordinate NorthEast = new Coordinate(1, 1);
-        public static readonly Coordinate SouthWest = new Coordinate(-1, -1);
-        public static readonly Coordinate SouthEast = new Coordinate(1, -1);
+        public static readonly Coordinate NorthWest = new (-1, 1);
+        public static readonly Coordinate NorthEast = new (1, 1);
+        public static readonly Coordinate SouthWest = new (-1, -1);
+        public static readonly Coordinate SouthEast = new (1, -1);
         
-        public static readonly List<Coordinate> Directions = new List<Coordinate>{North, South, West, East};
-        public static readonly List<Coordinate> ExtendedDirections = new List<Coordinate>{North, South, West, East, NorthEast, NorthWest, SouthEast, SouthWest};
+        public static readonly List<Coordinate> Directions = new() {North, South, West, East};
+        public static readonly List<Coordinate> ExtendedDirections = new() {North, South, West, East, NorthEast, NorthWest, SouthEast, SouthWest};
 
-        public int X;
-        public int Y;
+        public readonly int X;
+        public readonly int Y;
         
         public Coordinate(string input, char separator = ',')
         {
@@ -47,23 +47,19 @@ namespace AdventOfCode.Utilities.Map
 
         public static Coordinate Turn(Coordinate facing, TurnDirection turn)
         {
-            if (turn == TurnDirection.LEFT)
-            {
-                if (facing == North) return West;
-                if (facing == West) return South;
-                if (facing == South) return East;
-                if (facing == East) return North;
-            }
-            if (turn == TurnDirection.RIGHT)
-            {
-                if (facing == North) return East;
-                if (facing == West) return North;
-                if (facing == South) return West;
-                if (facing == East) return South;
-            }
-            throw new Exception("Invalid direction encountered");
+            return facing.Turn(turn);
         }
-
+        
+        public Coordinate Turn(TurnDirection turn)
+        {
+            return turn switch
+            {
+                TurnDirection.LEFT => new Coordinate(Y * -1, X),
+                TurnDirection.RIGHT => new Coordinate(Y, X * -1),
+                _ => throw new Exception("Invalid direction encountered")
+            };
+        }
+        
         public List<Coordinate> GetAdjacent()
         {
             var adjacent = new List<Coordinate>
@@ -83,8 +79,7 @@ namespace AdventOfCode.Utilities.Map
 
         public int ManhattanDistance()
         {
-            var other = Coordinate.Zero;
-            return Math.Abs(X - other.X) + Math.Abs(Y - other.Y);
+            return ManhattanDistance(Zero);
         }
         
         public int ManhattanDistance(Coordinate other)
@@ -94,7 +89,7 @@ namespace AdventOfCode.Utilities.Map
         
         public Vector2 ToVector()
         {
-            return new Vector2(X, Y);
+            return new(X, Y);
         }
         
         public static double AngleBetween(Coordinate source, Coordinate target)
@@ -137,10 +132,10 @@ namespace AdventOfCode.Utilities.Map
             StringBuilder stringBuilder = new StringBuilder();
             string numberGroupSeparator = NumberFormatInfo.GetInstance(formatProvider).NumberGroupSeparator;
             stringBuilder.Append('<');
-            stringBuilder.Append(this.X.ToString(format, formatProvider));
+            stringBuilder.Append(X.ToString(format, formatProvider));
             stringBuilder.Append(numberGroupSeparator);
             stringBuilder.Append(' ');
-            stringBuilder.Append(this.Y.ToString(format, formatProvider));
+            stringBuilder.Append(Y.ToString(format, formatProvider));
             stringBuilder.Append('>');
             return stringBuilder.ToString();
         }
@@ -149,10 +144,10 @@ namespace AdventOfCode.Utilities.Map
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append('<');
-            stringBuilder.Append(this.X.ToString());
+            stringBuilder.Append(X);
             stringBuilder.Append(',');
             stringBuilder.Append(' ');
-            stringBuilder.Append(this.Y.ToString());
+            stringBuilder.Append(Y);
             stringBuilder.Append('>');
             return stringBuilder.ToString();
         }
@@ -160,12 +155,22 @@ namespace AdventOfCode.Utilities.Map
 
         public static Coordinate operator +(Coordinate left, Coordinate right)
         {
-            return new Coordinate(left.X + right.X, left.Y + right.Y);
+            return new(left.X + right.X, left.Y + right.Y);
         }
         
         public static Coordinate operator -(Coordinate left, Coordinate right)
         {
-            return new Coordinate(left.X - right.X, left.Y - right.Y);
+            return new(left.X - right.X, left.Y - right.Y);
+        }
+        
+        public static Coordinate operator *(Coordinate left, int right)
+        {
+            return new(left.X * right, left.Y * right);
+        }
+        
+        public static Coordinate operator *(int left, Coordinate right)
+        {
+            return new(left * right.X, left * right.Y);
         }
 
         public static bool operator ==(Coordinate left, Coordinate right)
