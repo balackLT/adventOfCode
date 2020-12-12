@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\AdventOfCode.Executor\AdventOfCode.Executor.csproj" />
+        <ProjectReference Include="..\AdventOfCode.Utilities\AdventOfCode.Utilities.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="input\*">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="appsettings.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.0.1" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.0.1" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.0.1" />
+        <PackageReference Include="NUnit" Version="3.12.0" />
+    </ItemGroup>
+
+</Project>
