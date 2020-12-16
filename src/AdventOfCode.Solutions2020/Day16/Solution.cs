@@ -43,22 +43,17 @@ namespace AdventOfCode.Solutions2020.Day16
                     .ToList())
                 .Where(t => !DoesNotMatchAnyRule(t, rules).Any())
                 .ToList();
-
-            var positions = new Dictionary<int, List<Rule>>();
             
-            for (var position = 0; position < myTicket.Count; position++)
-            {
-                var fields = nearbyTickets.Select(t => t[position]).ToList();
-                
-                var matchedRules = rules
-                    .Where(r => r.Matches(fields).Count() == fields.Count)
-                    .ToList();
+            var positions = Enumerable.Range(0, myTicket.Count)
+                .Select(position => new KeyValuePair<int, List<Rule>>(
+                    position,
+                    // Rules that match all nearby tickets position value at [position]
+                    rules
+                        .Where(r => r.Matches(nearbyTickets.Select(t => t[position])).Count() == nearbyTickets.Count)
+                        .ToList()))
+                .ToList();
 
-                positions[position] = matchedRules;
-            }
-
-            var orderedPositions = positions.OrderBy(p => p.Value.Count).ToList();
-            foreach (var position in orderedPositions)
+            foreach (var position in positions.OrderBy(p => p.Value.Count).ToList())
             {
                 Debug.Assert(position.Value.Count == 1);
 
@@ -102,14 +97,7 @@ namespace AdventOfCode.Solutions2020.Day16
 
         private IEnumerable<int> DoesNotMatchAnyRule(IEnumerable<int> ticket, IEnumerable<Rule> rules)
         {
-            var unmatchedFields = ticket.ToList();
-
-            foreach (var matches in rules.Select(rule => rule.Matches(unmatchedFields)))
-            {
-                unmatchedFields.RemoveAll(f => matches.Contains(f));
-            }
-            
-            return unmatchedFields;
+            return ticket.Where(t => !rules.Any(r => r.Matches(t)));
         }
         
         private class Rule
@@ -125,7 +113,7 @@ namespace AdventOfCode.Solutions2020.Day16
                 return ticket.Where(Matches);
             }
             
-            private bool Matches(int ticket)
+            public bool Matches(int ticket)
             {
                 return (ticket >= From1 && ticket <= To1) || (ticket >= From2 && ticket <= To2);
             }
