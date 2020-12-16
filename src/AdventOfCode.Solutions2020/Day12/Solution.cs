@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using AdventOfCode.Executor;
-using AdventOfCode.Solutions2020.Day08;
 using AdventOfCode.Utilities.Map;
 
 namespace AdventOfCode.Solutions2020.Day12
