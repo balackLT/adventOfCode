@@ -18,7 +18,7 @@ namespace AdventOfCode.Solutions2015
             var collector = new SolutionCollector();
             var inputGenerator = new InputFactory(config["year"], config["inputFolder"], config["cookie"]);
 
-            var day = 8;
+            var day = 9;
             
             var executor = collector.GetSolutionExecutor(day);
             
