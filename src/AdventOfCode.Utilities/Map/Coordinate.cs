@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Numerics;
-using System.Text;
 
 namespace AdventOfCode.Utilities.Map
 {
@@ -12,7 +9,7 @@ namespace AdventOfCode.Utilities.Map
         RIGHT
     }
     
-    public readonly struct Coordinate : IEquatable<Coordinate>, IFormattable
+    public record Coordinate(int X, int Y)
     {
         public static readonly Coordinate Zero = new (0, 0);
         public static readonly Coordinate North = new (0, 1);
@@ -28,21 +25,11 @@ namespace AdventOfCode.Utilities.Map
         public static readonly List<Coordinate> Directions = new() {North, South, West, East};
         public static readonly List<Coordinate> ExtendedDirections = new() {North, South, West, East, NorthEast, NorthWest, SouthEast, SouthWest};
 
-        public readonly int X;
-        public readonly int Y;
-        
-        public Coordinate(string input, char separator = ',')
+        public Coordinate(string input, char separator = ',') : this(
+            int.Parse(input.Split(separator)[0]),
+            int.Parse(input.Split(separator)[1]))
         {
-            var split = input.Split(separator);
             
-            X = int.Parse(split[0]);
-            Y = int.Parse(split[1]);
-        }
-        
-        public Coordinate(int x, int y)
-        {
-            X = x;
-            Y = y;
         }
 
         public static Coordinate Turn(Coordinate facing, TurnDirection turn)
@@ -60,21 +47,16 @@ namespace AdventOfCode.Utilities.Map
             };
         }
         
-        public List<Coordinate> GetAdjacent()
+        public IEnumerable<Coordinate> GetAdjacent()
         {
-            var adjacent = new List<Coordinate>
-            {
-                this + North, 
-                this + South, 
-                this + West, 
-                this + East,
-                this + North + West, 
-                this + North + East, 
-                this + South + West, 
-                this + South + East
-            };
-            
-            return adjacent;
+            yield return this + North;
+            yield return this + South;
+            yield return this + West;
+            yield return this + East;
+            yield return this + North + West;
+            yield return this + North + East;
+            yield return this + South + West;
+            yield return this + South + East;
         }
 
         public int ManhattanDistance()
@@ -86,12 +68,7 @@ namespace AdventOfCode.Utilities.Map
         {
             return Math.Abs(X - other.X) + Math.Abs(Y - other.Y);
         }
-        
-        public Vector2 ToVector()
-        {
-            return new(X, Y);
-        }
-        
+
         public static double AngleBetween(Coordinate source, Coordinate target)
         {
             var radians = Math.Atan2(target.Y - source.Y, target.X - source.X);
@@ -108,50 +85,6 @@ namespace AdventOfCode.Utilities.Map
             
             return new Coordinate(0, 0);
         }
-
-        public bool Equals(Coordinate other)
-        {
-            return X == other.X && Y == other.Y;
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is Coordinate other && Equals(other);
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                return (X * 397) ^ Y;
-            }
-        }
-
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-            string numberGroupSeparator = NumberFormatInfo.GetInstance(formatProvider).NumberGroupSeparator;
-            stringBuilder.Append('<');
-            stringBuilder.Append(X.ToString(format, formatProvider));
-            stringBuilder.Append(numberGroupSeparator);
-            stringBuilder.Append(' ');
-            stringBuilder.Append(Y.ToString(format, formatProvider));
-            stringBuilder.Append('>');
-            return stringBuilder.ToString();
-        }
-        
-        public override string ToString()
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append('<');
-            stringBuilder.Append(X);
-            stringBuilder.Append(',');
-            stringBuilder.Append(' ');
-            stringBuilder.Append(Y);
-            stringBuilder.Append('>');
-            return stringBuilder.ToString();
-        }
-        
 
         public static Coordinate operator +(Coordinate left, Coordinate right)
         {
@@ -171,16 +104,6 @@ namespace AdventOfCode.Utilities.Map
         public static Coordinate operator *(int left, Coordinate right)
         {
             return new(left * right.X, left * right.Y);
-        }
-
-        public static bool operator ==(Coordinate left, Coordinate right)
-        {
-            return left.Equals(right);
-        }
-        
-        public static bool operator !=(Coordinate left, Coordinate right)
-        {
-            return !(left == right);
         }
     }
 }
