@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using AdventOfCode.Executor;
 using MoreLinq;
-using NUnit.Framework;
 
 namespace AdventOfCode.Solutions2020.Day19
 {
@@ -19,14 +18,14 @@ namespace AdventOfCode.Solutions2020.Day19
                 .ToList();
 
             Dictionary<int, Rule> rules = ParseRules(lines);
-            foreach (var rule in rules)
-            {
-                rule.Value.CacheEnabled = true;
-            }
             
-            var allowed = new HashSet<string>(rules[0].GetSolutions(rules, 0));
-
-            var result = lines[1].Count(l => allowed.Contains(l));
+            var result = 0;
+            foreach (var message in lines[1])
+            {
+                var allowed = rules[0].GenerateAllowed(rules, message).ToList();
+                if (allowed.Contains(message))
+                    result++;
+            }
             
             return result.ToString();
         }
@@ -43,9 +42,13 @@ namespace AdventOfCode.Solutions2020.Day19
             rules[8] = new Rule(8, null, "42 | 42 8");
             rules[11] = new Rule(11, null, "42 31 | 42 11 31");
             
-            var allowed = new HashSet<string>(rules[0].GenerateAllowed(rules, 0).Distinct());
-
-            var result = lines[1].Count(l => allowed.Contains(l));
+            var result = 0;
+            foreach (var message in lines[1])
+            {
+                var allowed = rules[0].GenerateAllowed(rules, message).ToList();
+                if (allowed.Contains(message))
+                    result++;
+            }
             
             return result.ToString();
         }
@@ -73,68 +76,80 @@ namespace AdventOfCode.Solutions2020.Day19
         
         private record Rule(int Number, char? Value, string Restriction)
         {
-            private List<string> _solutions;
-            public bool CacheEnabled = false;
-
-            public List<string> GetSolutions(IDictionary<int, Rule> rules, int depth)
-            {
-                if (CacheEnabled && _solutions != null)
-                    return _solutions;
-                
-                return _solutions = GenerateAllowed(rules, depth)
-                        .Where(s => s.Length < 100)
-                        .Distinct()
-                        .ToList();
-            }
-            
-            public IEnumerable<string> GenerateAllowed(IDictionary<int, Rule> rules, int depth)
+            public IEnumerable<string> GenerateAllowed(IDictionary<int, Rule> rules, string message)
             {
                 if (Value is not null)
                     yield return Value.ToString();
-                else if (depth < 10)
+                else
                 {
                     var branches = Restriction.Split('|', StringSplitOptions.RemoveEmptyEntries);
 
                     foreach (var branch in branches.Select(b => b.Split(' ', StringSplitOptions.RemoveEmptyEntries)))
                     {
-                        if (branch.Length == 1)
+                        switch (branch.Length)
                         {
-                            var rule = rules[int.Parse(branch[0])];
-                            foreach (var variation in rule.GetSolutions(rules, depth + 1))
+                            case 1:
                             {
-                                yield return variation;
-                            }
-                        }
-                        else if (branch.Length == 2)
-                        {
-                            var rule1 = rules[int.Parse(branch[0])];
-                            var rule2 = rules[int.Parse(branch[1])];
-                            var allowed1 = rule1.GetSolutions(rules, depth + 1);
-                            var allowed2 = rule2.GetSolutions(rules, depth + 1).ToList();
-
-                            foreach (var first in allowed1)
-                            {
-                                foreach (var second in allowed2)
+                                var rule = rules[int.Parse(branch[0])];
+                                foreach (var variation in rule.GenerateAllowed(rules, message))
                                 {
-                                    yield return first + second;
+                                    yield return variation;
                                 }
+
+                                break;
+                            }
+                            case 2:
+                            {
+                                var rule1 = rules[int.Parse(branch[0])];
+                                var rule2 = rules[int.Parse(branch[1])];
+                                var allowed1 = rule1.GenerateAllowed(rules, message);
+
+                                foreach (var first in allowed1)
+                                {
+                                    if (!message.StartsWith(first))
+                                        continue;
+                                
+                                    var allowed2 = rule2.GenerateAllowed(rules, message.Substring(first.Length));
+
+                                    foreach (var second in allowed2)
+                                    {
+                                        yield return first + second;
+                                    }
+                                }
+
+                                break;
+                            }
+                            default:
+                            {
+                                var rule1 = rules[int.Parse(branch[0])];
+                                var rule2 = rules[int.Parse(branch[1])];
+                                var rule3 = rules[int.Parse(branch[2])];
+                                var allowed1 = rule1.GenerateAllowed(rules, message);
+                                
+                                foreach (var first in allowed1)
+                                {
+                                    if (!message.StartsWith(first))
+                                        continue;
+                                
+                                    var allowed2 = rule2.GenerateAllowed(rules, message.Substring(first.Length));
+
+                                    foreach (var second in allowed2)
+                                    {
+                                        if (!message.StartsWith(first + second))
+                                            continue;
+                                    
+                                        var allowed3 = rule3.GenerateAllowed(rules, message.Substring(first.Length + second.Length));
+
+                                        foreach (var third in allowed3)
+                                        {
+                                            yield return first + second + third;
+                                        }
+                                    }
+                                }
+
+                                break;
                             }
                         }
-                        // else
-                        // {
-                        //     var rule1 = rules[int.Parse(branch[0])];
-                        //     var rule2 = rules[int.Parse(branch[1])];
-                        //     var allowed1 = rule1.GetSolutions(rules, depth + 1);
-                        //     var allowed2 = rule2.GetSolutions(rules, depth + 1).ToList();
-                        //
-                        //     foreach (var first in allowed1)
-                        //     {
-                        //         foreach (var second in allowed2)
-                        //         {
-                        //             yield return first + second;
-                        //         }
-                        //     }
-                        // }
                     }
                 }
             }
