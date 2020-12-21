@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using AdventOfCode.Executor;
+using AdventOfCode.Utilities.Extensions;
 using AdventOfCode.Utilities.Map;
 using MoreLinq;
 using NUnit.Framework;
@@ -52,13 +54,21 @@ namespace AdventOfCode.Solutions2020.Day20
 
             foreach (var tile in solved.Map)
             {
-                solved.Map[tile.Key] = tile.Value.RemoveBorders();
+                solved.Map[tile.Key] = tile.Value.FlipX().RemoveBorders(); // turns our I worked with flipped tiles :shrug:
             }
 
             var image = Image.Build(solved.Map);
-            image.Print();
+            // image.Print();
+            // Console.WriteLine();
+            // image.Monster.Print();
+
+            var result = 0;
+            foreach (var permutation in image.GetPermutations())
+            {
+                result = Math.Max(result, permutation.CountNotMonsterTiles());
+            }
             
-            return 0.ToString();
+            return result.ToString();
         }
         
         private static void SelfTest()
@@ -72,11 +82,10 @@ namespace AdventOfCode.Solutions2020.Day20
             };
 
             var tile = Tile.ParseTile(lines);
-
             var rotated = tile.Rotate();
             Debug.Assert(rotated.EastEdge == "ihg");
             Debug.Assert(rotated.SouthEdge == "adg");
-
+            
             var flippedX = tile.FlipX();
             Debug.Assert(flippedX.EastEdge == "ifc");
             Debug.Assert(flippedX.SouthEdge == "abc");

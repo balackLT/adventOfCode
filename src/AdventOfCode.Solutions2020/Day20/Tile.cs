@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using AdventOfCode.Utilities.Extensions;
 using AdventOfCode.Utilities.Map;
 
 namespace AdventOfCode.Solutions2020.Day20
@@ -83,15 +85,7 @@ namespace AdventOfCode.Solutions2020.Day20
         public Tile Rotate()
         {
             Debug.Assert(MaxX == MaxY);
-            var newMap = new Dictionary<Coordinate, char>();
-
-            for (int y = 0; y <= MaxY; y++)
-            {
-                for (int x = 0; x <= MaxX; x++)
-                {
-                    newMap[new Coordinate(x, y)] = InnerMap[new Coordinate(MaxX - y, x)];
-                }
-            }
+            var newMap = InnerMap.Rotate();
 
             var tile = new Tile
             {
@@ -106,15 +100,7 @@ namespace AdventOfCode.Solutions2020.Day20
 
         public Tile FlipX()
         {
-            var newMap = new Dictionary<Coordinate, char>();
-            
-            for (int y = 0; y <= MaxY; y++)
-            {
-                for (int x = 0; x <= MaxX; x++)
-                {
-                    newMap[new Coordinate(x, y)] = InnerMap[new Coordinate(x, MaxY - y)];
-                }
-            }
+            var newMap = InnerMap.FlipX();
             
             var tile = new Tile
             {
@@ -129,15 +115,7 @@ namespace AdventOfCode.Solutions2020.Day20
         
         public Tile FlipY()
         {
-            var newMap = new Dictionary<Coordinate, char>();
-            
-            for (int y = 0; y <= MaxY; y++)
-            {
-                for (int x = 0; x <= MaxX; x++)
-                {
-                    newMap[new Coordinate(x, y)] = InnerMap[new Coordinate(MaxX -x, y)];
-                }
-            }
+            var newMap = InnerMap.FlipY();
             
             var tile = new Tile
             {
