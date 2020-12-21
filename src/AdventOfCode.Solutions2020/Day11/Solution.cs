@@ -104,7 +104,7 @@ namespace AdventOfCode.Solutions2020.Day11
             private int CountAdjacent(Coordinate seat, char target)
             {
                 var adjacent = seat
-                    .GetAdjacent()
+                    .GetAdjacentWithDiagonals()
                     .Where(c => c.X >= 0 &&
                                 c.Y >= 0 &&
                                 c.X <= _maxX &&

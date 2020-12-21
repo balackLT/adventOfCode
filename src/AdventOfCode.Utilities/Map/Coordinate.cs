@@ -47,7 +47,7 @@ namespace AdventOfCode.Utilities.Map
             };
         }
         
-        public IEnumerable<Coordinate> GetAdjacent()
+        public IEnumerable<Coordinate> GetAdjacentWithDiagonals()
         {
             yield return this + North;
             yield return this + South;
@@ -57,6 +57,14 @@ namespace AdventOfCode.Utilities.Map
             yield return this + North + East;
             yield return this + South + West;
             yield return this + South + East;
+        }
+        
+        public IEnumerable<Coordinate> GetAdjacent()
+        {
+            yield return this + North;
+            yield return this + South;
+            yield return this + West;
+            yield return this + East;
         }
 
         public int ManhattanDistance()

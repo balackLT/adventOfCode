@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using AdventOfCode.Executor;
 using Sprache;
@@ -18,7 +19,8 @@ namespace AdventOfCode.Solutions2020.Day18
             return op switch
             {
                 '*' => left * right,
-                '+' => left + right
+                '+' => left + right,
+                _ => throw new ArgumentOutOfRangeException(nameof(op), op, null)
             };
         });
         
