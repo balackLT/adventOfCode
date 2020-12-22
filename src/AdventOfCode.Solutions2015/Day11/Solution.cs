@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using AdventOfCode.Executor;
 
 namespace AdventOfCode.Solutions2015.Day11

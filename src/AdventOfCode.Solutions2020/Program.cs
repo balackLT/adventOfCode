@@ -8,7 +8,7 @@ IConfiguration config = new ConfigurationBuilder()
 var collector = new SolutionCollector();
 var inputGenerator = new InputFactory(config["year"], config["inputFolder"], config["cookie"]);
 
-var day = 19;
+var day = 22;
 
 var executor = collector.GetSolutionExecutor(day);
 

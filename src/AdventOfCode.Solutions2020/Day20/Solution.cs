@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using AdventOfCode.Executor;
-using AdventOfCode.Utilities.Extensions;
 using AdventOfCode.Utilities.Map;
 using MoreLinq;
-using NUnit.Framework;
 
 namespace AdventOfCode.Solutions2020.Day20
 {

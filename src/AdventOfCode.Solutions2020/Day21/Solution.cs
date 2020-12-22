@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using AdventOfCode.Executor;
-using MoreLinq;
-using MoreLinq.Extensions;
 
 namespace AdventOfCode.Solutions2020.Day21
 {
