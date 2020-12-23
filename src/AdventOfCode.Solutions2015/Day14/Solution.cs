@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using AdventOfCode.Executor;
 
@@ -24,8 +26,7 @@ namespace AdventOfCode.Solutions2015.Day14
             
             foreach (var deer in contestants)
             {
-                var distanceTraveled = (timeLimit / (deer.Rest + deer.Period)) * deer.Speed * deer.Period;
-                distanceTraveled += Math.Min((timeLimit % (deer.Rest + deer.Period)), deer.Period) * deer.Speed;
+                var distanceTraveled = deer.CalculateDistanceTraveled(timeLimit);
                 result = Math.Max(result, distanceTraveled);
             }
             
@@ -41,16 +42,39 @@ namespace AdventOfCode.Solutions2015.Day14
                     l[1], 
                     int.Parse(l[2]),
                     int.Parse(l[3]),
-                    int.Parse(l[4])));
+                    int.Parse(l[4])))
+                .ToList();
 
-            for (int s = 0; s < 2503; s++)
+            var points = new Dictionary<Reindeer, int>();
+            foreach (var reindeer in contestants)
             {
-                
+                points[reindeer] = 0;
             }
 
-            return 0.ToString();
+            var limit = 2503;
+            
+            for (int s = 1; s <= limit; s++)
+            {
+                var maxDistance = contestants.Max(c => c.CalculateDistanceTraveled(s));
+                var leaders = contestants.Where(c => c.CalculateDistanceTraveled(s) == maxDistance).ToList();
+                foreach (var leader in leaders)
+                {
+                    points[leader]++;
+                }
+            }
+
+            var result = points.Max(p => p.Value);
+
+            return result.ToString();
         }
 
-        private record Reindeer(string Name, int Speed, int Period, int Rest);
+        private record Reindeer(string Name, int Speed, int Period, int Rest)
+        {
+            public int CalculateDistanceTraveled(int time)
+            {
+                var distanceTraveled = (time / (Rest + Period)) * Speed * Period;
+                return distanceTraveled + Math.Min((time % (Rest + Period)), Period) * Speed;
+            }
+        }
     }
 }
