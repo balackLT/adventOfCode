@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using AdventOfCode.Executor;
 
 namespace AdventOfCode.Solutions2021.Day02
