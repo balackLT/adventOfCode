@@ -2,77 +2,77 @@
 using System.Linq;
 using AdventOfCode.Executor;
 
-namespace AdventOfCode.Solutions2018.Day03
+namespace AdventOfCode.Solutions2018.Day03;
+
+public class Solution : ISolution
 {
-    public class Solution : ISolution
+    public int Day { get; } = 3;
+
+    public string SolveFirstPart(Input input)
     {
-        public int Day { get; } = 3;
+        var lines = input.GetLines();
 
-        public string SolveFirstPart(Input input)
+        var instructions = new List<Instruction>();
+
+        foreach (var line in lines)
         {
-            var lines = input.GetLines();
+            var instruction = new Instruction();
 
-            var instructions = new List<Instruction>();
+            var atLocation = line.IndexOf('@');
+            var commaLocation = line.IndexOf(',');
+            var colonLocation = line.IndexOf(':');
+            var xLocation = line.IndexOf('x');
 
-            foreach (var line in lines)
-            {
-                var instruction = new Instruction();
+            instruction.Id = int.Parse(line.Substring(1, atLocation - 1));
+            instruction.X = int.Parse(line.Substring(atLocation + 1, commaLocation - atLocation - 1));
+            instruction.Y = int.Parse(line.Substring(commaLocation + 1, colonLocation - commaLocation - 1));
+            instruction.Length = int.Parse(line.Substring(colonLocation + 1, xLocation - colonLocation - 1));
+            instruction.Height = int.Parse(line.Substring(xLocation + 1));
+            instruction.isOverlapped = false;
 
-                var atLocation = line.IndexOf('@');
-                var commaLocation = line.IndexOf(',');
-                var colonLocation = line.IndexOf(':');
-                var xLocation = line.IndexOf('x');
-
-                instruction.Id = int.Parse(line.Substring(1, atLocation - 1));
-                instruction.X = int.Parse(line.Substring(atLocation + 1, commaLocation - atLocation - 1));
-                instruction.Y = int.Parse(line.Substring(commaLocation + 1, colonLocation - commaLocation - 1));
-                instruction.Length = int.Parse(line.Substring(colonLocation + 1, xLocation - colonLocation - 1));
-                instruction.Height = int.Parse(line.Substring(xLocation + 1));
-                instruction.isOverlapped = false;
-
-                instructions.Add(instruction);
-            }
-
-            var santasFabric = new Fabric();
-
-            santasFabric.Fill(instructions);
-
-            return santasFabric.CountOverlap().ToString();
+            instructions.Add(instruction);
         }
 
-        public string SolveSecondPart(Input input)
+        var santasFabric = new Fabric();
+
+        santasFabric.Fill(instructions);
+
+        return santasFabric.CountOverlap().ToString();
+    }
+
+    public string SolveSecondPart(Input input)
+    {
+        var lines = input.GetLines();
+
+        var instructions = new List<Instruction>();
+
+        foreach (var line in lines)
         {
-            var lines = input.GetLines();
+            var instruction = new Instruction();
 
-            var instructions = new List<Instruction>();
+            var atLocation = line.IndexOf('@');
+            var commaLocation = line.IndexOf(',');
+            var colonLocation = line.IndexOf(':');
+            var xLocation = line.IndexOf('x');
 
-            foreach (var line in lines)
-            {
-                var instruction = new Instruction();
+            instruction.Id = int.Parse(line.Substring(1, atLocation - 1));
+            instruction.X = int.Parse(line.Substring(atLocation + 1, commaLocation - atLocation - 1));
+            instruction.Y = int.Parse(line.Substring(commaLocation + 1, colonLocation - commaLocation - 1));
+            instruction.Length = int.Parse(line.Substring(colonLocation + 1, xLocation - colonLocation - 1));
+            instruction.Height = int.Parse(line.Substring(xLocation + 1));
+            instruction.isOverlapped = false;
 
-                var atLocation = line.IndexOf('@');
-                var commaLocation = line.IndexOf(',');
-                var colonLocation = line.IndexOf(':');
-                var xLocation = line.IndexOf('x');
-
-                instruction.Id = int.Parse(line.Substring(1, atLocation - 1));
-                instruction.X = int.Parse(line.Substring(atLocation + 1, commaLocation - atLocation - 1));
-                instruction.Y = int.Parse(line.Substring(commaLocation + 1, colonLocation - commaLocation - 1));
-                instruction.Length = int.Parse(line.Substring(colonLocation + 1, xLocation - colonLocation - 1));
-                instruction.Height = int.Parse(line.Substring(xLocation + 1));
-                instruction.isOverlapped = false;
-
-                instructions.Add(instruction);
-            }
-
-            var santasFabric = new Fabric();
-
-            santasFabric.Fill(instructions);
-
-            return instructions.FirstOrDefault(i => i.isOverlapped == false)?.Id.ToString();
+            instructions.Add(instruction);
         }
+
+        var santasFabric = new Fabric();
+
+        santasFabric.Fill(instructions);
+
+        return instructions.FirstOrDefault(i => i.isOverlapped == false)?.Id.ToString();
+    }
         
-        class Coordinate
+    class Coordinate
     {
         public int Value {get; set;}
         public int ClaimId {get; set;}
@@ -147,5 +147,4 @@ namespace AdventOfCode.Solutions2018.Day03
         }
     }
 
-    }
 }

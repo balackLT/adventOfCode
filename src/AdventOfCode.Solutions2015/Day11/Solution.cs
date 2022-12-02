@@ -3,125 +3,124 @@ using System.Diagnostics;
 using System.Linq;
 using AdventOfCode.Executor;
 
-namespace AdventOfCode.Solutions2015.Day11
+namespace AdventOfCode.Solutions2015.Day11;
+
+public class Solution : ISolution
 {
-    public class Solution : ISolution
+    public int Day { get; } = 11;
+
+    public string SolveFirstPart(Input input)
     {
-        public int Day { get; } = 11;
+        var password = input.GetAsString();
+            
+        Debug.Assert(GetNextPassword("aaa") == "aab");
+        Debug.Assert(GetNextPassword("aaz") == "aba");
+        Debug.Assert(GetNextPassword("azz") == "baa");
+            
+        Debug.Assert(IsValidPassword("abcdffaa") == true);
+        Debug.Assert(IsValidPassword("hijklmmn") == false);
+        Debug.Assert(IsValidPassword("abbceffg") == false);
+        Debug.Assert(IsValidPassword("abbcegjk") == false);
 
-        public string SolveFirstPart(Input input)
+        var result = password;
+            
+        while (true)
         {
-            var password = input.GetAsString();
-            
-            Debug.Assert(GetNextPassword("aaa") == "aab");
-            Debug.Assert(GetNextPassword("aaz") == "aba");
-            Debug.Assert(GetNextPassword("azz") == "baa");
-            
-            Debug.Assert(IsValidPassword("abcdffaa") == true);
-            Debug.Assert(IsValidPassword("hijklmmn") == false);
-            Debug.Assert(IsValidPassword("abbceffg") == false);
-            Debug.Assert(IsValidPassword("abbcegjk") == false);
-
-            var result = password;
-            
-            while (true)
-            {
-                result = GetNextPassword(result);
-                if (IsValidPassword(result))
-                    break;
-            }
-            
-            return result;
+            result = GetNextPassword(result);
+            if (IsValidPassword(result))
+                break;
         }
+            
+        return result;
+    }
         
-        public string SolveSecondPart(Input input)
-        {
-            var password = input.GetAsString();
+    public string SolveSecondPart(Input input)
+    {
+        var password = input.GetAsString();
 
-            var result = password;
+        var result = password;
             
-            while (true)
+        while (true)
+        {
+            result = GetNextPassword(result);
+            if (IsValidPassword(result))
+                break;
+        }
+            
+        while (true)
+        {
+            result = GetNextPassword(result);
+            if (IsValidPassword(result))
+                break;
+        }
+            
+        return result;
+    }
+
+    private bool IsValidPassword(string password)
+    {
+        var hasSequence = false;
+        var doubles = 0;
+
+        var prev1 = ' ';
+        var prev2 = ' ';
+        var lastDouble = false;
+            
+        foreach (char letter in password)
+        {
+            if (letter == 'i' || letter == 'l' || letter == 'o')
+                return false;
+
+            if (letter == prev1 + 1 && letter == prev2 + 2)
+                hasSequence = true;
+
+            if (!lastDouble && letter == prev1)
             {
-                result = GetNextPassword(result);
-                if (IsValidPassword(result))
-                    break;
+                doubles++;
+                lastDouble = true;
             }
-            
-            while (true)
+            else
             {
-                result = GetNextPassword(result);
-                if (IsValidPassword(result))
-                    break;
+                lastDouble = false;
             }
-            
-            return result;
+
+            prev2 = prev1;
+            prev1 = letter;
         }
 
-        private bool IsValidPassword(string password)
+        return hasSequence && doubles >= 2;
+    }
+        
+    private string GetNextPassword(string password)
+    {
+        var newPassword = new List<char>();
+
+        var overflow = true;
+        foreach (var letter in password.Reverse())
         {
-            var hasSequence = false;
-            var doubles = 0;
-
-            var prev1 = ' ';
-            var prev2 = ' ';
-            var lastDouble = false;
-            
-            foreach (char letter in password)
+            if (overflow)
             {
-                if (letter == 'i' || letter == 'l' || letter == 'o')
-                    return false;
-
-                if (letter == prev1 + 1 && letter == prev2 + 2)
-                    hasSequence = true;
-
-                if (!lastDouble && letter == prev1)
+                char newLetter;
+                if (letter == 'z')
                 {
-                    doubles++;
-                    lastDouble = true;
+                    newLetter = 'a';
+                    overflow = true;
                 }
                 else
                 {
-                    lastDouble = false;
+                    newLetter = (char)(letter + 1);
+                    overflow = false;
                 }
-
-                prev2 = prev1;
-                prev1 = letter;
+                newPassword.Add(newLetter);
             }
-
-            return hasSequence && doubles >= 2;
-        }
-        
-        private string GetNextPassword(string password)
-        {
-            var newPassword = new List<char>();
-
-            var overflow = true;
-            foreach (var letter in password.Reverse())
+            else
             {
-                if (overflow)
-                {
-                    char newLetter;
-                    if (letter == 'z')
-                    {
-                        newLetter = 'a';
-                        overflow = true;
-                    }
-                    else
-                    {
-                        newLetter = (char)(letter + 1);
-                        overflow = false;
-                    }
-                    newPassword.Add(newLetter);
-                }
-                else
-                {
-                    newPassword.Add(letter);
-                }
+                newPassword.Add(letter);
             }
-
-            newPassword.Reverse();
-            
-            return new string(newPassword.ToArray());
         }
+
+        newPassword.Reverse();
+            
+        return new string(newPassword.ToArray());
     }
 }

@@ -3,70 +3,69 @@ using System.Text.RegularExpressions;
 using AdventOfCode.Executor;
 using Newtonsoft.Json.Linq;
 
-namespace AdventOfCode.Solutions2015.Day12
+namespace AdventOfCode.Solutions2015.Day12;
+
+public class Solution : ISolution
 {
-    public class Solution : ISolution
+    public int Day { get; } = 12;
+
+    public string SolveFirstPart(Input input)
     {
-        public int Day { get; } = 12;
+        var json = input.GetAsString();
 
-        public string SolveFirstPart(Input input)
-        {
-            var json = input.GetAsString();
+        var regex = new Regex(@"[-]?\d+");
+        var result = regex
+            .Matches(json)
+            .Select(m => m.Groups.Values.First().Value)
+            .Sum(int.Parse);
 
-            var regex = new Regex(@"[-]?\d+");
-            var result = regex
-                .Matches(json)
-                .Select(m => m.Groups.Values.First().Value)
-                .Sum(int.Parse);
-
-            return result.ToString();
-        }
+        return result.ToString();
+    }
         
-        public string SolveSecondPart(Input input)
-        {
-            var text = input.GetAsString();
+    public string SolveSecondPart(Input input)
+    {
+        var text = input.GetAsString();
             
-            var json = JObject.Parse(@"{""fake"":" + text + "}");
+        var json = JObject.Parse(@"{""fake"":" + text + "}");
 
-            var result = GetSum(json);
+        var result = GetSum(json);
             
-            return result.ToString();
-        }
+        return result.ToString();
+    }
 
-        private int GetSum(JToken json)
+    private int GetSum(JToken json)
+    {
+        switch (json)
         {
-            switch (json)
+            case JValue value when int.TryParse(value.Value.ToString(), out var result):
+                return result;
+            case JArray array:
             {
-                case JValue value when int.TryParse(value.Value.ToString(), out var result):
-                    return result;
-                case JArray array:
-                {
-                    var result = 0;
+                var result = 0;
                 
-                    foreach (var token in array)
-                    {
-                        result += GetSum(token);
-                    }
-
-                    return result;
-                }
-                case JObject obj:
+                foreach (var token in array)
                 {
-                    var result = 0;
-                
-                    foreach (var kvp in obj)
-                    {
-                        if (kvp.Value is JValue value && value.ToString() == "red")
-                            return 0;
-                        
-                        result += GetSum(kvp.Value);
-                    }
-
-                    return result;
+                    result += GetSum(token);
                 }
-                default:
-                    return 0;
+
+                return result;
             }
+            case JObject obj:
+            {
+                var result = 0;
+                
+                foreach (var kvp in obj)
+                {
+                    if (kvp.Value is JValue value && value.ToString() == "red")
+                        return 0;
+                        
+                    result += GetSum(kvp.Value);
+                }
+
+                return result;
+            }
+            default:
+                return 0;
         }
     }
 }

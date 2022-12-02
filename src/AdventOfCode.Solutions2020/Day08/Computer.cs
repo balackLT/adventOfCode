@@ -1,46 +1,45 @@
 using System.Collections.Generic;
 
-namespace AdventOfCode.Solutions2020.Day08
+namespace AdventOfCode.Solutions2020.Day08;
+
+public class Computer
 {
-    public class Computer
+    public List<Instruction> Instructions { get; init; }
+
+    public int Accumulator { get; set;  }
+    private int _pointer;
+
+    public Computer(List<Instruction> instructions)
     {
-        public List<Instruction> Instructions { get; init; }
+        Instructions = instructions;
+    }
 
-        public int Accumulator { get; set;  }
-        private int _pointer;
+    public int Execute()
+    {
+        var executedInstructions = new HashSet<int>();
 
-        public Computer(List<Instruction> instructions)
+        while (true)
         {
-            Instructions = instructions;
-        }
+            if (_pointer >= Instructions.Count)
+                return 0; // normal exit
+                
+            var instruction = Instructions[_pointer];
+                
+            if (!executedInstructions.Add(_pointer))
+                return -1; // "infinite loop"
 
-        public int Execute()
-        {
-            var executedInstructions = new HashSet<int>();
-
-            while (true)
+            switch (instruction.Code)
             {
-                if (_pointer >= Instructions.Count)
-                    return 0; // normal exit
-                
-                var instruction = Instructions[_pointer];
-                
-                if (!executedInstructions.Add(_pointer))
-                    return -1; // "infinite loop"
-
-                switch (instruction.Code)
-                {
-                    case "acc":
-                        Accumulator += instruction.Number;
-                        _pointer++;
-                        break;
-                    case "jmp":
-                        _pointer += instruction.Number;
-                        break;
-                    case "nop":
-                        _pointer++;
-                        break;
-                }
+                case "acc":
+                    Accumulator += instruction.Number;
+                    _pointer++;
+                    break;
+                case "jmp":
+                    _pointer += instruction.Number;
+                    break;
+                case "nop":
+                    _pointer++;
+                    break;
             }
         }
     }

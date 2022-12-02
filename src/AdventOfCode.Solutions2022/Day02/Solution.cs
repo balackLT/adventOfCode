@@ -14,7 +14,7 @@ public class Solution : ISolution
         {"Z", Throw.SCISSORS}
     };
 
-    public int Day { get; } =2;
+    public int Day { get; } = 2;
 
     public string SolveFirstPart(Input input)
     {

@@ -2,118 +2,117 @@
 using AdventOfCode.Executor;
 using AdventOfCode.Utilities.Map;
 
-namespace AdventOfCode.Solutions2020.Day12
+namespace AdventOfCode.Solutions2020.Day12;
+
+public class Solution : ISolution
 {
-    public class Solution : ISolution
+    public int Day { get; } = 12;
+
+    public string SolveFirstPart(Input input)
     {
-        public int Day { get; } = 12;
+        var instructions = input
+            .GetLinesByRegex(@"(\D)(\d+)")
+            .Select(l => new {Instruction = l[1], Distance = int.Parse(l[2])});
 
-        public string SolveFirstPart(Input input)
+        var heading = Coordinate.East;
+        var location = Coordinate.Zero;
+
+        foreach (var instruction in instructions)
         {
-            var instructions = input
-                .GetLinesByRegex(@"(\D)(\d+)")
-                .Select(l => new {Instruction = l[1], Distance = int.Parse(l[2])});
-
-            var heading = Coordinate.East;
-            var location = Coordinate.Zero;
-
-            foreach (var instruction in instructions)
+            switch (instruction.Instruction)
             {
-                switch (instruction.Instruction)
+                case "F":
+                    location += heading * instruction.Distance;
+                    break;
+                case "R":
                 {
-                    case "F":
-                        location += heading * instruction.Distance;
-                        break;
-                    case "R":
+                    for (var i = 0; i < instruction.Distance / 90; i++)
                     {
-                        for (var i = 0; i < instruction.Distance / 90; i++)
-                        {
-                            heading = heading.Turn(TurnDirection.RIGHT);
-                        }
-
-                        break;
+                        heading = heading.Turn(TurnDirection.RIGHT);
                     }
-                    case "L":
-                    {
-                        for (var i = 0; i < instruction.Distance / 90; i++)
-                        {
-                            heading = heading.Turn(TurnDirection.LEFT);
-                        }
 
-                        break;
-                    }
-                    case "N":
-                        location += Coordinate.North * instruction.Distance;
-                        break;
-                    case "S":
-                        location += Coordinate.South * instruction.Distance;
-                        break;
-                    case "E":
-                        location += Coordinate.East * instruction.Distance;
-                        break;
-                    case "W":
-                        location += Coordinate.West * instruction.Distance;
-                        break;
+                    break;
                 }
-            }
+                case "L":
+                {
+                    for (var i = 0; i < instruction.Distance / 90; i++)
+                    {
+                        heading = heading.Turn(TurnDirection.LEFT);
+                    }
 
-            var result = location.ManhattanDistance();
-            
-            return result.ToString();
+                    break;
+                }
+                case "N":
+                    location += Coordinate.North * instruction.Distance;
+                    break;
+                case "S":
+                    location += Coordinate.South * instruction.Distance;
+                    break;
+                case "E":
+                    location += Coordinate.East * instruction.Distance;
+                    break;
+                case "W":
+                    location += Coordinate.West * instruction.Distance;
+                    break;
+            }
         }
 
-        public string SolveSecondPart(Input input)
-        {
-            var instructions = input
-                .GetLinesByRegex(@"(\D)(\d+)")
-                .Select(l => new {Instruction = l[1], Distance = int.Parse(l[2])});
-
-            var location = Coordinate.Zero;
-            var waypoint = new Coordinate(10, 1);
-
-            foreach (var instruction in instructions)
-            {
-                switch (instruction.Instruction)
-                {
-                    case "F":
-                        location += waypoint * instruction.Distance;
-                        break;
-                    case "R":
-                    {
-                        for (var i = 0; i < instruction.Distance / 90; i++)
-                        {
-                            waypoint = waypoint.Turn(TurnDirection.RIGHT);
-                        }
-
-                        break;
-                    }
-                    case "L":
-                    {
-                        for (var i = 0; i < instruction.Distance / 90; i++)
-                        {
-                            waypoint = waypoint.Turn(TurnDirection.LEFT);
-                        }
-
-                        break;
-                    }
-                    case "N":
-                        waypoint += Coordinate.North * instruction.Distance;
-                        break;
-                    case "S":
-                        waypoint += Coordinate.South * instruction.Distance;
-                        break;
-                    case "E":
-                        waypoint += Coordinate.East * instruction.Distance;
-                        break;
-                    case "W":
-                        waypoint += Coordinate.West * instruction.Distance;
-                        break;
-                }
-            }
-
-            var result = location.ManhattanDistance();
+        var result = location.ManhattanDistance();
             
-            return result.ToString();
+        return result.ToString();
+    }
+
+    public string SolveSecondPart(Input input)
+    {
+        var instructions = input
+            .GetLinesByRegex(@"(\D)(\d+)")
+            .Select(l => new {Instruction = l[1], Distance = int.Parse(l[2])});
+
+        var location = Coordinate.Zero;
+        var waypoint = new Coordinate(10, 1);
+
+        foreach (var instruction in instructions)
+        {
+            switch (instruction.Instruction)
+            {
+                case "F":
+                    location += waypoint * instruction.Distance;
+                    break;
+                case "R":
+                {
+                    for (var i = 0; i < instruction.Distance / 90; i++)
+                    {
+                        waypoint = waypoint.Turn(TurnDirection.RIGHT);
+                    }
+
+                    break;
+                }
+                case "L":
+                {
+                    for (var i = 0; i < instruction.Distance / 90; i++)
+                    {
+                        waypoint = waypoint.Turn(TurnDirection.LEFT);
+                    }
+
+                    break;
+                }
+                case "N":
+                    waypoint += Coordinate.North * instruction.Distance;
+                    break;
+                case "S":
+                    waypoint += Coordinate.South * instruction.Distance;
+                    break;
+                case "E":
+                    waypoint += Coordinate.East * instruction.Distance;
+                    break;
+                case "W":
+                    waypoint += Coordinate.West * instruction.Distance;
+                    break;
+            }
         }
+
+        var result = location.ManhattanDistance();
+            
+        return result.ToString();
     }
 }

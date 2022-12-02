@@ -1,71 +1,77 @@
-﻿using System.IO;
-using System.Net;
+﻿using System;
+using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
 
-namespace AdventOfCode.Executor
+namespace AdventOfCode.Executor;
+
+public class InputFactory
 {
-    public class InputFactory
+    private const string DefaultFileName = "default";
+    private readonly string _year;
+    private readonly string _folder;
+    private readonly string _cookie;
+
+    public InputFactory(string year, string folder, string cookie)
     {
-        private const string DefaultFileName = "default";
-        private readonly string _year;
-        private readonly string _folder;
-        private readonly string _cookie;
+        _year = year;
+        _folder = folder;
+        _cookie = cookie;
+    }
 
-        public InputFactory(string year, string folder, string cookie)
+    private async Task<Input> GetInputFromFile(int day, string file)
+    {
+        var path = ConstructPath(day, file);
+
+        var lines = await File.ReadAllLinesAsync(path);
+
+        return new Input(lines);
+    }
+
+    public async Task<Input> GetDefaultInputAsync(int day)
+    {
+        if (File.Exists(ConstructDefaultPath(day)))
         {
-            _year = year;
-            _folder = folder;
-            _cookie = cookie;
+            return await GetInputFromFile(day, DefaultFileName);
         }
-
-        public Input GetInputFromFile(int day, string file)
-        {
-            var path = ConstructPath(day, file);
-
-            var lines = File.ReadAllLines(path);
-
-            return new Input(lines);
-        }
-
-        public Input GetDefaultInput(int day)
-        {
-            if (File.Exists(ConstructDefaultPath(day)))
-            {
-                return GetInputFromFile(day, DefaultFileName);
-            }
             
-            DownloadFile(day, _cookie, $"{_folder}/day{day}_{DefaultFileName}.txt");
+        await DownloadFileAsync(day, _cookie, $"{_folder}/day{day}_{DefaultFileName}.txt");
 
-            return GetInputFromFile(day, DefaultFileName);
-        }
+        return await GetInputFromFile(day, DefaultFileName);
+    }
 
-        private string ConstructDefaultPath(int day)
-        {
-            return ConstructPath(day, DefaultFileName);
-        }
+    private string ConstructDefaultPath(int day)
+    {
+        return ConstructPath(day, DefaultFileName);
+    }
 
-        private string ConstructPath(int day, string file)
-        {
-            var path = $@"./{_folder}/day{day}_{file}.txt";
+    private string ConstructPath(int day, string file)
+    {
+        var path = $@"./{_folder}/day{day}_{file}.txt";
 
-            return path;
-        }
+        return path;
+    }
 
-        private string GetUrl(int day)
-        {
-            var url = $"https://adventofcode.com/{_year}/day/{day}/input";
+    private string GetUrl(int day)
+    {
+        var url = $"https://adventofcode.com/{_year}/day/{day}/input";
 
-            return url;
-        }
+        return url;
+    }
 
-        private void DownloadFile(int day, string cookie, string targetFile)
-        {
-            using var client = new WebClient();
-            client.Headers.Add(HttpRequestHeader.Cookie, $"session={cookie}");
+    private async Task DownloadFileAsync(int day, string cookie, string targetFile)
+    {
+        using var client = new HttpClient();
+        
+        var request = new HttpRequestMessage {
+            RequestUri = new Uri(GetUrl(day)),
+            Method = HttpMethod.Get
+        };
+        request.Headers.Add("Cookie", $"session={cookie}");
 
-            var url = GetUrl(day);
-
-            var input = client.DownloadString(url).Trim();
-            File.WriteAllText(targetFile, input);
-        }
+        var result = await client.SendAsync(request);
+        result.EnsureSuccessStatusCode();
+        var input = await result.Content.ReadAsStringAsync();
+        await File.WriteAllTextAsync(targetFile, input.Trim());
     }
 }

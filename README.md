@@ -1,6 +1,6 @@
-# Advent of Code 2019
+# Advent of Code
 ## Description
-The project contains my framework for AoC and solutions for the year 2019.
+The project contains my framework for AoC and solutions for all AoC years.
 
 ## Usage
 To try solutions for different days, edit `Programs.cs` and change the `day` variable to whichever you want.

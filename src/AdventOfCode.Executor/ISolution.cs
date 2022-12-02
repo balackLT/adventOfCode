@@ -1,9 +1,8 @@
-﻿namespace AdventOfCode.Executor
+﻿namespace AdventOfCode.Executor;
+
+public interface ISolution
 {
-    public interface ISolution
-    {
-        int Day { get; }
-        string SolveFirstPart(Input input);
-        string SolveSecondPart(Input input);
-    }
+    int Day { get; }
+    string SolveFirstPart(Input input);
+    string SolveSecondPart(Input input);
 }

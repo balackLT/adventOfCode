@@ -13,7 +13,7 @@ var day = 2;
 var executor = collector.GetSolutionExecutor(day);
 
 // var input = inputGenerator.GetInputFromFile(day, "test1");
-var input = inputGenerator.GetDefaultInput(day);
+var input = await inputGenerator.GetDefaultInputAsync(day);
 
 executor.ExecuteFirstPart(input);
 executor.ExecuteSecondPart(input);
