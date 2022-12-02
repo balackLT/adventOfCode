@@ -1,12 +1,14 @@
-﻿using AdventOfCode.Executor;
+﻿using AdventOfCode.Abstractions;
+using AdventOfCode.Executor;
 
 namespace AdventOfCode.Solutions2022.Day01;
 
-public class Solution : ISolution
+public class Solution : SolutionBase
 {
-    public int Day { get; } = 1;
+    public override int Year => 2022;
+    public override int Day => 1;
 
-    public string SolveFirstPart(Input input)
+    public override string SolveFirstPart(Input input)
     {
         var lines = input.GetLines();
 
@@ -29,7 +31,7 @@ public class Solution : ISolution
         return elves.Max().ToString();
     }
 
-    public string SolveSecondPart(Input input)
+    public override string SolveSecondPart(Input input)
     {
         var lines = input.GetLines();
 

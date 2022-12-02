@@ -4,6 +4,11 @@ namespace AdventOfCode.Solutions2022.Day02;
 
 public class Solution : ISolution
 {
+    public int Year => 2022;
+    public int Day => 1;
+    public bool PartOneSolved => true;
+    public bool PartTwoSolved => true;
+
     private static readonly Dictionary<string, Throw> Map = new()
     {
         {"A", Throw.ROCK},
@@ -13,9 +18,7 @@ public class Solution : ISolution
         {"Y", Throw.PAPER},
         {"Z", Throw.SCISSORS}
     };
-
-    public int Day { get; } = 2;
-
+    
     public string SolveFirstPart(Input input)
     {
         var lines = input.GetLines();

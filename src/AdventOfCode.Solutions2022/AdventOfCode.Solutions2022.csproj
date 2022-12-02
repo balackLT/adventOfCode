@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     
     <PropertyGroup>
-        <OutputType>Exe</OutputType>
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
@@ -23,11 +22,14 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\AdventOfCode.Abstractions\AdventOfCode.Abstractions.csproj" />
         <ProjectReference Include="..\AdventOfCode.Executor\AdventOfCode.Executor.csproj" />
+        <ProjectReference Include="..\AdventOfCode.Solutions2021\AdventOfCode.Solutions2021.csproj" />
     </ItemGroup>
 
     <ItemGroup>
         <Folder Include="input" />
+        <Folder Include="output" />
     </ItemGroup>
 
 </Project>
