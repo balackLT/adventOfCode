@@ -37,10 +37,10 @@ public class Solution : ISolution
                     .ToList())
                 .ToList()
             into split
-            let rangeOne = GenerateRange(split[0][0], split[0][1]).ToList()
-            let rangeTwo = GenerateRange(split[1][0], split[1][1]).ToList()
-            let intersect = rangeOne.Intersect(rangeTwo).ToList()
-            where intersect.Count > 0
+            let rangeOne = GenerateRange(split[0][0], split[0][1])
+            let rangeTwo = GenerateRange(split[1][0], split[1][1])
+            let intersect = rangeOne.Intersect(rangeTwo)
+            where intersect.Any()
             select rangeOne).Count();
 
         return count.ToString();
