@@ -36,7 +36,7 @@ public record Coordinate(int X, int Y)
     {
         return facing.Turn(turn);
     }
-        
+
     public Coordinate Turn(TurnDirection turn)
     {
         return turn switch
