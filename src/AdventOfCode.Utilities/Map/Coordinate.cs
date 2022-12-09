@@ -54,6 +54,12 @@ public record Coordinate(int X, int Y)
         return adjacent.Contains(coordinate);
     }
     
+    public Coordinate MoveTowardsWithDiagonals(Coordinate coordinate)
+    {
+        var adjacent = GetAdjacentWithDiagonals();
+        return adjacent.MinBy(coordinate.ManhattanDistance);
+    }
+    
     public IEnumerable<Coordinate> GetAdjacentWithDiagonals()
     {
         yield return this + North;

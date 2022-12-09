@@ -39,10 +39,7 @@ public class Solution : ISolution
                 }
                 else
                 {
-                    var target = head
-                        .GetAdjacentWithDiagonals()
-                        .Intersect(tail.GetAdjacentWithDiagonals())
-                        .MinBy(c => c.ManhattanDistance(head));
+                    var target = tail.MoveTowardsWithDiagonals(head);
                     tail = target;
                     visited.Add(tail);
                 }
@@ -57,18 +54,8 @@ public class Solution : ISolution
         var lines = input.GetLines();
 
         var head = Coordinate.Zero;
-        var tails = new List<Coordinate>
-        {
-            Coordinate.Zero,
-            Coordinate.Zero,
-            Coordinate.Zero,
-            Coordinate.Zero,
-            Coordinate.Zero,
-            Coordinate.Zero,
-            Coordinate.Zero,
-            Coordinate.Zero,
-            Coordinate.Zero
-        };
+
+        var tails = Enumerable.Repeat(Coordinate.Zero, 9).ToList();
         var visited = new List<Coordinate>{Coordinate.Zero};
 
         foreach (var instruction in lines.Select(l => l.Split()))
@@ -98,10 +85,7 @@ public class Solution : ISolution
                     }
                     else
                     {
-                        var target = localHead
-                            .GetAdjacentWithDiagonals()
-                            .Intersect(tail.GetAdjacentWithDiagonals())
-                            .MinBy(c => c.ManhattanDistance(localHead));
+                        var target = tail.MoveTowardsWithDiagonals(localHead);
                         tail = target;
 
                         if (t == 8)
