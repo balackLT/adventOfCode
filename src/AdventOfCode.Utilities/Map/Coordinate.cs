@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AdventOfCode.Utilities.Map;
 
@@ -46,7 +47,13 @@ public record Coordinate(int X, int Y)
             _ => throw new Exception("Invalid direction encountered")
         };
     }
-        
+
+    public bool IsAdjacentWithDiagonals(Coordinate coordinate)
+    {
+        var adjacent = GetAdjacentWithDiagonals();
+        return adjacent.Contains(coordinate);
+    }
+    
     public IEnumerable<Coordinate> GetAdjacentWithDiagonals()
     {
         yield return this + North;
