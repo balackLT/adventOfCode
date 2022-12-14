@@ -17,6 +17,16 @@ public class Solution : ISolution
 
         var source = new Coordinate(500, 0); 
         map[source] = '+';
+        SimulateSand(map, source);
+
+        map.PrintMap();
+        var result = map.InternalMap.Count(c => c.Value == 'o');
+        
+        return result.ToString();
+    }
+
+    private static void SimulateSand(Map<char> map, Coordinate source)
+    {
         var abyssY = map.InternalMap
             .Where(c => c.Value == '#')
             .Max(c => c.Key.Y);
@@ -29,84 +39,92 @@ public class Solution : ISolution
             var fallingSand = map.InternalMap
                 .Where(m => m.Value == '~')
                 .Select(m => m.Key).ToList();
-            Coordinate fallingUnit = fallingSand.Count == 0 ? source : fallingSand.Single();
+            fallingSand.Add(source);
 
-            var candidates = new List<Coordinate>
+            foreach (var sandUnit in fallingSand.OrderByDescending(s => s.Y))
             {
-                fallingUnit + Coordinate.North,
-                fallingUnit + Coordinate.NorthWest,
-                fallingUnit + Coordinate.NorthEast
-            };
+                var candidates = new List<Coordinate>
+                {
+                    sandUnit + Coordinate.North,
+                    sandUnit + Coordinate.NorthWest,
+                    sandUnit + Coordinate.NorthEast
+                };
 
-            var validCandidates = candidates.Where(c => map[c] == '.').ToList();
-            if (validCandidates.Count == 0)
-                map[fallingUnit] = 'o';
-            else
-            {
-                map[fallingUnit] = '.';
-                map[validCandidates.First()] = '~';
+                var validCandidates = candidates.Where(c => map[c] == '.').ToList();
+                if (validCandidates.Count == 0)
+                    map[sandUnit] = 'o';
+                else
+                {
+                    map[sandUnit] = '.';
+                    map[validCandidates.First()] = '~';
 
-                if (validCandidates.First().Y > abyssY)
-                    break;
+                    if (validCandidates.First().Y > abyssY)
+                        return;
+                }
             }
         }
-        
-        map.PrintMap();
-        var result = map.InternalMap.Count(c => c.Value == 'o');
-        
-        return result.ToString();
     }
-    
+
     public string SolveSecondPart(Input input)
     {
         var map = ParseMap(input);
 
         var source = new Coordinate(500, 0); 
         map[source] = '+';
-        var abyssY = map.InternalMap
-            .Where(c => c.Value == '#')
-            .Max(c => c.Key.Y);
-        var floorY = abyssY + 2;
-
-        while (true)
-        {
-            // Console.Clear();
-            // map.PrintMap();
-
-            var fallingSand = map.InternalMap
-                .Where(m => m.Value == '~')
-                .Select(m => m.Key).ToList();
-            Coordinate fallingUnit = fallingSand.Count == 0 ? source : fallingSand.Single();
-
-            var candidates = new List<Coordinate>
-            {
-                fallingUnit + Coordinate.North,
-                fallingUnit + Coordinate.NorthWest,
-                fallingUnit + Coordinate.NorthEast
-            };
-
-            var validCandidates = candidates.Where(c => map[c] == '.' && c.Y < floorY).ToList();
-            if (validCandidates.Count == 0 && fallingUnit == source)
-            {
-                map[source] = 'o';
-                break;
-            }
-            
-            if (validCandidates.Count == 0)
-                    map[fallingUnit] = 'o';
-            else
-            {
-                map[fallingUnit] = '.';
-                map[validCandidates.First()] = '~';
-            }
-        }
+        
+        SimulateSand2(map, source);
         
         map.PrintMap();
         var result = map.InternalMap.Count(c => c.Value == 'o');
         
         return result.ToString();
     }
-    
+
+    private static void SimulateSand2(Map<char> map, Coordinate source)
+    {
+        var abyssY = map.InternalMap
+            .Where(c => c.Value == '#')
+            .Max(c => c.Key.Y);
+        var floorY = abyssY + 2;
+        
+        while (true)
+        {
+            // Console.ReadLine();
+            // map.PrintMap();
+
+            var fallingSand = map.InternalMap
+                .Where(m => m.Value == '~')
+                .Select(m => m.Key).ToList();
+
+            fallingSand.Add(source);
+
+            foreach (var sand in fallingSand.OrderByDescending(s => s.Y))
+            {
+                var candidates = new List<Coordinate>
+                {
+                    sand + Coordinate.North,
+                    sand + Coordinate.NorthWest,
+                    sand + Coordinate.NorthEast
+                };
+
+                var validCandidates = candidates.Where(c => map[c] == '.' && c.Y < floorY).ToList();
+                if (validCandidates.Count == 0 && sand == source)
+                {
+                    map[source] = 'o';
+                    return;
+                }
+
+                if (validCandidates.Count == 0)
+                    map[sand] = 'o';
+                else
+                {
+                    map[sand] = '.';
+                    map[validCandidates.First()] = '~';
+                }
+            }
+        }
+    }
+
     private static Map<char> ParseMap(Input input)
     {
         var lines = input

@@ -4,8 +4,8 @@ namespace AdventOfCode.Solutions2022.Day13;
 
 public class ArrayPair
 {
-    public JsonArray Left { get; set; }
-    public JsonArray Right { get; set; }
+    public JsonArray Left { get; set; } = null!;
+    public JsonArray Right { get; set; } = null!;
 
     public bool Ordered => IsOrdered.Value;
     private Lazy<bool> IsOrdered => new(() => Compare(Left, Right) == ComparisonResult.Ordered);
