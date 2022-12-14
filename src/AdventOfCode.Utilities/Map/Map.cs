@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace AdventOfCode.Utilities.Map;
 
-public class Map<T>
+public class Map<T> 
 {
     public Dictionary<Coordinate, T> InternalMap { get; protected set; } = new();
     private T DefaultLocation { get; }

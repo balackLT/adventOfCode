@@ -48,6 +48,17 @@ public record Coordinate(int X, int Y)
         };
     }
 
+    public IEnumerable<Coordinate> CoordinatesStraightBetween(Coordinate target)
+    {
+        var current = this;
+        while (current != target)
+        {
+            yield return current;
+            current = current.MoveTowards(target);
+        }
+        yield return current;
+    }
+
     public bool IsAdjacentWithDiagonals(Coordinate coordinate)
     {
         var adjacent = GetAdjacentWithDiagonals();
@@ -55,6 +66,12 @@ public record Coordinate(int X, int Y)
     }
     
     public Coordinate MoveTowardsWithDiagonals(Coordinate coordinate)
+    {
+        var adjacent = GetAdjacentWithDiagonals();
+        return adjacent.MinBy(coordinate.ManhattanDistance);
+    }
+    
+    public Coordinate MoveTowards(Coordinate coordinate)
     {
         var adjacent = GetAdjacentWithDiagonals();
         return adjacent.MinBy(coordinate.ManhattanDistance);

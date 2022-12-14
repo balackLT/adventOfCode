@@ -21,7 +21,7 @@ public class Solution : ISolution
             .ToList();
 
         var result = 0;
-
+        
         var i = 1;
         foreach (var pair in pairs)
         {
@@ -55,7 +55,7 @@ public class Solution : ISolution
         var i = 1;
         foreach (var packet in orderedPackets)
         {
-            if (packet.ToJsonString() == "[[2]]" || packet.ToJsonString() == "[[6]]")
+            if (packet!.ToJsonString() == "[[2]]" || packet.ToJsonString() == "[[6]]")
                 result *= i;
 
             i++;
@@ -66,9 +66,9 @@ public class Solution : ISolution
 
     private class JArrayComparer : IComparer<JsonArray>
     {
-        public int Compare(JsonArray left, JsonArray right)
+        public int Compare(JsonArray? left, JsonArray? right)
         {
-            var result = ArrayPair.Compare(left, right);
+            var result = ArrayPair.Compare(left!, right!);
             
             if (result == ArrayPair.ComparisonResult.Equal) return 0;
             if (result == ArrayPair.ComparisonResult.Disordered) return 1;
