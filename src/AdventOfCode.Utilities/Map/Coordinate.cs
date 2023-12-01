@@ -4,12 +4,6 @@ using System.Linq;
 
 namespace AdventOfCode.Utilities.Map;
 
-public enum TurnDirection
-{
-    LEFT,
-    RIGHT
-}
-    
 public record Coordinate(int X, int Y)
 {
     public static readonly Coordinate Zero = new (0, 0);
@@ -105,6 +99,18 @@ public record Coordinate(int X, int Y)
     public int ManhattanDistance(Coordinate other)
     {
         return Math.Abs(X - other.X) + Math.Abs(Y - other.Y);
+    }
+
+    public IEnumerable<Coordinate> CoordinatesWithinDistance(int distance)
+    {
+        for (int x = X - distance; x <= X + distance; x++)
+        {
+            for (int y = Y - distance; y <= Y + distance; y++)
+            {
+                if (Math.Abs(X - x) + Math.Abs(Y - y) <= distance)
+                    yield return new Coordinate(x, y);
+            }
+        }
     }
 
     public static double AngleBetween(Coordinate source, Coordinate target)

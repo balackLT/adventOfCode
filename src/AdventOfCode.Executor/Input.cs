@@ -19,6 +19,17 @@ public class Input
         return _lines;
     }
         
+    public List<List<string>> GetNumbersFromLines()
+    {
+        var regex = new Regex(@"\d+");
+        
+        return _lines
+            .Select(l => regex.Matches(l)
+                .Select(v => v.Value)
+                .ToList())
+            .ToList();
+    }
+    
     public List<List<string>> GetLinesByRegex(string regexString)
     {
         var regex = new Regex(regexString);

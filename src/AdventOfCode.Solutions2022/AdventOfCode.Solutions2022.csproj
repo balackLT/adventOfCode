@@ -28,8 +28,4 @@
         <ProjectReference Include="..\AdventOfCode.Executor\AdventOfCode.Executor.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-        <Folder Include="input" />
-    </ItemGroup>
-
 </Project>
