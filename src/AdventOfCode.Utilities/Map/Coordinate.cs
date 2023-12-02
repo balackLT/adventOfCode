@@ -36,8 +36,8 @@ public record Coordinate(int X, int Y)
     {
         return turn switch
         {
-            TurnDirection.LEFT => new Coordinate(Y * -1, X),
-            TurnDirection.RIGHT => new Coordinate(Y, X * -1),
+            TurnDirection.Left => new Coordinate(Y * -1, X),
+            TurnDirection.Right => new Coordinate(Y, X * -1),
             _ => throw new Exception("Invalid direction encountered")
         };
     }
@@ -132,21 +132,21 @@ public record Coordinate(int X, int Y)
 
     public static Coordinate operator +(Coordinate left, Coordinate right)
     {
-        return new(left.X + right.X, left.Y + right.Y);
+        return new Coordinate(left.X + right.X, left.Y + right.Y);
     }
         
     public static Coordinate operator -(Coordinate left, Coordinate right)
     {
-        return new(left.X - right.X, left.Y - right.Y);
+        return new Coordinate(left.X - right.X, left.Y - right.Y);
     }
         
     public static Coordinate operator *(Coordinate left, int right)
     {
-        return new(left.X * right, left.Y * right);
+        return new Coordinate(left.X * right, left.Y * right);
     }
         
     public static Coordinate operator *(int left, Coordinate right)
     {
-        return new(left * right.X, left * right.Y);
+        return new Coordinate(left * right.X, left * right.Y);
     }
 }

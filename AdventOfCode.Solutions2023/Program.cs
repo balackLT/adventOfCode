@@ -8,11 +8,10 @@ var config = new ConfigurationBuilder()
 var collector = new SolutionCollector();
 var inputGenerator = new InputFactory(config["year"], config["inputFolder"], config["cookie"]);
 
-var day = 1;
+const int day = 2;
 
 var executor = collector.GetSolutionExecutor(day);
 
-// var input = inputGenerator.GetInputFromFile(day, "test1");
 var input = await inputGenerator.GetDefaultInputAsync(day);
 
 executor.ExecuteFirstPart(input);

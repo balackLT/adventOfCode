@@ -28,7 +28,7 @@ public class Solution : ISolution
                 {
                     for (var i = 0; i < instruction.Distance / 90; i++)
                     {
-                        heading = heading.Turn(TurnDirection.RIGHT);
+                        heading = heading.Turn(TurnDirection.Right);
                     }
 
                     break;
@@ -37,7 +37,7 @@ public class Solution : ISolution
                 {
                     for (var i = 0; i < instruction.Distance / 90; i++)
                     {
-                        heading = heading.Turn(TurnDirection.LEFT);
+                        heading = heading.Turn(TurnDirection.Left);
                     }
 
                     break;
@@ -82,7 +82,7 @@ public class Solution : ISolution
                 {
                     for (var i = 0; i < instruction.Distance / 90; i++)
                     {
-                        waypoint = waypoint.Turn(TurnDirection.RIGHT);
+                        waypoint = waypoint.Turn(TurnDirection.Right);
                     }
 
                     break;
@@ -91,7 +91,7 @@ public class Solution : ISolution
                 {
                     for (var i = 0; i < instruction.Distance / 90; i++)
                     {
-                        waypoint = waypoint.Turn(TurnDirection.LEFT);
+                        waypoint = waypoint.Turn(TurnDirection.Left);
                     }
 
                     break;

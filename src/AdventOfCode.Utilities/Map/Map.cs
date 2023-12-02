@@ -46,7 +46,6 @@ public class Map<T>
     {
         for (var y = MinY; y <= MaxY; y++)
         {
-            //Console.Write($"{y:000} ");
             for (var x = MinX; x <= MaxX; x++)
             {
                 Console.Write(this[new Coordinate(x, y)]);

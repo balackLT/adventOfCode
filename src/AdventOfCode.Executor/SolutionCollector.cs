@@ -23,8 +23,8 @@ public class SolutionCollector
 
         return executor;
     }
-        
-    IEnumerable<ISolution> LoadSolutions(Assembly callingAssembly)
+
+    private static IEnumerable<ISolution> LoadSolutions(Assembly callingAssembly)
     {
         var baseType = typeof(ISolution);
 

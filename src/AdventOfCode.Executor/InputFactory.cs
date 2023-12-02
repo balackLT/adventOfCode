@@ -47,7 +47,7 @@ public class InputFactory
 
     private string ConstructPath(int day, string file)
     {
-        var path = $@"./{_folder}/day{day}_{file}.txt";
+        var path = $"./{_folder}/day{day}_{file}.txt";
 
         return path;
     }

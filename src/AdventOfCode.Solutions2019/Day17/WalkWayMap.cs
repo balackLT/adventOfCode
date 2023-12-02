@@ -83,8 +83,8 @@ public class WalkWayMap
 
         while (true)
         {
-            var left = BotLocation + Coordinate.Turn(BotHeading, TurnDirection.LEFT);
-            var right = BotLocation + Coordinate.Turn(BotHeading, TurnDirection.RIGHT);
+            var left = BotLocation + Coordinate.Turn(BotHeading, TurnDirection.Left);
+            var right = BotLocation + Coordinate.Turn(BotHeading, TurnDirection.Right);
 
             if (Map[BotLocation + BotHeading] == '#')
             {
@@ -95,7 +95,7 @@ public class WalkWayMap
             {
                 if (count > 0)
                     result += count + ",";
-                BotHeading = Coordinate.Turn(BotHeading, TurnDirection.LEFT);
+                BotHeading = Coordinate.Turn(BotHeading, TurnDirection.Left);
                 result += "R";
                 count = 0;
             }
@@ -103,7 +103,7 @@ public class WalkWayMap
             {
                 if (count > 0)
                     result += count + ",";
-                BotHeading = Coordinate.Turn(BotHeading, TurnDirection.RIGHT);
+                BotHeading = Coordinate.Turn(BotHeading, TurnDirection.Right);
                 result += "L" ;
                 count = 0;
             }

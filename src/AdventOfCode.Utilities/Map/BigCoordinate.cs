@@ -36,8 +36,8 @@ public record BigCoordinate(long X, long Y)
     {
         return turn switch
         {
-            TurnDirection.LEFT => new BigCoordinate(Y * -1, X),
-            TurnDirection.RIGHT => new BigCoordinate(Y, X * -1),
+            TurnDirection.Left => new BigCoordinate(Y * -1, X),
+            TurnDirection.Right => new BigCoordinate(Y, X * -1),
             _ => throw new Exception("Invalid direction encountered")
         };
     }

@@ -40,8 +40,8 @@ public class Robot
     {
         var turnDirection = instruction switch
         {
-            0 => TurnDirection.LEFT,
-            1 => TurnDirection.RIGHT,
+            0 => TurnDirection.Left,
+            1 => TurnDirection.Right,
             _ => throw new Exception($"Invalid turn direction provided {instruction}")
         };
             
