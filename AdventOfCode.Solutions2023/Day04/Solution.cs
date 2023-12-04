@@ -59,7 +59,7 @@ public class Solution : ISolution
             {
                 for(var i = 1; i <= winners.Count; i++)
                 {
-                    instances[card.CardNumber + i] += 1 * instances[card.CardNumber];
+                    instances[card.CardNumber + i] += instances[card.CardNumber];
                 }
             }
         }
