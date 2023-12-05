@@ -10,7 +10,7 @@ public class Solution : ISolution
 
     public string SolveFirstPart(Input input)
     {
-        var tiles = input.GetAsCoordinateMap().ToFrozenDictionary();
+        var tiles = input.GetAsCoordinateMap();
 
         var sum = 0L;
         
@@ -77,7 +77,7 @@ public class Solution : ISolution
 
     public string SolveSecondPart(Input input)
     {
-        var tiles = input.GetAsCoordinateMap().ToFrozenDictionary();
+        var tiles = input.GetAsCoordinateMap();
         
         // numbers with adjacent * and the coordinates of *
         var potentialGears = new List<(long Number, List<Coordinate> GearCoordinates)>();
