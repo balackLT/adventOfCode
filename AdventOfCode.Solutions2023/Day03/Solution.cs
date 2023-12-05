@@ -1,4 +1,5 @@
-﻿using AdventOfCode.Executor;
+﻿using System.Collections.Frozen;
+using AdventOfCode.Executor;
 using AdventOfCode.Utilities.Map;
 
 namespace AdventOfCode.Solutions2023.Day03;
@@ -9,7 +10,7 @@ public class Solution : ISolution
 
     public string SolveFirstPart(Input input)
     {
-        var tiles = input.GetAsCoordinateMap();
+        var tiles = input.GetAsCoordinateMap().ToFrozenDictionary();
 
         var sum = 0L;
         
@@ -76,7 +77,7 @@ public class Solution : ISolution
 
     public string SolveSecondPart(Input input)
     {
-        var tiles = input.GetAsCoordinateMap();
+        var tiles = input.GetAsCoordinateMap().ToFrozenDictionary();
         
         // numbers with adjacent * and the coordinates of *
         var potentialGears = new List<(long Number, List<Coordinate> GearCoordinates)>();

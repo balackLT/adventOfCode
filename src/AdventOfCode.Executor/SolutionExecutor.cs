@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace AdventOfCode.Executor;
 
@@ -7,19 +8,33 @@ public interface ISolutionExecutor
 {
     void ExecuteFirstPart(Input input);
     void ExecuteSecondPart(Input input);
+    Task ExecuteBothPartsAsync(Input input);
 }
 
 public class SolutionExecutor : ISolutionExecutor
 {
     private readonly ISolution _solution;
-    private readonly int _day;
 
-    public SolutionExecutor(int day, ISolution solution)
+    public SolutionExecutor(ISolution solution)
     {
-        _day = day;
         _solution = solution;
     }
 
+    public async Task ExecuteBothPartsAsync(Input input)
+    {
+        ExecuteFirstPart(input);
+        ExecuteSecondPart(input);
+        
+        // TODO: old solutions aren't stateless, so we can't run them in parallel
+        // var firstPart = Task.Run(() => ExecuteFirstPart(input));
+        // var secondPart = Task.Run(() => ExecuteSecondPart(input));
+        
+        // var tasks = new List<Task> {firstPart, secondPart};
+        // await Task.WhenAll(tasks);
+
+        await Task.CompletedTask;
+    }
+    
     public void ExecuteFirstPart(Input input)
     {
         Execute(_solution.SolveFirstPart, input, 1);
@@ -30,11 +45,9 @@ public class SolutionExecutor : ISolutionExecutor
         Execute(_solution.SolveSecondPart, input, 2);
     }
 
-    private void Execute(Func<Input, string> solver, Input input, int part)
+    private static void Execute(Func<Input, string> solver, Input input, int part)
     {
-        Console.WriteLine($"Starting solution for: Day {_day}, Part {part}:");
-
-        Stopwatch stopWatch = new Stopwatch();
+        var stopWatch = new Stopwatch();
 
         stopWatch.Start();
         var result = solver.Invoke(input);
@@ -43,8 +56,8 @@ public class SolutionExecutor : ISolutionExecutor
         var elapsed = stopWatch.Elapsed;
 
         Console.WriteLine();
-        Console.WriteLine($"Solved in {elapsed.Milliseconds} ms");
-        Console.WriteLine($"Result: {result}");
+        Console.WriteLine($"Part {part} solved in {elapsed.Milliseconds} ms");
+        Console.WriteLine($"Result for part {part}: {result}");
         Console.WriteLine();
     }
 }

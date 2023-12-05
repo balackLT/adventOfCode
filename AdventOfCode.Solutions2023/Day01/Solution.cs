@@ -1,4 +1,5 @@
-﻿using AdventOfCode.Executor;
+﻿using System.Collections.Frozen;
+using AdventOfCode.Executor;
 
 namespace AdventOfCode.Solutions2023.Day01;
 
@@ -6,7 +7,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 1;
 
-    private readonly Dictionary<string, int> _map = new()
+    private readonly FrozenDictionary<string, int> _map = new Dictionary<string, int>
     {
         {"one", 1},
         {"two", 2},
@@ -17,7 +18,7 @@ public class Solution : ISolution
         {"seven", 7},
         {"eight", 8},
         {"nine", 9},
-    };
+    }.ToFrozenDictionary();
 
     public string SolveFirstPart(Input input)
     {

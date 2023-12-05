@@ -1,5 +1,4 @@
 ﻿using AdventOfCode.Executor;
-using AdventOfCode.Utilities.Extensions;
 
 namespace AdventOfCode.Solutions2022.Day07;
 

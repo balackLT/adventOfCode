@@ -1,7 +1,5 @@
 ﻿using System.Text.RegularExpressions;
 using AdventOfCode.Executor;
-using AdventOfCode.Utilities.Extensions;
-using AdventOfCode.Utilities.Map;
 
 namespace AdventOfCode.Solutions2022.Day11;
 

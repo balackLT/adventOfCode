@@ -19,7 +19,7 @@ public class SolutionCollector
     public ISolutionExecutor GetSolutionExecutor(int day)
     {
         var solution = _solutions.Single(s => s.Day == day);
-        var executor = new SolutionExecutor(day, solution);
+        var executor = new SolutionExecutor(solution);
 
         return executor;
     }
