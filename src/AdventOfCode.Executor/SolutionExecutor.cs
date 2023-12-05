@@ -56,7 +56,7 @@ public class SolutionExecutor : ISolutionExecutor
         var elapsed = stopWatch.Elapsed;
 
         Console.WriteLine();
-        Console.WriteLine($"Part {part} solved in {elapsed.Milliseconds} ms");
+        Console.WriteLine($"Part {part} solved in {elapsed.ToString()}");
         Console.WriteLine($"Result for part {part}: {result}");
         Console.WriteLine();
     }
