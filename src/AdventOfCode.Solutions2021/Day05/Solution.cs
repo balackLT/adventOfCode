@@ -21,25 +21,54 @@ public class Solution : ISolution
                 .Select(m => int.Parse(m.Value)).ToList())
             .Select(p => new List<Coordinate>
             {
-                new Coordinate(p[0], p[1]),
-                new Coordinate(p[2], p[3])
+                new(p[0], p[1]),
+                new(p[2], p[3])
             });
 
+        var map = new Map<int>(0);
+        
         foreach (var line in lines.Where(l => l[0].X == l[1].X || l[0].Y == l[1].Y))
         {
-            
+            var between = line[0].CoordinatesStraightBetween(line[1]);
+            foreach (Coordinate coordinate in between)
+            {
+                map[coordinate] += 1;
+            }
         }
+        
+        var result = map.InternalMap.Count(c => c.Value > 1);
 
-        return 0.ToString();
+        return result.ToString();
     }
         
     public string SolveSecondPart(Input input)
     {
-        var lines = input.GetLines();
+        var inputLines = input.GetLines();
 
-            
-        return 0.ToString();
+        var regex = new Regex(@"\d+", RegexOptions.Compiled);
+        var lines = inputLines
+            .Select(l => regex
+                .Matches(l)
+                .Select(m => int.Parse(m.Value)).ToList())
+            .Select(p => new List<Coordinate>
+            {
+                new(p[0], p[1]),
+                new(p[2], p[3])
+            });
+
+        var map = new Map<int>(0);
+        
+        foreach (var line in lines)
+        {
+            var between = line[0].CoordinatesBetweenWithDiagonals(line[1]);
+            foreach (Coordinate coordinate in between)
+            {
+                map[coordinate] += 1;
+            }
+        }
+        
+        var result = map.InternalMap.Count(c => c.Value > 1);
+
+        return result.ToString();
     }
-
-    private record Line(Coordinate From, Coordinate To);
 }

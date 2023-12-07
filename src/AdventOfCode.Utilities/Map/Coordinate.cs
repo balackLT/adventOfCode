@@ -52,6 +52,18 @@ public record Coordinate(int X, int Y)
         }
         yield return current;
     }
+    
+    // probably only works with 90 and 45 degree lines
+    public IEnumerable<Coordinate> CoordinatesBetweenWithDiagonals(Coordinate target)
+    {
+        var current = this;
+        while (current != target)
+        {
+            yield return current;
+            current = current.MoveTowardsWithDiagonals(target);
+        }
+        yield return current;
+    }
 
     public bool IsAdjacentWithDiagonals(Coordinate coordinate)
     {
