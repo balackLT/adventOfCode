@@ -1,5 +1,5 @@
 ﻿using AdventOfCode.Executor;
-using MoreLinq;
+using AdventOfCode.Utilities;
 
 namespace AdventOfCode.Solutions2023.Day08;
 
@@ -88,50 +88,11 @@ public class Solution : ISolution
                 // the assumption is the cycles continue in the same way, but I'm not gonna try to prove it
                 if (newCurrentNodes.Count == 0)
                 {
-                    return Lcm(distances).ToString();
+                    return AocMath.Lcm(distances).ToString();
                 }
                 currentNodes = newCurrentNodes;
-                
-                /*
-                 * Node 5 reached Z in 13201 steps
-                Node 2 reached Z in 14429 steps
-                Node 3 reached Z in 16271 steps
-                Node 4 reached Z in 20569 steps
-                Node 1 reached Z in 21797 steps
-                Node 0 reached Z in 24253 steps
-                 */
-        
-                // if (steps % 100000000 == 0)
-                // {
-                //     Console.WriteLine(steps);
-                // }
-                //
-                // if (currentNodes.All(n => n.Name.EndsWith('Z')))
-                // {
-                //     return steps.ToString();
-                // }
             }
         }
-    }
-
-    private static long Lcm(IList<long> numbers)
-    {
-        return numbers.Aggregate(Lcm);
-    }
-    
-    private static long Lcm(long a, long b)
-    {
-        return Math.Abs(a * b) / Gcd(a, b);
-    }
-    
-    private static long Gcd(long a, long b)
-    {
-        if (b == 0)
-        {
-            return a;
-        }
-
-        return Gcd(b, a % b);
     }
     
     private static Node GetOrCreate(Dictionary<string, Node> nodes, string name)
