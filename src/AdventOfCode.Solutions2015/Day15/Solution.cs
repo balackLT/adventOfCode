@@ -11,32 +11,88 @@ public class Solution : ISolution
     {
         var ingredients = ParseIngredients(input).ToList();
 
-        
+        var permutations = GeneratePermutations(ingredients.Count, 100);
 
-        return 0.ToString();
+        var bestScore = 0;
+        foreach (var permutation in permutations)
+        {
+            var permutationDictionary = new Dictionary<Ingredient, int>();
+            for (int i = 0; i < permutation.Count; i++)
+            {
+                permutationDictionary.Add(ingredients[i], permutation[i]);
+            }
+            
+            var score = TotalScore(permutationDictionary).Score;
+            bestScore = Math.Max(bestScore, score);
+        }
+        
+        return bestScore.ToString();
     }
         
     public string SolveSecondPart(Input input)
     {
-        var lines = input.GetLines();
+        var ingredients = ParseIngredients(input).ToList();
+
+        var permutations = GeneratePermutations(ingredients.Count, 100);
+
+        var bestScore = 0;
+        foreach (var permutation in permutations)
+        {
+            var permutationDictionary = new Dictionary<Ingredient, int>();
+            for (int i = 0; i < permutation.Count; i++)
+            {
+                permutationDictionary.Add(ingredients[i], permutation[i]);
+            }
             
-            
-        return 0.ToString();
+            var score = TotalScore(permutationDictionary);
+
+            if (score.Calories == 500)
+            {
+                bestScore = Math.Max(bestScore, score.Score);
+            }
+        }
+        
+        return bestScore.ToString();
     }
 
-    private int TotalScore(IEnumerable<(Ingredient, int)> ingredients)
+    private static List<List<int>> GeneratePermutations(int ingredients, int maxSum)
+    {
+        if (ingredients == 1)
+        {
+            return new List<List<int>> {new() {maxSum}};
+        }
+        
+        var permutations = new List<List<int>>();
+        
+        for (int i = 0; i <= maxSum; i++)
+        {
+            var otherPermutations = GeneratePermutations(ingredients - 1, maxSum - i);
+            foreach (List<int> otherPermutation in otherPermutations)
+            {
+                var permutation = new List<int> {i};
+                permutation.AddRange(otherPermutation);
+                permutations.Add(permutation);
+            }
+        }
+        
+        return permutations;
+    }
+
+    private static (int Score, int Calories) TotalScore(Dictionary<Ingredient, int> ingredients)
     {
         var capacity = 0;
         var durability = 0;
         var flavor = 0;
         var texture = 0;
-
+        var calories = 0;
+        
         foreach (var ingredient in ingredients)
         {
-            capacity += ingredient.Item1.Capacity * ingredient.Item2;
-            durability += ingredient.Item1.Durability * ingredient.Item2;
-            flavor += ingredient.Item1.Flavor * ingredient.Item2;
-            texture += ingredient.Item1.Texture * ingredient.Item2;
+            capacity += ingredient.Key.Capacity * ingredient.Value;
+            durability += ingredient.Key.Durability * ingredient.Value;
+            flavor += ingredient.Key.Flavor * ingredient.Value;
+            texture += ingredient.Key.Texture * ingredient.Value;
+            calories += ingredient.Key.Calories * ingredient.Value;
         }
 
         if (capacity < 0) capacity = 0;
@@ -46,7 +102,7 @@ public class Solution : ISolution
 
         var score = capacity * durability * flavor * texture;
             
-        return score;
+        return new ValueTuple<int, int>(score, calories);
     }
         
     private static IEnumerable<Ingredient> ParseIngredients(Input input)
