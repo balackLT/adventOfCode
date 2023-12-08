@@ -7,13 +7,11 @@ namespace AdventOfCode.Solutions2015.Day15;
 
 public class Solution : ISolution
 {
-    public int Day { get; } = 15;
-
     public string SolveFirstPart(Input input)
     {
         var ingredients = ParseIngredients(input).ToList();
 
-            
+        
 
         return 0.ToString();
     }

@@ -7,24 +7,24 @@ namespace AdventOfCode.Executor;
 
 public class SolutionCollector
 {
-    private readonly IEnumerable<ISolution> _solutions;
+    private readonly IDictionary<int, ISolution> _solutions = new Dictionary<int, ISolution>();
 
     public SolutionCollector()
     {
         var callingAssembly = Assembly.GetCallingAssembly();
 
-        _solutions = LoadSolutions(callingAssembly);
+        LoadSolutions(callingAssembly);
     }
 
     public ISolutionExecutor GetSolutionExecutor(int day)
     {
-        var solution = _solutions.Single(s => s.Day == day);
+        var solution = _solutions[day];
         var executor = new SolutionExecutor(solution);
 
         return executor;
     }
 
-    private static IEnumerable<ISolution> LoadSolutions(Assembly callingAssembly)
+    private void LoadSolutions(Assembly callingAssembly)
     {
         var baseType = typeof(ISolution);
 
@@ -34,7 +34,10 @@ public class SolutionCollector
 
         foreach(var solution in solutions) 
         {
-            yield return (ISolution) Activator.CreateInstance(solution);
+            var split = solution.Namespace!.Split('.');
+            var year = split[1][^4..];
+            var day = int.Parse(split[2][^2..]);
+            _solutions[day] = (ISolution) Activator.CreateInstance(solution);
         }
     }
 }

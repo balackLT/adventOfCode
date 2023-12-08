@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using AdventOfCode.Executor;
-using AdventOfCode.Utilities.Map;
 
 namespace AdventOfCode.Solutions2021.Day07;
 

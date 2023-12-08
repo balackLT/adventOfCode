@@ -1,32 +1,18 @@
-﻿using System.Threading.Tasks;
-using AdventOfCode.Executor;
+﻿using AdventOfCode.Executor;
 using Microsoft.Extensions.Configuration;
 
-namespace AdventOfCode.Solutions2015;
+IConfiguration config = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json", true, true)
+    .Build();
 
-static class Program
-{
-    // TODO: asserter (maybe list of input/output in ISolution)
-    // TODO: command line
-    // TODO: separate downloader
+var collector = new SolutionCollector();
+var inputGenerator = new InputFactory(config["year"], config["inputFolder"], config["cookie"]);
 
-    static async Task Main(string[] args)
-    {
-        IConfiguration config = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json", true, true)
-            .Build();
-            
-        var collector = new SolutionCollector();
-        var inputGenerator = new InputFactory(config["year"], config["inputFolder"], config["cookie"]);
+var day = 15;
 
-        var day = 16;
-            
-        var executor = collector.GetSolutionExecutor(day);
-            
-        // var input = inputGenerator.GetInputFromFile(day, "test1");
-        var input = await inputGenerator.GetDefaultInputAsync(day);
+var executor = collector.GetSolutionExecutor(day);
 
-        executor.ExecuteFirstPart(input);
-        executor.ExecuteSecondPart(input);
-    }
-}
+var input = await inputGenerator.GetDefaultInputAsync(day);
+
+executor.ExecuteFirstPart(input);
+executor.ExecuteSecondPart(input);

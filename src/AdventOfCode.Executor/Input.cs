@@ -5,7 +5,7 @@ using AdventOfCode.Utilities.Map;
 
 namespace AdventOfCode.Executor;
 
-public class Input
+public partial class Input
 {
     private readonly string[] _lines;
 
@@ -20,12 +20,30 @@ public class Input
     }
         
     public List<List<string>> GetNumbersFromLines()
-    {
-        var regex = new Regex(@"\d+");
-        
+    { 
         return _lines
-            .Select(l => regex.Matches(l)
+            .Select(l => NumbersOnly().Matches(l)
                 .Select(v => v.Value)
+                .ToList())
+            .ToList();
+    }
+    
+    public List<List<int>> GetNumbersFromLinesAsInt()
+    { 
+        return _lines
+            .Select(l => NumbersOnly().Matches(l)
+                .Select(v => v.Value)
+                .Select(int.Parse)
+                .ToList())
+            .ToList();
+    }
+    
+    public List<List<long>> GetNumbersFromLinesAsLong()
+    { 
+        return _lines
+            .Select(l => NumbersOnly().Matches(l)
+                .Select(v => v.Value)
+                .Select(long.Parse)
                 .ToList())
             .ToList();
     }
@@ -116,4 +134,7 @@ public class Input
 
         return map;
     }
+
+    [GeneratedRegex("\\d+")]
+    private static partial Regex NumbersOnly();
 }
