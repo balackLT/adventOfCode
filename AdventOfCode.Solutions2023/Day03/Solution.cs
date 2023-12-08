@@ -1,5 +1,4 @@
-﻿using System.Collections.Frozen;
-using AdventOfCode.Executor;
+﻿using AdventOfCode.Executor;
 using AdventOfCode.Utilities.Map;
 
 namespace AdventOfCode.Solutions2023.Day03;
