@@ -38,21 +38,21 @@ public class Solution : ISolution
         return GetPermutationCount(rest, total) + GetPermutationCount(rest, total - first);
     }
     
-    private List<List<int>> GeneratePermutations(List<int> buckets, int total, List<int> path)
+    private static List<List<int>> GeneratePermutations(List<int> buckets, int total, List<int> path)
     {
         if (total == 0)
         {
-            return new List<List<int>> {path};
+            return [path];
         }
         
         if (total < 0)
         {
-            return new List<List<int>>();
+            return [];
         }
         
         if (buckets.Count == 0)
         {
-            return new List<List<int>>();
+            return [];
         }
         
         var first = buckets.First();

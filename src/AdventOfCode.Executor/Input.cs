@@ -135,6 +135,6 @@ public partial class Input
         return map;
     }
 
-    [GeneratedRegex("\\d+")]
+    [GeneratedRegex(@"-?\d+")]
     private static partial Regex NumbersOnly();
 }
