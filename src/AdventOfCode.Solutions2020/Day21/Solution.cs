@@ -9,7 +9,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 21;
 
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var groups = input
             .GetLines()
@@ -36,7 +36,7 @@ public class Solution : ISolution
         return count.ToString();
     }
         
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var groups = input
             .GetLines()

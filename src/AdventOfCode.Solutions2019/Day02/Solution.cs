@@ -8,7 +8,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 2;
         
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var instructions = input.GetLineAsIntArray();
             
@@ -17,7 +17,7 @@ public class Solution : ISolution
         return result.ToString();
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var instructions = input.GetLineAsIntArray();
         var expectedResult = 19690720;

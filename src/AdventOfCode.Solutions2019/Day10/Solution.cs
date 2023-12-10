@@ -16,7 +16,7 @@ public class Solution : ISolution
 
     private Dictionary<Coordinate, char> _map;
         
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var inputMap = input.GetAsMap();
 
@@ -93,7 +93,7 @@ public class Solution : ISolution
         return result;
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var inputMap = input.GetAsMap();
 

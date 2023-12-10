@@ -19,7 +19,7 @@ public class Solution : ISolution
         
     private Dictionary<string, Planet> _orbitMap;
         
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var map = input.GetLinesAsList();
             
@@ -36,7 +36,7 @@ public class Solution : ISolution
         return result.ToString();
     }
         
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var map = input.GetLinesAsList();
 

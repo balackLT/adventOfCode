@@ -6,7 +6,7 @@ namespace AdventOfCode.Solutions2023.Day10;
 
 public class Solution : ISolution
 {
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var inputMap = input.GetAsCoordinateMap();
 
@@ -19,7 +19,7 @@ public class Solution : ISolution
         
         Dictionary<Coordinate, int> distances = TraverseMainLoop(map);
 
-        return distances.Max(d => d.Value).ToString();
+        return distances.Max(d => d.Value);
     }
 
     private static Dictionary<Coordinate, int> TraverseMainLoop(IDictionary<Coordinate, Tile> map)
@@ -112,7 +112,7 @@ public class Solution : ISolution
         public readonly List<Coordinate> Neighbours = [];
     }
     
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var inputMap = input.GetAsCoordinateMap();
 
@@ -205,7 +205,7 @@ public class Solution : ISolution
             }
         }
         
-        return nonPipeTileState.Count(t => t.Value == TileState.ENCLOSED).ToString();
+        return nonPipeTileState.Count(t => t.Value == TileState.ENCLOSED);
     }
     
     private enum TileState

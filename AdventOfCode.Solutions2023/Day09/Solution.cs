@@ -5,7 +5,7 @@ namespace AdventOfCode.Solutions2023.Day09;
 
 public class Solution : ISolution
 {
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var lines = input.GetNumbersFromLinesAsLong();
 
@@ -38,7 +38,7 @@ public class Solution : ISolution
         return sequence[^1] + ExtrapolateNextNumber(differenceSequence);
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var lines = input.GetNumbersFromLinesAsLong();
 

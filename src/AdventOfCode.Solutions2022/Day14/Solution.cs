@@ -8,7 +8,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 14;
 
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var map = ParseMap(input);
 
@@ -62,7 +62,7 @@ public class Solution : ISolution
         }
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var map = ParseMap(input);
 

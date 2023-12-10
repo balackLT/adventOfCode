@@ -7,7 +7,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 2;
 
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var lines = input.GetLines();
 
@@ -51,7 +51,7 @@ public class Solution : ISolution
         return (doubleLetter * tripleLetter).ToString();
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var lines = input.GetLines();
 

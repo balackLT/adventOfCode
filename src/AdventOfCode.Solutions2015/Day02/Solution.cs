@@ -9,7 +9,7 @@ public class Solution :ISolution
 {
     public int Day { get; } = 2;
         
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         Debug.Assert(CalculateAreaWithSlack(2, 3, 4) == 58);
             
@@ -34,7 +34,7 @@ public class Solution :ISolution
         return area;
     }
         
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var boxes = input
             .GetLines()

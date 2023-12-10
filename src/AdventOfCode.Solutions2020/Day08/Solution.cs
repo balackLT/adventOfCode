@@ -8,7 +8,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 8;
 
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var lines = input.GetLinesByRegex(@"(\w{3})\s([-+]\d+)");
 
@@ -25,7 +25,7 @@ public class Solution : ISolution
         return computer.Accumulator.ToString();
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var lines = input.GetLinesByRegex(@"(\w{3})\s([-+]\d+)");
 

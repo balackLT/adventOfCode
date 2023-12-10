@@ -12,7 +12,7 @@ public class Solution : ISolution
     private readonly List<char> _vowels = "aeiou".ToList(); 
     private readonly List<string> _badStrings = new List<string>{"ab", "cd", "pq", "xy"};
         
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var strings = input.GetLines();
 
@@ -35,7 +35,7 @@ public class Solution : ISolution
         return true;
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var strings = input.GetLines();
             

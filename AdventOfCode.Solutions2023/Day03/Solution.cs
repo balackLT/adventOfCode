@@ -7,7 +7,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 3;
 
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var tiles = input.GetAsCoordinateMap();
 
@@ -74,7 +74,7 @@ public class Solution : ISolution
         return sum.ToString();
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var tiles = input.GetAsCoordinateMap();
         

@@ -9,7 +9,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 8;
         
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var pixels = input.GetAsString().Select(c => int.Parse(c.ToString())).ToList();
 
@@ -45,7 +45,7 @@ public class Solution : ISolution
         return layersPixels;
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var pixels = input.GetAsString().Select(c => int.Parse(c.ToString())).ToList();
 

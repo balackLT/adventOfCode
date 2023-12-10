@@ -11,7 +11,7 @@ public class Solution : ISolution
         
     private const long Divisor = 20201227;
 
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var keys = input.GetLines().Select(long.Parse).ToList();
 
@@ -26,7 +26,7 @@ public class Solution : ISolution
         return result.ToString();
     }
         
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var lines = input.GetLines();
 

@@ -2,6 +2,6 @@
 
 public interface ISolution
 {
-    string SolveFirstPart(Input input);
-    string SolveSecondPart(Input input);
+    object SolveFirstPart(Input input);
+    object SolveSecondPart(Input input);
 }

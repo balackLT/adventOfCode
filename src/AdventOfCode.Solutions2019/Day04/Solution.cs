@@ -8,7 +8,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 4;
         
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var range = input.GetAsString().Split('-').Select(int.Parse).ToArray();
         var left = range[0];
@@ -46,7 +46,7 @@ public class Solution : ISolution
         return sameAdjacent;
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var range = input.GetAsString().Split('-').Select(int.Parse).ToArray();
         var left = range[0];

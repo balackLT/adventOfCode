@@ -7,7 +7,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 5;
         
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var instructions = input.GetLineAsLongArray();
         //instructions = new int[] {3,0,4,0,99};
@@ -20,7 +20,7 @@ public class Solution : ISolution
         return string.Join(',', output);
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var instructions = input.GetLineAsLongArray();
         // instructions = new int[] {3,0,4,0,99};

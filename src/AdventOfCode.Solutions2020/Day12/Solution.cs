@@ -8,7 +8,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 12;
 
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var instructions = input
             .GetLinesByRegex(@"(\D)(\d+)")
@@ -62,7 +62,7 @@ public class Solution : ISolution
         return result.ToString();
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var instructions = input
             .GetLinesByRegex(@"(\D)(\d+)")

@@ -9,7 +9,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 23;
 
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var list = input.GetAsString();
         // var list = "389125467";
@@ -50,7 +50,7 @@ public class Solution : ISolution
         return destinationCup;
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var list = input.GetAsString();
         // var list = "389125467";

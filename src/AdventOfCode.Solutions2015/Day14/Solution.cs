@@ -9,7 +9,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 14;
 
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var lines = input.GetLinesByRegex(@"^(\w+).+ (\d+) .+ (\d+) .+ (\d+)");
 
@@ -32,7 +32,7 @@ public class Solution : ISolution
         return result.ToString();
     }
         
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var lines = input.GetLinesByRegex(@"^(\w+).+ (\d+) .+ (\d+) .+ (\d+)");
 

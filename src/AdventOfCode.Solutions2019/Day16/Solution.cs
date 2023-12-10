@@ -9,7 +9,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 16;
         
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var signal = input.GetAsString().Select(i => int.Parse(i.ToString())).ToList();
         var pattern = new List<int> {0, 1, 0, -1};
@@ -58,7 +58,7 @@ public class Solution : ISolution
         return result;
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var signal = Enumerable.Repeat(input.GetAsString()
                 .Select(i => int.Parse(i.ToString())), 10000)

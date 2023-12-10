@@ -9,7 +9,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 9;
         
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         Test(new long[] {1102,34915192,34915192,7,4,7,99,0}, 1219070632396864);
         Test(new long[] {104,1125899906842624,99}, 1125899906842624);
@@ -27,7 +27,7 @@ public class Solution : ISolution
         return computer.GetOutput().ToString();
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var program = input.GetLineAsLongArray();
             

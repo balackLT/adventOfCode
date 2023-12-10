@@ -9,7 +9,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 13;
 
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var lines = input.GetLines();
 
@@ -39,7 +39,7 @@ public class Solution : ISolution
         return result.ToString();
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var timetable = input
             .GetLines()[1]

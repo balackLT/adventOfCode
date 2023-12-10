@@ -8,7 +8,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 10;
 
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var number = input.GetAsString();
 
@@ -51,7 +51,7 @@ public class Solution : ISolution
     }
         
         
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var number = input.GetAsString();
 

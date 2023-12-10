@@ -9,7 +9,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 6;
 
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         IEnumerable<int> list = input.GetLineAsIntArray();
 
@@ -23,7 +23,7 @@ public class Solution : ISolution
         return list.Count().ToString();
     }
         
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         IEnumerable<int> list = input.GetLineAsIntArray();
 

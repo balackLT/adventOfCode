@@ -8,7 +8,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 10;
 
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var adapters = input
             .GetLines()
@@ -34,7 +34,7 @@ public class Solution : ISolution
         return (joltageDifference1 * joltageDifference3).ToString();
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var adapters = input
             .GetLines()

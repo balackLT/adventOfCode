@@ -5,7 +5,7 @@ namespace AdventOfCode.Solutions2016.Day09;
 
 public class Solution : ISolution
 {
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var line = input.GetAsString();
 
@@ -38,7 +38,7 @@ public class Solution : ISolution
         return unzipped.Length.ToString();
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var line = input.GetAsString();
 

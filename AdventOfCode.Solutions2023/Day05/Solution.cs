@@ -9,7 +9,7 @@ public class Solution : ISolution
 
     public record Map(string From, string To, MagicDictionary Mappings);
     
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var lines = input.GetLines();
         
@@ -96,7 +96,7 @@ public class Solution : ISolution
         }
     }
     
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var lines = input.GetLines();
 

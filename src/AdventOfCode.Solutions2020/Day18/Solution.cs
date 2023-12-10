@@ -33,7 +33,7 @@ public class Solution : ISolution
         Parse.ChainOperator(Parse.Char('*').Token(), Add, (op, left, right) => left * right);
         
 
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var lines = input.GetLines();
             
@@ -46,7 +46,7 @@ public class Solution : ISolution
         return result.ToString();
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var lines = input.GetLines();
             

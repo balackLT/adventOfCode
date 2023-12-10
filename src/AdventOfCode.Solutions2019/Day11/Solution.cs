@@ -14,7 +14,7 @@ public class Solution : ISolution
     private const char BLACK = '.';
     private const char EMPTY = ' ';
         
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var program = input.GetLineAsLongArray();
 
@@ -48,7 +48,7 @@ public class Solution : ISolution
         return result.ToString();
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var program = input.GetLineAsLongArray();
 

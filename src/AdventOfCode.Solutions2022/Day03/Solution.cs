@@ -6,7 +6,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 3;
 
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var lines = input.GetLines();
 
@@ -31,7 +31,7 @@ public class Solution : ISolution
         return totalPriority.ToString();
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var lines = input.GetLines();
 

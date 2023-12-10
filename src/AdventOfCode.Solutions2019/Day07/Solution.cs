@@ -9,7 +9,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 7;
         
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var program = input.GetLineAsLongArray();
 
@@ -46,7 +46,7 @@ public class Solution : ISolution
         return maxOutput.ToString();
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var program = input.GetLineAsLongArray();
             

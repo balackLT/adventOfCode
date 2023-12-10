@@ -8,7 +8,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 2;
 
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var lines = input.GetLinesByRegex(@"(\d+)-(\d+) (\w): (.+)");
         var passwords = new List<Password>();
@@ -31,7 +31,7 @@ public class Solution : ISolution
         return result.ToString();
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var lines = input.GetLinesByRegex(@"(\d+)-(\d+) (\w): (.+)");
         var passwords = new List<Password>();

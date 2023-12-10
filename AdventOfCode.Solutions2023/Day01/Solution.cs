@@ -20,7 +20,7 @@ public class Solution : ISolution
         {"nine", 9},
     }.ToFrozenDictionary();
 
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var lines = input.GetLines();
 
@@ -35,7 +35,7 @@ public class Solution : ISolution
         return total.ToString();
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var lines = input.GetLines();
 

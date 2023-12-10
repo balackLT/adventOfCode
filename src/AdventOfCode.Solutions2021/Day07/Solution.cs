@@ -8,7 +8,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 7;
 
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var crabLocations = input
             .GetNumbersFromLines()
@@ -29,7 +29,7 @@ public class Solution : ISolution
         return cheapestMove.ToString();
     }
         
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var crabLocations = input
             .GetNumbersFromLines()

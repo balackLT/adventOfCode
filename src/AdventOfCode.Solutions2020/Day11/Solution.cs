@@ -9,7 +9,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 11;
 
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var map = input.GetAsCoordinateMap();
 
@@ -25,7 +25,7 @@ public class Solution : ISolution
         return result.ToString();
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var map = input.GetAsCoordinateMap();
 

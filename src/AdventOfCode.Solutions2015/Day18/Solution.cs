@@ -8,7 +8,7 @@ namespace AdventOfCode.Solutions2015.Day18;
 
 public class Solution : ISolution
 {
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var map = input.GetAsCoordinateMap();
 
@@ -35,7 +35,7 @@ public class Solution : ISolution
         return map.Count(c => c.Value == '#').ToString();
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var map = input.GetAsCoordinateMap();
 

@@ -45,7 +45,7 @@ public class SolutionExecutor : ISolutionExecutor
         Execute(_solution.SolveSecondPart, input, 2);
     }
 
-    private static void Execute(Func<Input, string> solver, Input input, int part)
+    private static void Execute(Func<Input, object> solver, Input input, int part)
     {
         var stopWatch = new Stopwatch();
 

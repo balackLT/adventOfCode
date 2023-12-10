@@ -7,7 +7,7 @@ namespace AdventOfCode.Solutions2015.Day15;
 
 public class Solution : ISolution
 {
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var ingredients = ParseIngredients(input).ToList();
 
@@ -29,7 +29,7 @@ public class Solution : ISolution
         return bestScore.ToString();
     }
         
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var ingredients = ParseIngredients(input).ToList();
 

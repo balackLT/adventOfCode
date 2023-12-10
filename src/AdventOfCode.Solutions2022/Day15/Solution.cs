@@ -7,7 +7,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 15;
 
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var sensors = input
             .GetNumbersFromLines()
@@ -60,7 +60,7 @@ public class Solution : ISolution
         public int Distance { get; init; } = Location.ManhattanDistance(ClosestBeacon);
     }
     
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var lines = input.GetLines();
 

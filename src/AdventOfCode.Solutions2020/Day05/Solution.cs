@@ -9,7 +9,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 5;
 
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var seatCodes = input.GetLinesAsList().Select(l => new Queue<char>(l));
 
@@ -20,7 +20,7 @@ public class Solution : ISolution
         return result.ToString();
     }
         
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var seatCodes = input.GetLinesAsList().Select(l => new Queue<char>(l));
 

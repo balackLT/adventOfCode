@@ -5,7 +5,7 @@ namespace AdventOfCode.Solutions2023.Day08;
 
 public class Solution : ISolution
 {
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var lines = input.GetLines();
 
@@ -38,7 +38,7 @@ public class Solution : ISolution
         }
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var lines = input.GetLines();
 

@@ -6,7 +6,7 @@ namespace AdventOfCode.Solutions2015.Day17;
 
 public class Solution : ISolution
 {
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var lines = input.GetLines().Select(int.Parse).ToList();
 
@@ -63,7 +63,7 @@ public class Solution : ISolution
         return permutations;
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var lines = input.GetLines().Select(int.Parse).ToList();
 

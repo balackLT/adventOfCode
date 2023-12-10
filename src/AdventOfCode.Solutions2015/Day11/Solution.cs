@@ -9,7 +9,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 11;
 
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var password = input.GetAsString();
             
@@ -34,7 +34,7 @@ public class Solution : ISolution
         return result;
     }
         
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         var password = input.GetAsString();
 

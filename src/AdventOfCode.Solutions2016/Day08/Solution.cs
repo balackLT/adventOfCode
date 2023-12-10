@@ -10,7 +10,7 @@ public class Solution : ISolution
 {
     public int Day { get; } = 8;
         
-    public string SolveFirstPart(Input input)
+    public object SolveFirstPart(Input input)
     {
         var lines = input.GetLines();
 
@@ -81,7 +81,7 @@ public class Solution : ISolution
         return map.Count(c => c.Value == '#').ToString();
     }
 
-    public string SolveSecondPart(Input input)
+    public object SolveSecondPart(Input input)
     {
         // solve "by hand" aka looking at output
         var lines = input.GetLines();
