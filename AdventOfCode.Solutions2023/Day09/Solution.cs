@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using AdventOfCode.Executor;
-using AdventOfCode.Utilities;
 
 namespace AdventOfCode.Solutions2023.Day09;
 

@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Frozen;
 using AdventOfCode.Executor;
 using AdventOfCode.Utilities.Map;
 
@@ -22,7 +22,7 @@ public class Solution : ISolution
         return distances.Max(d => d.Value).ToString();
     }
 
-    private static Dictionary<Coordinate, int> TraverseMainLoop(Dictionary<Coordinate, Tile> map)
+    private static Dictionary<Coordinate, int> TraverseMainLoop(IDictionary<Coordinate, Tile> map)
     {
         var animalTile = map.First(x => x.Value.Symbol == 'S').Value;
         var startTiles = map
@@ -116,7 +116,7 @@ public class Solution : ISolution
     {
         var inputMap = input.GetAsCoordinateMap();
 
-        var map = new Dictionary<Coordinate, Tile>();
+        IDictionary<Coordinate, Tile> map = new Dictionary<Coordinate, Tile>();
         
         foreach (KeyValuePair<Coordinate,char> keyValuePair in inputMap)
         {
@@ -124,7 +124,7 @@ public class Solution : ISolution
         }
         
         // so distances is not the main pipe loop
-        Dictionary<Coordinate, int> distances = TraverseMainLoop(map);
+        var distances = TraverseMainLoop(map).ToFrozenDictionary();
 
         // we have to replace S with its actual pipe
         // I really don't to want do this programatically, so cheating it is.
@@ -133,23 +133,21 @@ public class Solution : ISolution
         var newAnimalTile = new Tile(replacementForS, animalTile.Location, inputMap);
         map[animalTile.Location] = newAnimalTile;
         
-        var nonPipeTiles = map
-            .Where(t => t.Value.Symbol == '.')
-            .Select(t => t.Value)
-            .ToList();
-        
         var nonPipeTileState = new Dictionary<Coordinate, TileState>();
-        foreach (Tile nonPipeTile in nonPipeTiles)
-        {
-            nonPipeTileState[nonPipeTile.Location] = TileState.UNKNOWN;
-        }
+
+        map = map.ToFrozenDictionary();
         
         // go south from the top and check if we're inside the loop our out
-        for(int x = 0; x <= map.Max(m => m.Key.X); x++)
+        // we only need to check within the boundaries of the main loop, everything else is outside
+        for(int x = distances.Min(m => m.Key.X); 
+            x <= distances.Max(m => m.Key.X); 
+            x++)
         {
             var outside = true;
             var loopEdgeOpener = ' ';
-            for (int y = 0; y <= map.Max(m => m.Key.Y); y++)
+            for (int y = distances.Min(m => m.Key.Y); 
+                 y <= distances.Max(m => m.Key.Y); 
+                 y++)
             {
                 var current = map[new Coordinate(x, y)];
                 
@@ -212,7 +210,6 @@ public class Solution : ISolution
     
     private enum TileState
     {
-        UNKNOWN,
         FREE,
         ENCLOSED
     }
