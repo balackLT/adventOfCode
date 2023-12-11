@@ -204,7 +204,7 @@ public class Solution : ISolution
                 }
             }
         }
-        
+
         return nonPipeTileState.Count(t => t.Value == TileState.ENCLOSED);
     }
     
