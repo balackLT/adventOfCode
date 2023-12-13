@@ -142,23 +142,8 @@ public record Coordinate(int X, int Y)
         return new Coordinate(0, 0);
     }
 
-    public static Coordinate operator +(Coordinate left, Coordinate right)
-    {
-        return new Coordinate(left.X + right.X, left.Y + right.Y);
-    }
-        
-    public static Coordinate operator -(Coordinate left, Coordinate right)
-    {
-        return new Coordinate(left.X - right.X, left.Y - right.Y);
-    }
-        
-    public static Coordinate operator *(Coordinate left, int right)
-    {
-        return new Coordinate(left.X * right, left.Y * right);
-    }
-        
-    public static Coordinate operator *(int left, Coordinate right)
-    {
-        return new Coordinate(left * right.X, left * right.Y);
-    }
+    public static Coordinate operator +(Coordinate left, Coordinate right) => new(left.X + right.X, left.Y + right.Y);
+    public static Coordinate operator -(Coordinate left, Coordinate right) => new(left.X - right.X, left.Y - right.Y);
+    public static Coordinate operator *(Coordinate left, int right) => new(left.X * right, left.Y * right);
+    public static Coordinate operator *(int left, Coordinate right) => new(left * right.X, left * right.Y);
 }
