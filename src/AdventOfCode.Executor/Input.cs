@@ -22,7 +22,7 @@ public partial class Input
     public List<List<string>> GetNumbersFromLines()
     { 
         return _lines
-            .Select(l => NumbersOnly().Matches(l)
+            .Select(l => IntegersOnly().Matches(l)
                 .Select(v => v.Value)
                 .ToList())
             .ToList();
@@ -31,7 +31,7 @@ public partial class Input
     public List<List<int>> GetNumbersFromLinesAsInt()
     { 
         return _lines
-            .Select(l => NumbersOnly().Matches(l)
+            .Select(l => IntegersOnly().Matches(l)
                 .Select(v => v.Value)
                 .Select(int.Parse)
                 .ToList())
@@ -41,7 +41,7 @@ public partial class Input
     public List<List<long>> GetNumbersFromLinesAsLong()
     { 
         return _lines
-            .Select(l => NumbersOnly().Matches(l)
+            .Select(l => IntegersOnly().Matches(l)
                 .Select(v => v.Value)
                 .Select(long.Parse)
                 .ToList())
@@ -136,5 +136,5 @@ public partial class Input
     }
 
     [GeneratedRegex(@"-?\d+")]
-    private static partial Regex NumbersOnly();
+    private static partial Regex IntegersOnly();
 }

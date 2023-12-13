@@ -7,6 +7,27 @@ namespace AdventOfCode.Utilities.Extensions;
 
 public static class CoordinateDictionaryExtensions
 {
+    public static Dictionary<Coordinate, char> ToMap(IEnumerable<string> inputLines)
+    {
+        var map = new Dictionary<Coordinate, char>();
+            
+        var y = 0;
+        foreach (var lines in inputLines)
+        {
+            var x = 0;
+            foreach (var pixel in lines)
+            {
+                var coordinate = new Coordinate(x, y);
+                map[coordinate] = pixel;
+                    
+                x++;
+            }
+            y++;
+        }
+
+        return map;
+    }
+    
     public static int MaxX(this Dictionary<Coordinate, char> map) => map.Max(c => c.Key.X);
     public static int MaxY(this Dictionary<Coordinate, char> map) => map.Max(c => c.Key.Y);
     public static int MinX(this Dictionary<Coordinate, char> map) => map.Min(c => c.Key.X);
