@@ -15,7 +15,7 @@ public class Solution : ISolution
             .Select(CoordinateDictionaryExtensions.ToMap)
             .ToList();
 
-        return maps.Sum(map => CalculateResultForMap(map));
+        return maps.Sum(CalculateResultForMap);
     }
 
     private static int CalculateResultForMap(Dictionary<Coordinate, char> map)
@@ -31,7 +31,7 @@ public class Solution : ISolution
             lines.Add(line);
         }
             
-        Dictionary<int, int> lineReflections = CalculateLineReflections(lines, map);
+        int lineReflections = CalculateReflections(lines, map.MaxY());
 
         var columns = new List<string>();
         for (var x = map.MinX(); x <= map.MaxX(); x++)
@@ -44,57 +44,25 @@ public class Solution : ISolution
             columns.Add(column);
         }
             
-        Dictionary<int, int> columnReflections = CalculateColumnReflections(columns, map);
-
-        var bestColumn = Enumerable.MaxBy(columnReflections, x => x.Value);
-        var bestLine = Enumerable.MaxBy(lineReflections, x => x.Value);
+        int columnReflections = CalculateReflections(columns, map.MaxX());
 
         int value;
-        if (bestColumn.Value > bestLine.Value)
-            value = bestColumn.Key;
+        if (columnReflections > lineReflections)
+            value = columnReflections;
         else
-            value = bestLine.Key * 100;
+            value = lineReflections * 100;
         return value;
     }
 
-    private static Dictionary<int, int> CalculateLineReflections(List<string> lines, Dictionary<Coordinate, char> map)
+    private static int CalculateReflections(List<string> columns, int max)
     {
-        var lineReflections = new Dictionary<int, int>();
-        for (int i = 1; i <= lines.Count; i++)
-        {
-            var firstHalf = lines.Take(i).Reverse().ToList();
-            var secondHalf = lines.Skip(i).ToList();
-
-            var similarityCount = 0;
-            for (int j = 0; j < map.MaxY(); j++)
-            {
-                if (j > firstHalf.Count - 1 || j > secondHalf.Count - 1)
-                    break;
-                    
-                if (firstHalf[j] == secondHalf[j])
-                    similarityCount++;
-                else
-                {
-                    break;
-                }
-            }
-            if (similarityCount == firstHalf.Count || similarityCount == secondHalf.Count)
-                lineReflections[i] = similarityCount;
-        }
-
-        return lineReflections;
-    }
-
-    private static Dictionary<int, int> CalculateColumnReflections(List<string> columns, Dictionary<Coordinate, char> map)
-    {
-        var columnReflections = new Dictionary<int, int>();
         for (int i = 1; i <= columns.Count; i++)
         {
             var firstHalf = columns.Take(i).Reverse().ToList();
             var secondHalf = columns.Skip(i).ToList();
 
             var similarityCount = 0;
-            for (int j = 0; j < map.MaxX(); j++)
+            for (int j = 0; j < max; j++)
             {
                 if (j > firstHalf.Count - 1 || j > secondHalf.Count - 1)
                     break;
@@ -106,12 +74,12 @@ public class Solution : ISolution
                     break;
                 }
             }
-             
-            if (similarityCount == firstHalf.Count || similarityCount == secondHalf.Count)
-                columnReflections[i] = similarityCount;
+
+            if (similarityCount > 0 && (similarityCount == firstHalf.Count || similarityCount == secondHalf.Count))
+                return i;
         }
 
-        return columnReflections;
+        return 0;
     }
 
     public object SolveSecondPart(Input input)

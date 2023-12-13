@@ -4,7 +4,7 @@ using AdventOfCode.Executor;
 
 namespace AdventOfCode.Solutions2023.Day12;
 
-public partial class Solution : ISolution
+public class Solution : ISolution
 {
     public object SolveFirstPart(Input input)
     {
