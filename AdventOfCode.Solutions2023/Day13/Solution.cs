@@ -15,10 +15,10 @@ public class Solution : ISolution
             .Select(CoordinateDictionaryExtensions.ToMap)
             .ToList();
 
-        return maps.Sum(CalculateResultForMap);
+        return maps.Sum(map => CalculateResultForMap(map));
     }
 
-    private static int CalculateResultForMap(Dictionary<Coordinate, char> map)
+    private static int CalculateResultForMap(Dictionary<Coordinate, char> map, int? oldValue = null)
     {
         var lines = new List<string>();
         for (var y = map.MinY(); y <= map.MaxY(); y++)
@@ -31,7 +31,12 @@ public class Solution : ISolution
             lines.Add(line);
         }
             
-        int lineReflections = CalculateReflections(lines, map.MaxY());
+        var oldLineValue = oldValue;
+        if (oldLineValue % 100 == 0)
+        {
+            oldLineValue /= 100;
+        }
+        int lineReflections = CalculateReflections(lines, map.MaxY(), oldLineValue);
 
         var columns = new List<string>();
         for (var x = map.MinX(); x <= map.MaxX(); x++)
@@ -44,7 +49,7 @@ public class Solution : ISolution
             columns.Add(column);
         }
             
-        int columnReflections = CalculateReflections(columns, map.MaxX());
+        int columnReflections = CalculateReflections(columns, map.MaxX(), oldValue);
 
         int value;
         if (columnReflections > lineReflections)
@@ -54,7 +59,7 @@ public class Solution : ISolution
         return value;
     }
 
-    private static int CalculateReflections(List<string> columns, int max)
+    private static int CalculateReflections(List<string> columns, int max, int? oldValue = null)
     {
         for (int i = 1; i <= columns.Count; i++)
         {
@@ -75,7 +80,9 @@ public class Solution : ISolution
                 }
             }
 
-            if (similarityCount > 0 && (similarityCount == firstHalf.Count || similarityCount == secondHalf.Count))
+            if (similarityCount > 0 && 
+                (similarityCount == firstHalf.Count || similarityCount == secondHalf.Count) &&
+                i != oldValue)
                 return i;
         }
 
@@ -105,14 +112,13 @@ public class Solution : ISolution
                     [coordinate.Key] = newChar
                 };
                 
-                var newValue = CalculateResultForMap(newMap);
+                var newValue = CalculateResultForMap(newMap, value);
                 if (newValue > 0 && newValue != value)
                 {
-                    value = newValue;
+                    result += newValue;
+                    break;
                 }
             }
-
-            result += value;
         }
 
         return result;
