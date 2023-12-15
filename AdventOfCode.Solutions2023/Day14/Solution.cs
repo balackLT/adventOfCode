@@ -1,7 +1,6 @@
 ﻿using AdventOfCode.Executor;
 using AdventOfCode.Utilities.Extensions;
 using AdventOfCode.Utilities.Map;
-using MoreLinq.Extensions;
 
 namespace AdventOfCode.Solutions2023.Day14;
 
@@ -92,8 +91,6 @@ public class Solution : ISolution
 
             map = SpinCycle(map);
         }
-        
-        map.Print();
         
         long result = CalculateWeight(map);
 

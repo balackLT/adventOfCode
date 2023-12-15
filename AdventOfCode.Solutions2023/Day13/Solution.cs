@@ -30,14 +30,7 @@ public class Solution : ISolution
             }
             lines.Add(line);
         }
-            
-        var oldLineValue = oldValue;
-        if (oldLineValue % 100 == 0)
-        {
-            oldLineValue /= 100;
-        }
-        int lineReflections = CalculateReflections(lines, map.MaxY(), oldLineValue);
-
+        
         var columns = new List<string>();
         for (var x = map.MinX(); x <= map.MaxX(); x++)
         {
@@ -49,6 +42,12 @@ public class Solution : ISolution
             columns.Add(column);
         }
             
+        var oldLineValue = oldValue;
+        if (oldLineValue % 100 == 0)
+        {
+            oldLineValue /= 100;
+        }
+        int lineReflections = CalculateReflections(lines, map.MaxY(), oldLineValue);
         int columnReflections = CalculateReflections(columns, map.MaxX(), oldValue);
 
         int value;
@@ -59,14 +58,55 @@ public class Solution : ISolution
         return value;
     }
 
-    private static int CalculateReflections(List<string> columns, int max, int? oldValue = null)
+    private static int CalculateResultForMapPartial(Dictionary<Coordinate, char> map, int? oldValue = null)
     {
-        for (int i = 1; i <= columns.Count; i++)
+        var lines = new List<string>();
+        for (var y = map.MinY(); y <= map.MaxY(); y++)
         {
-            var firstHalf = columns.Take(i).Reverse().ToList();
-            var secondHalf = columns.Skip(i).ToList();
+            var line = "";
+            for (var x = map.MinX(); x <= map.MaxX(); x++)
+            {
+                line += map[new Coordinate(x, y)];
+            }
+            lines.Add(line);
+        }
+        
+        var columns = new List<string>();
+        for (var x = map.MinX(); x <= map.MaxX(); x++)
+        {
+            var column = "";
+            for (var y = map.MinY(); y <= map.MaxY(); y++)
+            {
+                column += map[new Coordinate(x, y)];
+            }
+            columns.Add(column);
+        }
+            
+        var oldLineValue = oldValue;
+        if (oldLineValue % 100 == 0)
+        {
+            oldLineValue /= 100;
+        }
+        int lineReflections = CalculateReflectionsPartial(lines, map.MaxY(), oldLineValue);
+        int columnReflections = CalculateReflectionsPartial(columns, map.MaxX(), oldValue);
+
+        int value;
+        if (columnReflections > lineReflections)
+            value = columnReflections;
+        else
+            value = lineReflections * 100;
+        return value;
+    }
+    
+    private static int CalculateReflections(List<string> list, int max, int? oldValue = null)
+    {
+        for (int i = 1; i <= list.Count; i++)
+        {
+            var firstHalf = list.Take(i).Reverse().ToList();
+            var secondHalf = list.Skip(i).ToList();
 
             var similarityCount = 0;
+            var partialSimilarityCount = 0;
             for (int j = 0; j < max; j++)
             {
                 if (j > firstHalf.Count - 1 || j > secondHalf.Count - 1)
@@ -74,10 +114,10 @@ public class Solution : ISolution
                     
                 if (firstHalf[j] == secondHalf[j])
                     similarityCount++;
+                else if (PartialDifference(firstHalf[j], secondHalf[j]) == 1)
+                    partialSimilarityCount++;
                 else
-                {
                     break;
-                }
             }
 
             if (similarityCount > 0 && 
@@ -87,6 +127,39 @@ public class Solution : ISolution
         }
 
         return 0;
+    }
+    
+    private static int CalculateReflectionsPartial(List<string> list, int max, int? oldValue = null)
+    {
+        for (int i = 1; i <= list.Count; i++)
+        {
+            var firstHalf = list.Take(i).Reverse().ToList();
+            var secondHalf = list.Skip(i).ToList();
+
+            var similarityCount = 0;
+            for (int j = 0; j < max; j++)
+            {
+                if (j > firstHalf.Count - 1 || j > secondHalf.Count - 1)
+                    break;
+                    
+                if (PartialDifference(firstHalf[j], secondHalf[j]) == 1)
+                    similarityCount++;
+                else
+                    break;
+            }
+
+            if (similarityCount > 0 && 
+                (similarityCount == firstHalf.Count || similarityCount == secondHalf.Count) &&
+                i != oldValue)
+                return i;
+        }
+
+        return 0;
+    }
+    
+    private static int PartialDifference(string first, string second)
+    {
+        return first.Where((t, i) => t != second[i]).Count();
     }
 
     public object SolveSecondPart(Input input)
