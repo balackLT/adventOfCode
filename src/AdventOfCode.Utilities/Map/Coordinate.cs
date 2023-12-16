@@ -11,6 +11,12 @@ public record Coordinate(int X, int Y)
     public static readonly Coordinate South = new (0, -1);
     public static readonly Coordinate East = new (1, 0);
     public static readonly Coordinate West = new (-1, 0);
+    
+    // intentionally inverted. Confusing but oh well
+    public static readonly Coordinate Down = new (0, 1);
+    public static readonly Coordinate Up = new (0, -1);
+    public static readonly Coordinate Right = new (1, 0);
+    public static readonly Coordinate Left = new (-1, 0);
         
     public static readonly Coordinate NorthWest = new (-1, 1);
     public static readonly Coordinate NorthEast = new (1, 1);
