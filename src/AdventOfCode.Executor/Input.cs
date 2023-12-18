@@ -111,7 +111,30 @@ public partial class Input
 
         return map;
     }
-        
+    
+    public Dictionary<Coordinate, int> GetAsCoordinateIntMap()
+    {
+        var inputMap = GetLines();
+            
+        var map = new Dictionary<Coordinate, int>();
+            
+        var y = 0;
+        foreach (var lines in inputMap)
+        {
+            var x = 0;
+            foreach (var pixel in lines)
+            {
+                var coordinate = new Coordinate(x, y);
+                map[coordinate] = pixel - '0';
+                    
+                x++;
+            }
+            y++;
+        }
+
+        return map;
+    }
+    
     public Dictionary<Coordinate, char> GetAsCoordinateMap()
     {
         var inputMap = GetLines();

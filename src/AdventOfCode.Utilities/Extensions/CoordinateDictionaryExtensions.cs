@@ -28,10 +28,10 @@ public static class CoordinateDictionaryExtensions
         return map;
     }
     
-    public static int MaxX(this Dictionary<Coordinate, char> map) => map.Max(c => c.Key.X);
-    public static int MaxY(this Dictionary<Coordinate, char> map) => map.Max(c => c.Key.Y);
-    public static int MinX(this Dictionary<Coordinate, char> map) => map.Min(c => c.Key.X);
-    public static int MinY(this Dictionary<Coordinate, char> map) => map.Min(c => c.Key.Y);
+    public static int MaxX<T>(this IDictionary<Coordinate, T> map) => map.Max(c => c.Key.X);
+    public static int MaxY<T>(this IDictionary<Coordinate, T> map) => map.Max(c => c.Key.Y);
+    public static int MinX<T>(this IDictionary<Coordinate, T> map) => map.Min(c => c.Key.X);
+    public static int MinY<T>(this IDictionary<Coordinate, T> map) => map.Min(c => c.Key.Y);
     
     public static void Print(this Dictionary<Coordinate, char> map)
     {

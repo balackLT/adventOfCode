@@ -1,4 +1,5 @@
-﻿using AdventOfCode.Executor;
+﻿using System.Collections.Concurrent;
+using AdventOfCode.Executor;
 using AdventOfCode.Utilities.Extensions;
 using AdventOfCode.Utilities.Map;
 
@@ -119,25 +120,20 @@ public class Solution : ISolution
     {
         var map = input.GetAsCoordinateMap();
 
-        var maxEnergization = 0;
-
+        var startingBeams = new List<Beam>();
         for (int x = 0; x <= map.MaxX(); x++)
         {
             // from the top
             var direction = Coordinate.Down;
             var location = new Coordinate(x, -1);
             var beam = new Beam(location, direction);
-            var energizedCount = CalculateEnergization([beam], map);
-            
-            maxEnergization = Math.Max(maxEnergization, energizedCount);
+            startingBeams.Add(beam);
             
             // from the bottom
             direction = Coordinate.Up;
             location = new Coordinate(x, map.MaxY() + 1);
             beam = new Beam(location, direction);
-            energizedCount = CalculateEnergization([beam], map);
-            
-            maxEnergization = Math.Max(maxEnergization, energizedCount);
+            startingBeams.Add(beam);
         }
 
         for (int y = 0; y <= map.MaxY(); y++)
@@ -146,20 +142,24 @@ public class Solution : ISolution
             var direction = Coordinate.Right;
             var location = new Coordinate(-1, y);
             var beam = new Beam(location, direction);
-            var energizedCount = CalculateEnergization([beam], map);
-            
-            maxEnergization = Math.Max(maxEnergization, energizedCount);
+            startingBeams.Add(beam);
             
             // from the right
             direction = Coordinate.Left;
             location = new Coordinate(map.MaxX() + 1, y);
             beam = new Beam(location, direction);
-            energizedCount = CalculateEnergization([beam], map);
-            
-            maxEnergization = Math.Max(maxEnergization, energizedCount);
+            startingBeams.Add(beam);
         }
 
-        return maxEnergization;
+        var energizationLevels = new ConcurrentBag<int>();
+
+        Parallel.ForEach(startingBeams, beam =>
+        {
+            var energizedCount = CalculateEnergization([beam], map);
+            energizationLevels.Add(energizedCount);
+        });
+
+        return energizationLevels.Max();
     }
 
 }
