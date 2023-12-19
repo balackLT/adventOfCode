@@ -18,8 +18,8 @@ public class Tile
 
     public List<Tile> Permutations { get; private set; }
         
-    private int MaxX { get; set; }
-    private int MaxY { get; set; }
+    private long MaxX { get; set; }
+    private long MaxY { get; set; }
 
     private void CalculateEdges()
     {

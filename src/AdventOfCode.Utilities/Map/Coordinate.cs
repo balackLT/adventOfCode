@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace AdventOfCode.Utilities.Map;
 
-public record Coordinate(int X, int Y)
+public record Coordinate(long X, long Y)
 {
     public static readonly Coordinate Zero = new (0, 0);
     public static readonly Coordinate North = new (0, 1);
@@ -109,21 +109,21 @@ public record Coordinate(int X, int Y)
         yield return this + East;
     }
 
-    public int ManhattanDistance()
+    public long ManhattanDistance()
     {
         return ManhattanDistance(Zero);
     }
         
-    public int ManhattanDistance(Coordinate other)
+    public long ManhattanDistance(Coordinate other)
     {
         return Math.Abs(X - other.X) + Math.Abs(Y - other.Y);
     }
 
     public IEnumerable<Coordinate> CoordinatesWithinDistance(int distance)
     {
-        for (int x = X - distance; x <= X + distance; x++)
+        for (long x = X - distance; x <= X + distance; x++)
         {
-            for (int y = Y - distance; y <= Y + distance; y++)
+            for (long y = Y - distance; y <= Y + distance; y++)
             {
                 if (Math.Abs(X - x) + Math.Abs(Y - y) <= distance)
                     yield return new Coordinate(x, y);
@@ -155,6 +155,6 @@ public record Coordinate(int X, int Y)
 
     public static Coordinate operator +(Coordinate left, Coordinate right) => new(left.X + right.X, left.Y + right.Y);
     public static Coordinate operator -(Coordinate left, Coordinate right) => new(left.X - right.X, left.Y - right.Y);
-    public static Coordinate operator *(Coordinate left, int right) => new(left.X * right, left.Y * right);
-    public static Coordinate operator *(int left, Coordinate right) => new(left * right.X, left * right.Y);
+    public static Coordinate operator *(Coordinate left, long right) => new(left.X * right, left.Y * right);
+    public static Coordinate operator *(long left, Coordinate right) => new(left * right.X, left * right.Y);
 }

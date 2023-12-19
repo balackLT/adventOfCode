@@ -40,7 +40,7 @@ public class Solution : ISolution
 
         foreach (Sensor sensor in sensorsInLine)
         {
-            for (int x = sensor.Location.X - sensor.Distance; x < sensor.Location.X + sensor.Distance; x++)
+            for (var x = sensor.Location.X - sensor.Distance; x < sensor.Location.X + sensor.Distance; x++)
             {
                 var coordinate = new Coordinate(x, targetLine);
                 blockedCoordinates.Add(coordinate);
@@ -57,7 +57,7 @@ public class Solution : ISolution
 
     private record Sensor(Coordinate Location, Coordinate ClosestBeacon)
     {
-        public int Distance { get; init; } = Location.ManhattanDistance(ClosestBeacon);
+        public long Distance { get; init; } = Location.ManhattanDistance(ClosestBeacon);
     }
     
     public object SolveSecondPart(Input input)

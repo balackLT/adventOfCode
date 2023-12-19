@@ -8,10 +8,10 @@ public class Map<T>
 {
     public Dictionary<Coordinate, T> InternalMap { get; protected set; } = new();
     
-    public int MinX => InternalMap.Min(m => m.Key.X);
-    public int MaxX => InternalMap.Max(m => m.Key.X);
-    public int MinY => InternalMap.Min(m => m.Key.Y);
-    public int MaxY => InternalMap.Max(m => m.Key.Y);
+    public long MinX => InternalMap.Min(m => m.Key.X);
+    public long MaxX => InternalMap.Max(m => m.Key.X);
+    public long MinY => InternalMap.Min(m => m.Key.Y);
+    public long MaxY => InternalMap.Max(m => m.Key.Y);
 
     public long ApproximateSize => (MaxX - MinX) * (MaxY - MinY); 
     

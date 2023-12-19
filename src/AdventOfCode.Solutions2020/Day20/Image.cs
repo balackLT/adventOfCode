@@ -97,9 +97,9 @@ public class Image
 
         var window = new Dictionary<Coordinate, char>();
             
-        for (int y = coordinate.Y; y < coordinate.Y + monsterHeight; y++)
+        for (var y = coordinate.Y; y < coordinate.Y + monsterHeight; y++)
         {
-            for (int x = coordinate.X; x < coordinate.X + monsterLength; x++)
+            for (var x = coordinate.X; x < coordinate.X + monsterLength; x++)
             {
                 if (Map.ContainsKey(new Coordinate(x, y)))
                     window[new Coordinate(x, y)] = Map[new Coordinate(x, y)];

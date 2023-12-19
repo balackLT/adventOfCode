@@ -139,13 +139,13 @@ public class Solution : ISolution
         
         // go south from the top and check if we're inside the loop our out
         // we only need to check within the boundaries of the main loop, everything else is outside
-        for(int x = distances.Min(m => m.Key.X); 
+        for(var x = distances.Min(m => m.Key.X); 
             x <= distances.Max(m => m.Key.X); 
             x++)
         {
             var outside = true;
             var loopEdgeOpener = ' ';
-            for (int y = distances.Min(m => m.Key.Y); 
+            for (var y = distances.Min(m => m.Key.Y); 
                  y <= distances.Max(m => m.Key.Y); 
                  y++)
             {

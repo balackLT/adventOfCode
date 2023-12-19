@@ -22,7 +22,7 @@ public class MountainMap : Map<char>
             [start] = 0
         };
         
-        var fScore = new Map<int>(int.MaxValue)
+        var fScore = new Map<long>(int.MaxValue)
         {
             [start] = start.ManhattanDistance(goal)
         };

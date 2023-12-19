@@ -61,7 +61,7 @@ public class WalkWayMap
                Map[new Coordinate(coord.X - 1, coord.Y)] == '#';
     }
 
-    public int CalculateAlignmentParameter()
+    public long CalculateAlignmentParameter()
     {
         var keys = Map.InternalMap.Keys.ToList();
         var result = keys

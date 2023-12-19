@@ -59,8 +59,8 @@ public class Solution : ISolution
     private class MountainMap
     {
         private readonly Dictionary<Coordinate, char> _map = new();
-        public int Width { get; }
-        public int Height { get; }
+        public long Width { get; }
+        public long Height { get; }
 
         public MountainMap(Dictionary<(int X, int Y), char> map)
         {

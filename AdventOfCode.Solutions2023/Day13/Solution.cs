@@ -98,7 +98,7 @@ public class Solution : ISolution
         return value;
     }
     
-    private static int CalculateReflections(List<string> list, int max, int? oldValue = null)
+    private static int CalculateReflections(List<string> list, long max, int? oldValue = null)
     {
         for (int i = 1; i <= list.Count; i++)
         {
@@ -129,7 +129,7 @@ public class Solution : ISolution
         return 0;
     }
     
-    private static int CalculateReflectionsPartial(List<string> list, int max, int? oldValue = null)
+    private static int CalculateReflectionsPartial(List<string> list, long max, int? oldValue = null)
     {
         for (int i = 1; i <= list.Count; i++)
         {
