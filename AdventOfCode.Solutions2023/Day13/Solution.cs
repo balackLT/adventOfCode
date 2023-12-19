@@ -1,6 +1,4 @@
 ﻿using AdventOfCode.Executor;
-using AdventOfCode.Utilities.Extensions;
-using AdventOfCode.Utilities.Map;
 using MoreLinq.Extensions;
 
 namespace AdventOfCode.Solutions2023.Day13;
@@ -12,188 +10,114 @@ public class Solution : ISolution
         var maps = input
             .GetLines()
             .Split("")
-            .Select(CoordinateDictionaryExtensions.ToMap)
+            .Select(l => l.ToArray())
             .ToList();
-
-        return maps.Sum(map => CalculateResultForMap(map));
-    }
-
-    private static int CalculateResultForMap(Dictionary<Coordinate, char> map, int? oldValue = null)
-    {
-        var lines = new List<string>();
-        for (var y = map.MinY(); y <= map.MaxY(); y++)
-        {
-            var line = "";
-            for (var x = map.MinX(); x <= map.MaxX(); x++)
-            {
-                line += map[new Coordinate(x, y)];
-            }
-            lines.Add(line);
-        }
         
-        var columns = new List<string>();
-        for (var x = map.MinX(); x <= map.MaxX(); x++)
-        {
-            var column = "";
-            for (var y = map.MinY(); y <= map.MaxY(); y++)
-            {
-                column += map[new Coordinate(x, y)];
-            }
-            columns.Add(column);
-        }
-            
-        var oldLineValue = oldValue;
-        if (oldLineValue % 100 == 0)
-        {
-            oldLineValue /= 100;
-        }
-        int lineReflections = CalculateReflections(lines, map.MaxY(), oldLineValue);
-        int columnReflections = CalculateReflections(columns, map.MaxX(), oldValue);
-
-        int value;
-        if (columnReflections > lineReflections)
-            value = columnReflections;
-        else
-            value = lineReflections * 100;
-        return value;
-    }
-
-    private static int CalculateResultForMapPartial(Dictionary<Coordinate, char> map, int? oldValue = null)
-    {
-        var lines = new List<string>();
-        for (var y = map.MinY(); y <= map.MaxY(); y++)
-        {
-            var line = "";
-            for (var x = map.MinX(); x <= map.MaxX(); x++)
-            {
-                line += map[new Coordinate(x, y)];
-            }
-            lines.Add(line);
-        }
-        
-        var columns = new List<string>();
-        for (var x = map.MinX(); x <= map.MaxX(); x++)
-        {
-            var column = "";
-            for (var y = map.MinY(); y <= map.MaxY(); y++)
-            {
-                column += map[new Coordinate(x, y)];
-            }
-            columns.Add(column);
-        }
-            
-        var oldLineValue = oldValue;
-        if (oldLineValue % 100 == 0)
-        {
-            oldLineValue /= 100;
-        }
-        int lineReflections = CalculateReflectionsPartial(lines, map.MaxY(), oldLineValue);
-        int columnReflections = CalculateReflectionsPartial(columns, map.MaxX(), oldValue);
-
-        int value;
-        if (columnReflections > lineReflections)
-            value = columnReflections;
-        else
-            value = lineReflections * 100;
-        return value;
-    }
-    
-    private static int CalculateReflections(List<string> list, long max, int? oldValue = null)
-    {
-        for (int i = 1; i <= list.Count; i++)
-        {
-            var firstHalf = list.Take(i).Reverse().ToList();
-            var secondHalf = list.Skip(i).ToList();
-
-            var similarityCount = 0;
-            var partialSimilarityCount = 0;
-            for (int j = 0; j < max; j++)
-            {
-                if (j > firstHalf.Count - 1 || j > secondHalf.Count - 1)
-                    break;
-                    
-                if (firstHalf[j] == secondHalf[j])
-                    similarityCount++;
-                else if (PartialDifference(firstHalf[j], secondHalf[j]) == 1)
-                    partialSimilarityCount++;
-                else
-                    break;
-            }
-
-            if (similarityCount > 0 && 
-                (similarityCount == firstHalf.Count || similarityCount == secondHalf.Count) &&
-                i != oldValue)
-                return i;
-        }
-
-        return 0;
-    }
-    
-    private static int CalculateReflectionsPartial(List<string> list, long max, int? oldValue = null)
-    {
-        for (int i = 1; i <= list.Count; i++)
-        {
-            var firstHalf = list.Take(i).Reverse().ToList();
-            var secondHalf = list.Skip(i).ToList();
-
-            var similarityCount = 0;
-            for (int j = 0; j < max; j++)
-            {
-                if (j > firstHalf.Count - 1 || j > secondHalf.Count - 1)
-                    break;
-                    
-                if (PartialDifference(firstHalf[j], secondHalf[j]) == 1)
-                    similarityCount++;
-                else
-                    break;
-            }
-
-            if (similarityCount > 0 && 
-                (similarityCount == firstHalf.Count || similarityCount == secondHalf.Count) &&
-                i != oldValue)
-                return i;
-        }
-
-        return 0;
-    }
-    
-    private static int PartialDifference(string first, string second)
-    {
-        return first.Where((t, i) => t != second[i]).Count();
-    }
-
-    public object SolveSecondPart(Input input)
-    {
-        var maps = input
-            .GetLines()
-            .Split("")
-            .Select(CoordinateDictionaryExtensions.ToMap)
+        var rotatedMaps = maps
+            .Select(map => map
+                .Transpose()
+                .Select(row => new string(row.ToArray()))
+                .ToArray())
             .ToList();
-
-        var result = 0;
         
+        var rowMirrorIndexes = FindMirrors(maps);
+        var columnMirrorIndexes = FindMirrors(rotatedMaps);
+        
+        return rowMirrorIndexes.Sum() * 100 + columnMirrorIndexes.Sum();
+    }
+
+    private static List<int> FindMirrors(List<string[]> maps)
+    {
+        List<int> result = [];
+
         foreach (var map in maps)
         {
-            int value = CalculateResultForMap(map);
-            foreach (var coordinate in map)
+            for (int i = 1; i < map.Length; i++)
             {
-                var oldChar = map[coordinate.Key];
-                var newChar = oldChar == '.' ? '#' : '.';
-                
-                var newMap = new Dictionary<Coordinate, char>(map)
+                string[] firstHalf = map.Take(i).Reverse().ToArray();
+                string[] secondHalf = map.Skip(i).ToArray();
+
+                bool isMirror = true;
+                for (int j = 0; j < firstHalf.Length; j++)
                 {
-                    [coordinate.Key] = newChar
-                };
-                
-                var newValue = CalculateResultForMap(newMap, value);
-                if (newValue > 0 && newValue != value)
+                    if(secondHalf.Length <= j) 
+                    {
+                        break;
+                    }
+                    
+                    if (firstHalf[j] != secondHalf[j])
+                    {
+                        isMirror = false;
+                        break;
+                    }
+                }
+
+                if (isMirror)
                 {
-                    result += newValue;
-                    break;
+                    result.Add(i);
                 }
             }
         }
 
         return result;
+    }
+    
+    private static List<int> FindMirrorsPartial(List<string[]> maps)
+    {
+        List<int> result = [];
+
+        foreach (var map in maps)
+        {
+            for (int i = 1; i < map.Length; i++)
+            {
+                string[] firstHalf = map.Take(i).Reverse().ToArray();
+                string[] secondHalf = map.Skip(i).ToArray();
+
+                int sum = 0;
+                for (int j = 0; j < firstHalf.Length; j++)
+                {
+                    if(secondHalf.Length <= j) 
+                    {
+                        break;
+                    }
+                    
+                    for (int k = 0; k < firstHalf[j].Length; k++)
+                    {
+                        if (secondHalf[j][k] != firstHalf[j][k])
+                        {
+                            sum++;
+                        }
+                    }
+                }
+
+                if (sum == 1)
+                {
+                    result.Add(i);
+                }
+            }
+        }
+
+        return result;
+    }
+    
+    public object SolveSecondPart(Input input)
+    {
+        var maps = input
+            .GetLines()
+            .Split("")
+            .Select(l => l.ToArray())
+            .ToList();
+        
+        var rotatedMaps = maps
+            .Select(map => map
+                .Transpose()
+                .Select(row => new string(row.ToArray()))
+                .ToArray())
+            .ToList();
+        
+        var rowMirrorIndexes = FindMirrorsPartial(maps);
+        var columnMirrorIndexes = FindMirrorsPartial(rotatedMaps);
+        
+        return rowMirrorIndexes.Sum() * 100 + columnMirrorIndexes.Sum();
     }
 }
