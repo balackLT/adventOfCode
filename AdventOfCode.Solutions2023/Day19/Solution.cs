@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Collections.Frozen;
+using System.Text.RegularExpressions;
 using AdventOfCode.Executor;
 using MoreLinq.Extensions;
 
@@ -24,6 +25,18 @@ public partial class Solution : ISolution
             parts.Add(part);
         }
         
+        Dictionary<string, Workflow> workflows = ParseWorkflows(lines);
+
+        var acceptedParts = parts
+            .Where(part => workflows["in"].ProcessPart(part, workflows));
+
+        var output = acceptedParts.Sum(p => p.Sum(kv => kv.Value));
+        
+        return output;
+    }
+
+    private static Dictionary<string, Workflow> ParseWorkflows(List<IEnumerable<string>> lines)
+    {
         var workflows = new Dictionary<string, Workflow>();
         foreach (string s in lines[0])
         {
@@ -58,14 +71,9 @@ public partial class Solution : ISolution
             workflows[name] = workflow;
         }
 
-        var acceptedParts = parts
-            .Where(part => workflows["in"].ProcessPart(part, workflows));
-
-        var output = acceptedParts.Sum(p => p.Sum(kv => kv.Value));
-        
-        return output;
+        return workflows;
     }
-    
+
     [GeneratedRegex(@"-?\d+")]
     private static partial Regex IntegersOnly();
 
@@ -110,9 +118,127 @@ public partial class Solution : ISolution
     
     public object SolveSecondPart(Input input)
     {
-        var lines = input.GetLines();
+        var lines = input.GetLines()
+            .Split("")
+            .ToList();
+        FrozenDictionary<string, Workflow> workflows = ParseWorkflows(lines).ToFrozenDictionary();
 
+        var ranges = new Dictionary<string, Range>
+        {
+            ["x"] = new() {Min = 1, Max = 4000},
+            ["m"] = new() {Min = 1, Max = 4000},
+            ["a"] = new() {Min = 1, Max = 4000},
+            ["s"] = new() {Min = 1, Max = 4000}
+        };
         
-        return 0;
+        var result = ProcessPartRanges(workflows, ranges, "in");
+        
+        return result;
+    }
+    
+    private static long ProcessPartRanges(
+        FrozenDictionary<string, Workflow> workflows, 
+        Dictionary<string, Range> ranges,
+        string workflowName)
+    {
+        var result = 0L;
+
+        // ranges fully rejected, bye
+        if (workflowName == "R")
+        {
+            return 0;
+        }
+        
+        // ranges fully accepted, yay
+        if (workflowName == "A")
+        {
+            return ranges.Values.Aggregate(1L, (current, value) => current * value.Length);
+        }
+        
+        var workflow = workflows[workflowName];
+        foreach (var step in workflow.Steps)
+        {
+            var currentId = step.Id.ToString();
+            // no rules, just go to result with same ranges
+            if (currentId == " ")
+            {
+                result += ProcessPartRanges(workflows, ranges, step.Result);
+                return result;
+            }
+            
+            var currentRange = ranges[currentId];
+            
+            // st{a<466:R,a>1034:A,x<3489:R,R}
+            if (step.Operator == '>')
+            {
+                // all range is valid, process next step without mutating ranges
+                if (currentRange.Min > step.Value)
+                {
+                    result += ProcessPartRanges(workflows, ranges, step.Result);
+                    return result;
+                }
+                
+                // no range is valid, return 0, impossible?
+                if (currentRange.Max < step.Value)
+                {
+                    return 0;
+                }
+                
+                // partial range fit, we have to split
+                if (currentRange.Min < step.Value)
+                {
+                    // fitting range can proceed to next rule
+                    var fittingRange = new Range {Min = step.Value + 1, Max = currentRange.Max};
+                    var newRanges = new Dictionary<string, Range>(ranges)
+                    {
+                        [currentId] = fittingRange
+                    };
+
+                    result += ProcessPartRanges(workflows, newRanges, step.Result);
+                    
+                    // unfitting part of range goes to next step -> mutate current range
+                    var unfittingRange = new Range {Min = currentRange.Min, Max = step.Value};
+                    ranges[currentId] = unfittingRange;
+                }
+            }
+            else if (step.Operator == '<')
+            {
+                if (currentRange.Max < step.Value)
+                {
+                    result += ProcessPartRanges(workflows, ranges, step.Result);
+                    return result;
+                }
+                
+                if (currentRange.Min > step.Value)
+                {
+                    return 0;
+                }
+                
+                if (currentRange.Max > step.Value)
+                {
+                    var fittingRange = new Range {Min = currentRange.Min, Max = step.Value - 1};
+                    var newRanges = new Dictionary<string, Range>(ranges)
+                    {
+                        [currentId] = fittingRange
+                    };
+
+                    result += ProcessPartRanges(workflows, newRanges, step.Result);
+                    
+                    var unfittingRange = new Range {Min = step.Value, Max = currentRange.Max};
+                    ranges[currentId] = unfittingRange;
+                }
+            }
+            
+        }
+        
+        return result;
+    }
+    
+    private class Range
+    {
+        public int Min { get; init; }
+        public int Max { get; init; }
+        
+        public int Length => Max - Min + 1;
     }
 }
