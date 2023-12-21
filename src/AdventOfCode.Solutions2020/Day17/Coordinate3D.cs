@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace AdventOfCode.Solutions2020.Day17;
 
-public record Coordinate3D (int X, int Y, int Z)
+public record Coordinate3D (long X, long Y, long Z)
 {
     public static Coordinate3D operator +(Coordinate3D left, Coordinate3D right)
     {

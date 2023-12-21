@@ -8,12 +8,12 @@ public class Map3D
 {
     public Dictionary<Coordinate3D, bool> InternalMap { get; } = new();
 
-    public int MaxX { get; private set; }
-    public int MinX { get; private set; }
-    public int MaxY { get; private set; }
-    public int MinY { get; private set; }
-    public int MaxZ { get; private set; }
-    public int MinZ { get; private set; }
+    public long MaxX { get; private set; }
+    public long MinX { get; private set; }
+    public long MaxY { get; private set; }
+    public long MinY { get; private set; }
+    public long MaxZ { get; private set; }
+    public long MinZ { get; private set; }
         
     public bool this[Coordinate3D index]
     {
@@ -42,11 +42,11 @@ public class Map3D
     {
         var coordinatesToFlip = new List<Coordinate3D>();
 
-        for (int x = MinX - 1; x <= MaxX + 1; x++)
+        for (long x = MinX - 1; x <= MaxX + 1; x++)
         {
-            for (int y = MinY - 1; y <= MaxY + 1; y++)
+            for (long y = MinY - 1; y <= MaxY + 1; y++)
             {
-                for (int z = MinZ - 1; z <= MaxZ + 1; z++)
+                for (long z = MinZ - 1; z <= MaxZ + 1; z++)
                 {
                     var coordinate = new Coordinate3D(x, y, z);
                     var neighbours = coordinate.GetAdjacent();
@@ -67,7 +67,7 @@ public class Map3D
         }
     }
         
-    public void PrintMap(int z)
+    public void PrintMap(long z)
     {
         var minX = InternalMap.Min(m => m.Key.X);
         var maxX = InternalMap.Max(m => m.Key.X);

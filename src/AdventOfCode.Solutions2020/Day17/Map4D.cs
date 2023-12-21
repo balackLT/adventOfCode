@@ -8,14 +8,14 @@ public class Map4D
 {
     public Dictionary<Coordinate4D, bool> InternalMap { get; } = new();
 
-    public int MaxX { get; private set; }
-    public int MinX { get; private set; }
-    public int MaxY { get; private set; }
-    public int MinY { get; private set; }
-    public int MaxZ { get; private set; }
-    public int MinZ { get; private set; }
-    public int MaxW { get; private set; }
-    public int MinW { get; private set; }
+    public long MaxX { get; private set; }
+    public long MinX { get; private set; }
+    public long MaxY { get; private set; }
+    public long MinY { get; private set; }
+    public long MaxZ { get; private set; }
+    public long MinZ { get; private set; }
+    public long MaxW { get; private set; }
+    public long MinW { get; private set; }
         
         
     public bool this[Coordinate4D index]
@@ -47,13 +47,13 @@ public class Map4D
     {
         var coordinatesToFlip = new List<Coordinate4D>();
 
-        for (int x = MinX - 1; x <= MaxX + 1; x++)
+        for (var x = MinX - 1; x <= MaxX + 1; x++)
         {
-            for (int y = MinY - 1; y <= MaxY + 1; y++)
+            for (var y = MinY - 1; y <= MaxY + 1; y++)
             {
-                for (int z = MinZ - 1; z <= MaxZ + 1; z++)
+                for (var z = MinZ - 1; z <= MaxZ + 1; z++)
                 {
-                    for (int w = MinZ - 1; w <= MaxZ + 1; w++)
+                    for (var w = MinZ - 1; w <= MaxZ + 1; w++)
                     {
                         var coordinate = new Coordinate4D(x, y, z, w);
                         var neighbours = coordinate.GetAdjacent();

@@ -4,7 +4,7 @@ using AdventOfCode.Utilities.Map;
 
 namespace AdventOfCode.Solutions2020.Day17;
 
-public partial class Solution : ISolution
+public class Solution : ISolution
 {
     public int Day { get; } = 17;
 

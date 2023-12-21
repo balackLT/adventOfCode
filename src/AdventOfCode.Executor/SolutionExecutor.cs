@@ -37,12 +37,26 @@ public class SolutionExecutor : ISolutionExecutor
     
     public void ExecuteFirstPart(Input input)
     {
-        Execute(_solution.SolveFirstPart, input, 1);
+        try
+        {
+            Execute(_solution.SolveFirstPart, input, 1);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
     }
 
     public void ExecuteSecondPart(Input input)
     {
-        Execute(_solution.SolveSecondPart, input, 2);
+        try
+        {
+            Execute(_solution.SolveSecondPart, input, 1);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
     }
 
     private static void Execute(Func<Input, object> solver, Input input, int part)
