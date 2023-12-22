@@ -20,6 +20,39 @@ public class Solution : ISolution
             }
         }
         
+        DoTetris(bricks, map);
+
+        //var code = 'A';
+        foreach (Brick brick in bricks)
+        {
+            foreach (Coordinate3D segments in brick.AllLowestCoordinates())
+            {
+                var potentialLower = segments with { Z = segments.Z - 1 };
+                if (map.TryGetValue(potentialLower, out var value) && value != -1)
+                {
+                    brick.SupportedBy.Add(value);
+                }
+            }
+
+            //Console.WriteLine($"Brick {(char)(code + brick.Id)} is supported by {string.Join(", ", brick.SupportedBy.Select(b => (char)(code + b)))}");
+        }
+
+        var safeToDestroy = 0;
+        foreach (Brick brick in bricks)
+        {
+            var supportedBricks = bricks.Where(b => b.SupportedBy.Contains(brick.Id));
+            if (supportedBricks.All(b => b.SupportedBy.Count > 1))
+            {
+                safeToDestroy++;
+                //Console.WriteLine($"Brick {(char)(code + brick.Id)} is safe to destroy");
+            }
+        }
+
+        return $"Total: {bricks.Count}, Safe to destroy: {safeToDestroy}";
+    }
+
+    private static void DoTetris(List<Brick> bricks, Dictionary<Coordinate3D, int> map)
+    {
         while (bricks.Any(b => b.Falling))
         {
             var brick = bricks.Where(b => b.Falling).OrderBy(b => b.LowestZ()).First();
@@ -33,9 +66,10 @@ public class Solution : ISolution
                 {
                     if (map.TryGetValue(fallingSegment, out var value) && value != -1)
                     {
+                        var distance = brickLowestCoordinate.Z - z - 1;
                         var newBrick = new Brick(brick.Id, 
-                            brick.Start with { Z = z + 1 }, 
-                            brick.End with { Z = z + 1 })
+                            brick.Start with { Z = brick.Start.Z - distance }, 
+                            brick.End with { Z = brick.End.Z - distance })
                         {
                             Falling = false
                         };
@@ -60,9 +94,10 @@ public class Solution : ISolution
                 
                 if (z == 0)
                 {
+                    var distance = brickLowestCoordinate.Z;
                     var newBrick = new Brick(brick.Id, 
-                        brick.Start with { Z = 0 }, 
-                        brick.End with { Z = 0 })
+                        brick.Start with { Z = brick.Start.Z - distance }, 
+                        brick.End with { Z = brick.End.Z - distance })
                     {
                         Falling = false
                     };
@@ -85,28 +120,6 @@ public class Solution : ISolution
                 }
             }
         }
-
-        foreach (Brick brick in bricks)
-        {
-            foreach (Coordinate3D segments in brick.AllLowestCoordinates())
-            {
-                var potentialLower = segments with { Z = segments.Z - 1 };
-                if (map.TryGetValue(potentialLower, out var value) && value != -1)
-                {
-                    brick.SupportedBy.Add(value);
-                }
-            }
-        }
-
-        var safeToDestroy = 0;
-        foreach (Brick brick in bricks)
-        {
-            var supportedBricks = bricks.Where(b => b.SupportedBy.Contains(brick.Id));
-            if (supportedBricks.All(b => b.SupportedBy.Count > 1))
-                safeToDestroy++;
-        }
-        
-        return safeToDestroy;
     }
 
     private static List<Brick> ParseBricks(List<string> lines)
@@ -163,6 +176,53 @@ public class Solution : ISolution
     {
         var lines = input.GetLines().ToList();
 
-        return 0;
+        List<Brick> bricks = ParseBricks(lines);
+        
+        var map = new Dictionary<Coordinate3D, int>();
+        foreach (var brick in bricks)
+        {
+            foreach (var coordinate in brick.GetCoordinates())
+            {
+                map[coordinate] = brick.Id;
+            }
+        }
+        
+        DoTetris(bricks, map);
+
+        foreach (Brick brick in bricks)
+        {
+            foreach (Coordinate3D segments in brick.AllLowestCoordinates())
+            {
+                var potentialLower = segments with { Z = segments.Z - 1 };
+                if (map.TryGetValue(potentialLower, out var value) && value != -1)
+                {
+                    brick.SupportedBy.Add(value);
+                }
+            }
+        }
+
+        var wouldFall = 0;
+        foreach (var brick in bricks)
+        {
+            var removed = TryRemoveBrick([brick.Id], [..bricks]);
+            wouldFall += removed;
+            Console.WriteLine($"Brick {brick.Id} would fall {removed} bricks");
+        }
+
+        return wouldFall;
+    }
+
+    private static int TryRemoveBrick(List<int> removed, List<Brick> bricks)
+    {
+        if (removed.Count == 0)
+            return 0;
+        
+        var fallen = 0;
+        var supportedByRemoved = bricks.Where(b => b.SupportedBy.Intersect(removed).Any());
+        var supportedOnlyByRemoved = supportedByRemoved.Where(b => b.SupportedBy.Except(removed).Any() == false).ToList();
+        
+        fallen += supportedOnlyByRemoved.Count;
+        fallen += TryRemoveBrick([..supportedOnlyByRemoved.Select(b => b.Id)], bricks);
+        return fallen;
     }
 }
