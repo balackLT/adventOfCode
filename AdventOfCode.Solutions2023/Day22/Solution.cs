@@ -34,7 +34,7 @@ public class Solution : ISolution
                 }
             }
 
-            //Console.WriteLine($"Brick {(char)(code + brick.Id)} is supported by {string.Join(", ", brick.SupportedBy.Select(b => (char)(code + b)))}");
+            // Console.WriteLine($"Brick {(char)('A' + brick.Id)} is supported by {string.Join(", ", brick.SupportedBy.Select(b => (char)('A' + b)))}");
         }
 
         var safeToDestroy = 0;
@@ -206,23 +206,27 @@ public class Solution : ISolution
         {
             var removed = TryRemoveBrick([brick.Id], [..bricks]);
             wouldFall += removed;
-            Console.WriteLine($"Brick {brick.Id} would fall {removed} bricks");
+            //Console.WriteLine($"Brick {brick.Id} would fall {removed} bricks");
         }
 
         return wouldFall;
     }
 
-    private static int TryRemoveBrick(List<int> removed, List<Brick> bricks)
+    private static int TryRemoveBrick(HashSet<int> removed, List<Brick> bricks)
     {
-        if (removed.Count == 0)
-            return 0;
-        
         var fallen = 0;
         var supportedByRemoved = bricks.Where(b => b.SupportedBy.Intersect(removed).Any());
         var supportedOnlyByRemoved = supportedByRemoved.Where(b => b.SupportedBy.Except(removed).Any() == false).ToList();
+        foreach (int i in removed)
+        {
+            supportedOnlyByRemoved.RemoveAll(b => b.Id == i);
+        }
+
+        if (supportedOnlyByRemoved.Count == 0)
+            return 0;
         
         fallen += supportedOnlyByRemoved.Count;
-        fallen += TryRemoveBrick([..supportedOnlyByRemoved.Select(b => b.Id)], bricks);
+        fallen += TryRemoveBrick([..supportedOnlyByRemoved.Select(b => b.Id), ..removed], bricks);
         return fallen;
     }
 }
