@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AdventOfCode.Utilities.Map;
 
 namespace AdventOfCode.Solutions2020.Day17;
 

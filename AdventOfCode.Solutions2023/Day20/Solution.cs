@@ -1,7 +1,5 @@
 ﻿using System.Collections.Frozen;
-using System.Text.RegularExpressions;
 using AdventOfCode.Executor;
-using MoreLinq.Extensions;
 
 namespace AdventOfCode.Solutions2023.Day20;
 
@@ -163,8 +161,10 @@ public class Solution : ISolution
 
         var modules = ParseModules(lines).ToFrozenDictionary();
 
-        //List<SignalDestination> signalsSent = [];
-        for (int i = 0; i < 1000000; i++)
+        HashSet<string> interestingModules = ["xf", "fz", "mp", "hn"];
+        
+        var signalsSent = new Dictionary<SignalDestination, long>();
+        for (int i = 0; i < 1000; i++)
         {
             var firstSignal = new SignalDestination(Signal.LOW, "roadcaster", "button");
             var destinations = new Queue<SignalDestination>();
@@ -179,7 +179,19 @@ public class Solution : ISolution
                     return i;
                 }
                 
-                //signalsSent.Add(destination);
+                if (interestingModules.Contains(destination.source) && destination.Signal == Signal.HIGH)
+                {
+                    Console.WriteLine($"{destination.source} sent {destination.Signal} to {destination.Destination} at {i}");
+                }
+
+                if (signalsSent.TryGetValue(destination, out var count))
+                {
+                    signalsSent[destination] = count + 1;
+                }
+                else
+                {
+                    signalsSent.Add(destination, 1);
+                }
                 
                 var target = modules[destination.Destination];
                 

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace AdventOfCode.Solutions2020.Day17;
+namespace AdventOfCode.Utilities.Map;
 
 public record Coordinate4D (long X, long Y, long Z, long W)
 {
