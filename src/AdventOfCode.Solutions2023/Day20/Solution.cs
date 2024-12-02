@@ -198,7 +198,13 @@ public class Solution : ISolution
                 var newDestinations = target.ProcessSignal(destination.Signal, destination.source, modules);
                 while (newDestinations.Count > 0)
                 {
-                    destinations.Enqueue(newDestinations.Dequeue());
+                    var newDestination = newDestinations.Dequeue();
+                    destinations.Enqueue(newDestination);
+                    
+                    if (target.Type == '&' && newDestination.Signal == Signal.HIGH)
+                    {
+                        Console.WriteLine($"{destination.Destination} received {newDestination.Signal} from {newDestination.source} at {i}");
+                    }
                 }
             }
         }

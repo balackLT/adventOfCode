@@ -48,8 +48,8 @@ public class Solution : ISolution
             _maxY = InternalMap.Max(m => m.Key.Y);
         }
 
-        private readonly int _maxX;
-        private readonly int _maxY;
+        private readonly long _maxX;
+        private readonly long _maxY;
             
         public int UpdateSeats()
         {

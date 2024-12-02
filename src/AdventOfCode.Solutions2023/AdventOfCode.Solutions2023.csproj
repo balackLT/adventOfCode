@@ -7,7 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\src\AdventOfCode.Executor\AdventOfCode.Executor.csproj" />
+      <ProjectReference Include="..\AdventOfCode.Executor\AdventOfCode.Executor.csproj" />
+      <ProjectReference Include="..\AdventOfCode.Utilities\AdventOfCode.Utilities.csproj" />
     </ItemGroup>
 
     <ItemGroup>
